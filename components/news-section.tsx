@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calendar } from "lucide-react"
+import { getImagePath } from "@/lib/utils"
 
 const newsItems = [
   {
@@ -43,7 +44,7 @@ export function NewsSection() {
               <Card key={news.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                 <div className="aspect-video relative overflow-hidden bg-muted">
                   <img
-                    src={news.image || "/placeholder.svg"}
+                    src={news.image || getImagePath("/placeholder.svg")}
                     alt={news.title}
                     className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
                   />

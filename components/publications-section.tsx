@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ExternalLink, Download } from "lucide-react"
+import { getImagePath } from "@/lib/utils"
 
 const publications = [
   {
@@ -97,7 +98,7 @@ export function PublicationsSection() {
               >
                 <div className="aspect-video relative overflow-hidden bg-muted">
                   <img
-                    src={pub.image || "/placeholder.svg"}
+                    src={pub.image || getImagePath("/placeholder.svg")}
                     alt={pub.title}
                     className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
                   />

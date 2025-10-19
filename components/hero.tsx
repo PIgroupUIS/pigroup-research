@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
+import { getImagePath } from "@/lib/utils"
 
 export function Hero() {
   return (
@@ -19,7 +20,7 @@ export function Hero() {
         <div className="max-w-4xl mx-auto text-center">
           <div className="mb-8 flex justify-center">
             <Image
-              src="/logo.png"
+              src={getImagePath("/logo.png") || "/placeholder.svg"}
               alt="PIGroup Logo"
               width={200}
               height={200}

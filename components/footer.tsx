@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { Instagram, Linkedin, Github } from "lucide-react"
+import { getImagePath } from "@/lib/utils"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -13,7 +14,13 @@ export function Footer() {
             {/* Logo and Description */}
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <Image src="/logo.png" alt="PIGroup Logo" width={40} height={40} className="w-10 h-10" />
+                <Image
+                  src={getImagePath("/logo.png") || "/placeholder.svg"}
+                  alt="PIGroup Logo"
+                  width={40}
+                  height={40}
+                  className="w-10 h-10"
+                />
                 <span className="text-lg font-serif font-bold">PIGroup Research</span>
               </div>
               <p className="text-sm text-primary-foreground/80 leading-relaxed">
