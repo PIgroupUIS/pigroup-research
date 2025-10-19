@@ -2,19 +2,15 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import { getImagePath } from "@/lib/utils"
+// @ts-ignore
+import "katex/dist/katex.min.css"
+import { HeroFormulasBg } from "./hero-formulas-bg"
 
 export function Hero() {
   return (
     <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-primary">
-      <div className="absolute inset-0 opacity-[0.07]">
-        <div
-          className="absolute inset-0 text-primary-foreground font-sans"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fillOpacity='1' fontSize='14' fontFamily='serif'%3E%3Ctext x='10' y='30'%3Ee%5Eiπ + 1 = 0%3C/text%3E%3Ctext x='10' y='70'%3E∫ f(x)dx%3C/text%3E%3Ctext x='10' y='110'%3Eπ ≈ 3.14159%3C/text%3E%3Ctext x='10' y='150'%3E∑ n² %3C/text%3E%3Ctext x='120' y='50'%3E∇·F%3C/text%3E%3Ctext x='120' y='90'%3Eα + β%3C/text%3E%3Ctext x='120' y='130'%3E∂f/∂x%3C/text%3E%3Ctext x='120' y='170'%3Eλ eigenvalue%3C/text%3E%3C/g%3E%3C/svg%3E")`,
-            backgroundSize: "200px 200px",
-          }}
-        />
-      </div>
+
+      <HeroFormulasBg />
 
       <div className="container mx-auto px-4 py-32 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
