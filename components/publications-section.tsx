@@ -98,7 +98,7 @@ export function PublicationsSection() {
               >
                 <div className="aspect-video relative overflow-hidden bg-muted">
                   <img
-                    src={pub.image || getImagePath("/placeholder.svg")}
+                    src={getImagePath(pub.image) || getImagePath("/placeholder.svg")}
                     alt={pub.title}
                     className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
                   />
