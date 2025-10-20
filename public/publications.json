@@ -41,62 +41,7 @@
       "starred": false,
       "abstract": "An automated system for classifying cocoa bean fermentation levels using computer vision and machine learning techniques.",
       "keywords": ["computer vision", "classification", "cocoa beans", "agriculture", "machine learning"]
-    },
-    {
-      "id": 4,
-      "title": "Advanced Neural Networks for Medical Image Analysis",
-      "authors": "Jorge Bacca, Kebin Contreras, Maria Rodriguez",
-      "journal": "CVPR",
-      "conference": "CVPR",
-      "year": 2024,
-      "image": null,
-      "pdfUrl": "https://example.com/paper4.pdf",
-      "externalUrl": "https://example.com/paper4",
-      "starred": false,
-      "abstract": "Novel neural network architectures for enhanced medical image analysis and diagnosis.",
-      "keywords": ["neural networks", "medical imaging", "diagnosis", "deep learning"]
-    },
-    {
-      "id": 5,
-      "title": "Optimization Algorithms for Large-Scale Data Processing",
-      "authors": "Luis Toscano-Palomino, Jorge Bacca",
-      "journal": "STSIVA",
-      "conference": "STSIVA",
-      "year": 2024,
-      "image": null,
-      "pdfUrl": "https://example.com/paper5.pdf",
-      "externalUrl": "https://example.com/paper5",
-      "starred": false,
-      "abstract": "Efficient optimization algorithms for processing large-scale datasets in distributed environments.",
-      "keywords": ["optimization", "algorithms", "big data", "distributed computing"]
-    },
-    {
-      "id": 6,
-      "title": "Machine Learning Approaches for Climate Change Modeling",
-      "authors": "Kebin Contreras, Jorge Bacca, Ana Martinez, Carlos Rodriguez, Maria Gonzalez, Pedro Silva, Lucia Fernandez",
-      "journal": "Nature Climate Change",
-      "conference": "Nature",
-      "year": 2023,
-      "image": null,
-      "pdfUrl": "https://example.com/paper6.pdf",
-      "externalUrl": "https://example.com/paper6",
-      "starred": false,
-      "abstract": "Application of machine learning techniques for improved climate change prediction and modeling.",
-      "keywords": ["machine learning", "climate change", "modeling", "prediction"]
-    },
-    {
-      "id": 7,
-      "title": "Collaborative Multi-Agent Systems for Smart City Applications",
-      "authors": "Luis Toscano-Palomino, Jorge Bacca, Kebin Contreras, Sofia Martinez, Roberto Vega, Elena Castro, Miguel Torres, Carmen Ruiz",
-      "journal": "IEEE Transactions on Smart Grid",
-      "conference": "IEEE",
-      "year": 2023,
-      "image": null,
-      "pdfUrl": "https://example.com/paper7.pdf",
-      "externalUrl": "https://example.com/paper7",
-      "starred": false,
-      "abstract": "A comprehensive framework for implementing multi-agent systems in smart city infrastructure, focusing on energy efficiency and resource optimization.",
-      "keywords": ["multi-agent systems", "smart cities", "IoT", "energy efficiency"]
     }
+    
   ]
 }
