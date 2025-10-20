@@ -12,9 +12,12 @@ export function getImagePath(path: string): string {
 
 export function getPagePath(path: string): string {
   const basePath = process.env.NODE_ENV === "production" ? "/pigroup-research" : ""
-  // Si la ruta es solo "/", devolver solo el basePath
+  
+  // Si la ruta es solo "/", devolver solo el basePath o "/"
   if (path === "/") {
     return basePath || "/"
   }
+  
+  // Para otras rutas, agregar el basePath
   return `${basePath}${path}`
 }

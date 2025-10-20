@@ -95,7 +95,7 @@ export default function PublicationsPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <Link 
-              href={getPagePath("/")}
+              href={process.env.NODE_ENV === "production" ? "/pigroup-research" : "/"}
               className="inline-flex items-center text-primary-foreground/80 hover:text-primary-foreground mb-6 transition-colors"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
