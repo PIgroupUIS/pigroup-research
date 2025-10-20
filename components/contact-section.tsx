@@ -3,7 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Mail, MapPin, Phone, Instagram, Linkedin, Github } from "lucide-react"
-import { getImagePath } from "@/lib/utils"
+import { getImagePath, getPagePath } from "@/lib/utils"
 
 export function ContactSection() {
   return (
@@ -195,7 +195,7 @@ export function ContactSection() {
                       variant="outline"
                       className="border-primary text-primary hover:bg-primary hover:text-primary-foreground font-sans font-medium bg-background"
                     >
-                      <a href={getImagePath("/publicaciones")}>
+                      <a href={getPagePath("/publicaciones")}>
                         Ver Nuestro Trabajo
                       </a>
                     </Button>

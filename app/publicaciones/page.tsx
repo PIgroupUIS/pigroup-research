@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { AuthorsList } from "@/components/ui/authors-list"
 import { ExternalLink, Download, ArrowLeft } from "lucide-react"
-import { getImagePath } from "@/lib/utils"
+import { getImagePath, getPagePath } from "@/lib/utils"
 import Link from "next/link"
 
 interface Publication {
@@ -95,7 +95,7 @@ export default function PublicationsPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <Link 
-              href={getImagePath('/')}
+              href={getPagePath("/")}
               className="inline-flex items-center text-primary-foreground/80 hover:text-primary-foreground mb-6 transition-colors"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />

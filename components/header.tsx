@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { getImagePath } from "@/lib/utils"
+import { getImagePath, getPagePath } from "@/lib/utils"
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -47,7 +47,7 @@ export function Header() {
           <nav className="hidden md:flex items-center gap-8">
             {navItems.map((item) => {
               const isExternalLink = !item.href.startsWith("#")
-              const href = isExternalLink ? getImagePath(item.href) : item.href
+              const href = isExternalLink ? getPagePath(item.href) : item.href
               
               return (
                 <Link
@@ -79,7 +79,7 @@ export function Header() {
           <nav className="md:hidden mt-4 pb-4 flex flex-col gap-4 bg-background/95 backdrop-blur-md rounded-lg p-4 -mx-4">
             {navItems.map((item) => {
               const isExternalLink = !item.href.startsWith("#")
-              const href = isExternalLink ? getImagePath(item.href) : item.href
+              const href = isExternalLink ? getPagePath(item.href) : item.href
               
               return (
                 <Link

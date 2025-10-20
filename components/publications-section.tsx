@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button"
 import { AuthorsList } from "@/components/ui/authors-list"
 import { ExternalLink, Download, ArrowRight } from "lucide-react"
-import { getImagePath } from "@/lib/utils"
+import { getImagePath, getPagePath } from "@/lib/utils"
 
 interface Publication {
   id: number
@@ -124,7 +124,7 @@ export function PublicationsSection() {
               className="bg-accent text-accent-foreground hover:bg-accent/90 font-sans font-medium"
               asChild
             >
-              <a href={getImagePath('/publicaciones')}>
+              <a href={getPagePath('/publicaciones')}>
                 Ver Todas las Publicaciones
                 <ArrowRight className="ml-2 h-5 w-5" />
               </a>
