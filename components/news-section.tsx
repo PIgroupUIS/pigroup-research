@@ -5,26 +5,13 @@ import { getImagePath } from "@/lib/utils"
 const newsItems = [
   {
     id: 1,
-    title: "Nueva publicación en revista internacional",
+    title: "Inicio del semillero con invitada internacional",
     description:
-      "Nuestro equipo ha publicado un artículo innovador sobre algoritmos de optimización en la revista IEEE Transactions.",
-    date: "15 de Marzo, 2024",
-    image: "/research-laboratory-equipment.jpg",
+      "El semillero de investigación PI Group dio inicio a sus actividades del semestre con la participación de la Dra. Tatiana Gelvez (Lyon, Francia), quien compartió con los nuevos integrantes sus experiencias en problemas inversos y métodos numéricos. Este encuentro marcó el comienzo de los Seminarios Internacionales y los espacios de investigación colaborativa del grupo, promoviendo la formación científica y el intercambio académico de alto nivel.",
+    date: "15 de Octubre, 2025",
+    image: "/seminario1.jpg",
   },
-  {
-    id: 2,
-    title: "Conferencia Internacional 2024",
-    description: "PIGroup participará en la conferencia internacional de computación científica en Bogotá.",
-    date: "8 de Marzo, 2024",
-    image: "/academic-conference.png",
-  },
-  {
-    id: 3,
-    title: "Nuevo proyecto de investigación aprobado",
-    description: "Hemos recibido financiación para un proyecto de tres años sobre inteligencia artificial aplicada.",
-    date: "1 de Marzo, 2024",
-    image: "/artificial-intelligence-research.jpg",
-  },
+  
 ]
 
 export function NewsSection() {

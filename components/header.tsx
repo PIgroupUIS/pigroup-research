@@ -49,7 +49,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={`text-sm font-sans font-medium transition-colors ${
-                  isScrolled ? "text-foreground hover:text-accent" : "text-white hover:text-accent"
+                  isScrolled ? "text-foreground hover:text-gold" : "text-white hover:text-gold"
                 }`}
               >
                 {item.label}

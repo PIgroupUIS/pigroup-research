@@ -18,9 +18,9 @@ export function Hero() {
             <Image
               src={getImagePath("/logo.png") || "/placeholder.svg"}
               alt="PIGroup Logo"
-              width={200}
-              height={200}
-              className="w-40 h-40 md:w-52 md:h-52 object-contain"
+              width={300}
+              height={300}
+              className="w-60 h-60 md:w-72 md:h-72 object-contain"
             />
           </div>
 
