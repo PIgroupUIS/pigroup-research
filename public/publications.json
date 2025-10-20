@@ -1,0 +1,102 @@
+{
+  "publications": [
+    {
+      "id": 1,
+      "title": "See the past: Time-Reversed Scene Reconstruction from Thermal Traces Using Visual Language Models",
+      "authors": "Kebin Contreras, Luis Toscano-Palomino, Mauro Dalla, Jorge Bacca",
+      "journal": "arXiv preprint",
+      "conference": "ArXiv",
+      "year": 2025,
+      "image": "/references_scenes.png",
+      "pdfUrl": "https://arxiv.org/abs/2510.05408",
+      "externalUrl": "https://arxiv.org/abs/2510.05408",
+      "starred": true,
+      "abstract": "This paper presents a novel approach for time-reversed scene reconstruction from thermal traces using visual language models.",
+      "keywords": ["computer vision", "thermal imaging", "scene reconstruction", "visual language models"]
+    },
+    {
+      "id": 2,
+      "title": "Deep Robust Object Detection Under High Illumination Conditions Using Modulo Images",
+      "authors": "Luis Toscano-Palomino, Kebin Contreras, Brayan Monroy, Jorge Bacca",
+      "journal": "IEEE",
+      "conference": "IEEE",
+      "year": 2025,
+      "image": "/drones.png",
+      "pdfUrl": "https://ieeexplore.ieee.org/abstract/document/11156687",
+      "externalUrl": "https://ieeexplore.ieee.org/abstract/document/11156687",
+      "starred": true,
+      "abstract": "A robust object detection method for high illumination conditions using modulo images and deep learning approaches.",
+      "keywords": ["object detection", "high illumination", "modulo images", "deep learning"]
+    },
+    {
+      "id": 3,
+      "title": "Automated Classification of Cocoa Bean Fermentation Levels Using Computer Vision",
+      "authors": "Juan Suarez, Juan Espinosa, Kebin Contreras, Jorge Bacca",
+      "journal": "IEEE",
+      "conference": "IEEE",
+      "year": 2025,
+      "image": "/distributed-systems-network.png",
+      "pdfUrl": "https://ieeexplore.ieee.org/abstract/document/11156348",
+      "externalUrl": "https://ieeexplore.ieee.org/abstract/document/11156348",
+      "starred": false,
+      "abstract": "An automated system for classifying cocoa bean fermentation levels using computer vision and machine learning techniques.",
+      "keywords": ["computer vision", "classification", "cocoa beans", "agriculture", "machine learning"]
+    },
+    {
+      "id": 4,
+      "title": "Advanced Neural Networks for Medical Image Analysis",
+      "authors": "Jorge Bacca, Kebin Contreras, Maria Rodriguez",
+      "journal": "CVPR",
+      "conference": "CVPR",
+      "year": 2024,
+      "image": null,
+      "pdfUrl": "https://example.com/paper4.pdf",
+      "externalUrl": "https://example.com/paper4",
+      "starred": false,
+      "abstract": "Novel neural network architectures for enhanced medical image analysis and diagnosis.",
+      "keywords": ["neural networks", "medical imaging", "diagnosis", "deep learning"]
+    },
+    {
+      "id": 5,
+      "title": "Optimization Algorithms for Large-Scale Data Processing",
+      "authors": "Luis Toscano-Palomino, Jorge Bacca",
+      "journal": "STSIVA",
+      "conference": "STSIVA",
+      "year": 2024,
+      "image": null,
+      "pdfUrl": "https://example.com/paper5.pdf",
+      "externalUrl": "https://example.com/paper5",
+      "starred": false,
+      "abstract": "Efficient optimization algorithms for processing large-scale datasets in distributed environments.",
+      "keywords": ["optimization", "algorithms", "big data", "distributed computing"]
+    },
+    {
+      "id": 6,
+      "title": "Machine Learning Approaches for Climate Change Modeling",
+      "authors": "Kebin Contreras, Jorge Bacca, Ana Martinez, Carlos Rodriguez, Maria Gonzalez, Pedro Silva, Lucia Fernandez",
+      "journal": "Nature Climate Change",
+      "conference": "Nature",
+      "year": 2023,
+      "image": null,
+      "pdfUrl": "https://example.com/paper6.pdf",
+      "externalUrl": "https://example.com/paper6",
+      "starred": false,
+      "abstract": "Application of machine learning techniques for improved climate change prediction and modeling.",
+      "keywords": ["machine learning", "climate change", "modeling", "prediction"]
+    },
+    {
+      "id": 7,
+      "title": "Collaborative Multi-Agent Systems for Smart City Applications",
+      "authors": "Luis Toscano-Palomino, Jorge Bacca, Kebin Contreras, Sofia Martinez, Roberto Vega, Elena Castro, Miguel Torres, Carmen Ruiz",
+      "journal": "IEEE Transactions on Smart Grid",
+      "conference": "IEEE",
+      "year": 2023,
+      "image": null,
+      "pdfUrl": "https://example.com/paper7.pdf",
+      "externalUrl": "https://example.com/paper7",
+      "starred": false,
+      "abstract": "A comprehensive framework for implementing multi-agent systems in smart city infrastructure, focusing on energy efficiency and resource optimization.",
+      "keywords": ["multi-agent systems", "smart cities", "IoT", "energy efficiency"]
+    }
+  ]
+}

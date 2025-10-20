@@ -1,83 +1,97 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Download } from "lucide-react"
+import { AuthorsList } from "@/components/ui/authors-list"
+import { ExternalLink, Download, ArrowRight } from "lucide-react"
 import { getImagePath } from "@/lib/utils"
 
-const publications = [
-  {
-    id: 1,
-    title: "See the past: Time-Reversed Scene Reconstruction from Thermal Traces Using Visual Language Models",
-    description:
-      "El estudio propone un método que, usando imágenes térmicas y RGB, reconstruye eventos ocurridos hasta 120 segundos antes, aprovechando las huellas de calor humano y combinando modelos visual-lingüísticos con un proceso de difusión para lograr reconstrucciones coherentes del pasado.",
-    authors: "Kebin Contreras, Luis Toscano-Palomino, Mauro Dalla Mura, Jorge Bacca",
-    journal: "arXiv preprint",
-    year: "2025",
-    image: "/references_scenes.png",
-    pdfUrl: "https://arxiv.org/abs/2510.05408",
-    externalUrl: "https://ieeexplore.ieee.org",
-  },
-  {
-    id: 2,
-    title: "Deep Robust Object Detection Under High Illumination Conditions Using Modulo Images",
-    description:
-      "El trabajo propone usar imágenes módulo para detectar drones bajo alta iluminación, evitando la saturación del sensor y logrando más del 96% de precisión sin necesidad de reconstruir imágenes HDR.",
-    authors: "Luis Toscano-Palomino, Kebin Contreras, Brayan Monroy, Jorge Bacca",
-    journal: "IEEE",
-    year: "2025",
-    image: "/drones.png",
-    pdfUrl: "https://ieeexplore.ieee.org/abstract/document/11156687",
-    externalUrl: "https://nature.com",
-  },
-  {
-    id: 3,
-    title: "Automated Classification of Cocoa Bean Fermentation Levels Using Computer Vision",
-    description:
-      "El estudio desarrolla un sistema automatizado para clasificar el nivel de fermentación del cacao mediante modelos YOLO y redes convolucionales. Usando imágenes RGB de granos cortados y etiquetados según la norma NTC 1252:2021, el modelo YOLOv8m obtuvo el mejor desempeño, con un F1-score de 0.6685, superando versiones anteriores de YOLO.",
-    authors: "Juan Suarez, Juan Espinosa, Kebin Contreras, Jorge Bacca",
-    journal: "IEEE",
-    year: "2025",
-    image: "/distributed-systems-network.png",
-    pdfUrl: "https://ieeexplore.ieee.org/abstract/document/11156348",
-    externalUrl: "https://dl.acm.org",
-  },
-  
-]
+interface Publication {
+  id: number
+  title: string
+  authors: string
+  journal: string
+  conference: string
+  year: number
+  image: string | null
+  pdfUrl: string
+  externalUrl: string
+  starred: boolean
+  abstract: string
+  keywords: string[]
+}
 
 export function PublicationsSection() {
+  const [starredPublications, setStarredPublications] = useState<Publication[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const loadPublications = async () => {
+      try {
+        const response = await fetch(getImagePath('/publications.json'))
+        const data = await response.json()
+        // Filtrar solo las publicaciones destacadas
+        const starred = data.publications.filter((pub: Publication) => pub.starred)
+        setStarredPublications(starred)
+      } catch (error) {
+        console.error('Error loading publications:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadPublications()
+  }, [])
+
+  if (loading) {
+    return (
+      <section id="publicaciones" className="py-24 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="max-w-7xl mx-auto text-center">
+            <div className="animate-pulse">
+              <div className="h-12 bg-muted rounded mb-4"></div>
+              <div className="h-6 bg-muted rounded max-w-2xl mx-auto mb-16"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section id="publicaciones" className="py-24 bg-background">
       <div className="container mx-auto px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-serif font-bold text-foreground mb-4">Publicaciones</h2>
+            <h2 className="text-3xl md:text-5xl font-serif font-bold text-foreground mb-4">Publicaciones Destacadas</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Explora nuestras contribuciones científicas en revistas y conferencias internacionales
+              Explora nuestras contribuciones científicas más relevantes en revistas y conferencias internacionales
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {publications.map((pub) => (
+            {starredPublications.map((pub: Publication) => (
               <Card
                 key={pub.id}
                 className="flex flex-col overflow-hidden hover:shadow-xl transition-shadow border-border"
               >
                 <div className="aspect-video relative overflow-hidden bg-muted">
                   <img
-                    src={getImagePath(pub.image) || getImagePath("/placeholder.svg")}
+                    src={pub.image ? getImagePath(pub.image) : getImagePath("/placeholder.svg")}
                     alt={pub.title}
-                    className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                    className="object-cover w-full h-full hover:scale-105 transition-transform duration-300 object-center md:object-top rounded-b-none"
+                    style={{ aspectRatio: '16/9', background: '#f3f3f3' }}
                   />
                 </div>
                 <CardHeader className="flex-grow">
                   <CardTitle className="text-lg font-serif leading-tight mb-2">{pub.title}</CardTitle>
-                  <CardDescription className="text-sm leading-relaxed">{pub.description}</CardDescription>
                 </CardHeader>
                 <CardContent className="pt-0">
                   <div className="space-y-1 text-sm text-muted-foreground">
-                    <p className="font-medium">{pub.authors}</p>
-                    <p className="italic">
-                      {pub.journal}, {pub.year}
-                    </p>
+                    <AuthorsList authors={pub.authors} maxVisible={2} />
+                    <p className="italic">{pub.journal}, {pub.year}</p>
                   </div>
                 </CardContent>
                 <CardFooter className="flex gap-2 pt-4">
@@ -101,6 +115,20 @@ export function PublicationsSection() {
                 </CardFooter>
               </Card>
             ))}
+          </div>
+
+          {/* Botón Ver Más Publicaciones */}
+          <div className="text-center mt-12">
+            <Button
+              size="lg"
+              className="bg-accent text-accent-foreground hover:bg-accent/90 font-sans font-medium"
+              asChild
+            >
+              <a href={getImagePath('/publicaciones')}>
+                Ver Todas las Publicaciones
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </a>
+            </Button>
           </div>
         </div>
       </div>
