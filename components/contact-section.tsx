@@ -144,7 +144,11 @@ export function ContactSection() {
                     <Mail className="h-4 w-4 text-accent" />
                     <span className="text-sm font-medium">Envía un Email</span>
                   </div>
-                  <Button asChild className="w-full font-sans bg-accent text-accent-foreground hover:bg-accent/90">
+                  <Button 
+                    asChild 
+                    variant="outline"
+                    className="w-full font-sans font-medium border-accent text-black hover:bg-accent hover:text-accent-foreground bg-transparent"
+                  >
                     <a href="mailto:pigroup.uis@gmail.com">Escribir Email</a>
                   </Button>
                 </div>
@@ -158,7 +162,7 @@ export function ContactSection() {
                   <Button
                     asChild
                     variant="outline"
-                    className="w-full font-sans border-accent text-black hover:bg-accent hover:text-accent-foreground bg-transparent"
+                    className="w-full font-sans font-medium border-accent text-black hover:bg-accent hover:text-accent-foreground bg-transparent"
                   >
                     <a
                       href="https://maps.google.com/?q=Universidad+Industrial+de+Santander"

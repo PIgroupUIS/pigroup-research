@@ -1,0 +1,18 @@
+{
+  "news": [
+    {
+      "id": 1,
+      "title": "Inicio del semillero con invitada internacional",
+      "description": "El semillero de investigación PI Group dio inicio a sus actividades del semestre con la participación de la Dra. Tatiana Gelvez (Lyon, Francia), quien compartió con los nuevos integrantes sus experiencias en problemas inversos y métodos numéricos. Este encuentro marcó el comienzo de los Seminarios Internacionales y los espacios de investigación colaborativa del grupo, promoviendo la formación científica y el intercambio académico de alto nivel.",
+      "summary": "Inicio del semillero de investigación con participación internacional y seminarios colaborativos.",
+      "date": "2025-10-15",
+      "dateFormatted": "15 de Octubre, 2025",
+      "image": "/seminario1.jpg",
+      "featured": true,
+      "category": "Semillero",
+      "tags": ["investigación", "internacional", "seminario", "colaboración"],
+      "author": "PIGroup UIS",
+      "readTime": "3 min"
+    }  
+  ]
+}

@@ -91,7 +91,7 @@ export function PublicationsSection() {
                 <CardContent className="pt-0">
                   <div className="space-y-1 text-sm text-muted-foreground">
                     <AuthorsList authors={pub.authors} maxVisible={2} />
-                    <p className="italic">{pub.journal}, {pub.year}</p>
+                    <p className="italic">{pub.conference}, {pub.year}</p>
                   </div>
                 </CardContent>
                 <CardFooter className="flex gap-2 pt-4">
@@ -121,7 +121,8 @@ export function PublicationsSection() {
           <div className="text-center mt-12">
             <Button
               size="lg"
-              className="bg-accent text-accent-foreground hover:bg-accent/90 font-sans font-medium"
+              variant="outline"
+              className="border-accent text-black hover:bg-accent hover:text-accent-foreground bg-transparent font-sans font-medium"
               asChild
             >
               <a href={getPagePath('/publicaciones')}>
