@@ -57,7 +57,7 @@ export default async function PublicationDetailPage({
         {/* Back Button */}
         <div className="mb-6">
           <Button variant="outline" size="sm" asChild>
-            <Link href={getPagePath('/publicaciones')} className="flex items-center gap-2">
+            <Link href="/publicaciones" className="flex items-center gap-2">
               <ArrowLeft className="w-4 h-4" />
               Volver a Publicaciones
             </Link>

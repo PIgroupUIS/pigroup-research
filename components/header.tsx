@@ -19,11 +19,11 @@ export function Header() {
   }, [])
 
   const navItems = [
-    { href: "#inicio", label: "Inicio" },
-    { href: "#noticias", label: "Noticias" },
-    { href: "#publicaciones", label: "Publicaciones" },
-    { href: "/equipo", label: "Equipo" },
-    { href: "#contacto", label: "Contacto" },
+    { href: "#inicio", label: "Inicio", isSection: true },
+    { href: "/noticias", label: "Noticias", isSection: false },
+    { href: "/publicaciones", label: "Publicaciones", isSection: false },
+    { href: "/equipo", label: "Equipo", isSection: false },
+    { href: "#contacto", label: "Contacto", isSection: true },
   ]
 
   return (
@@ -47,20 +47,33 @@ export function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             {navItems.map((item) => {
-              const isExternalLink = !item.href.startsWith("#")
-              const href = isExternalLink ? getPagePath(item.href) : item.href
-              
-              return (
-                <Link
-                  key={item.href}
-                  href={href}
-                  className={`text-sm font-sans font-medium transition-colors ${
-                    isScrolled ? "text-foreground hover:text-gold" : "text-white hover:text-gold"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              )
+              if (item.isSection) {
+                // Para secciones de la página (scroll)
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className={`text-sm font-sans font-medium transition-colors ${
+                      isScrolled ? "text-foreground hover:text-gold" : "text-white hover:text-gold"
+                    }`}
+                  >
+                    {item.label}
+                  </a>
+                )
+              } else {
+                // Para páginas separadas (Next.js routing)
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`text-sm font-sans font-medium transition-colors ${
+                      isScrolled ? "text-foreground hover:text-gold" : "text-white hover:text-gold"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                )
+              }
             })}
           </nav>
 
@@ -79,19 +92,31 @@ export function Header() {
         {isMobileMenuOpen && (
           <nav className="md:hidden mt-4 pb-4 flex flex-col gap-4 bg-background/95 backdrop-blur-md rounded-lg p-4 -mx-4">
             {navItems.map((item) => {
-              const isExternalLink = !item.href.startsWith("#")
-              const href = isExternalLink ? getPagePath(item.href) : item.href
-              
-              return (
-                <Link
-                  key={item.href}
-                  href={href}
-                  className="text-sm font-sans font-medium text-foreground hover:text-accent transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              )
+              if (item.isSection) {
+                // Para secciones de la página (scroll)
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className="text-sm font-sans font-medium text-foreground hover:text-accent transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </a>
+                )
+              } else {
+                // Para páginas separadas (Next.js routing)
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="text-sm font-sans font-medium text-foreground hover:text-accent transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                )
+              }
             })}
           </nav>
         )}
