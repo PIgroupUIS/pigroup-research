@@ -24,19 +24,13 @@ interface Publication {
 
 async function getPublication(id: string): Promise<Publication | null> {
   try {
-    const baseUrl = process.env.NODE_ENV === 'production' 
-      ? 'https://pi-group-unal.github.io/pigroup-website'
-      : 'http://localhost:3000';
+    // Import the JSON data directly for build time
+    const fs = await import('fs');
+    const path = await import('path');
     
-    const response = await fetch(`${baseUrl}/publications.json`, {
-      cache: 'no-store'
-    });
-    
-    if (!response.ok) {
-      return null;
-    }
-    
-    const data = await response.json();
+    const filePath = path.join(process.cwd(), 'public', 'publications.json');
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const data = JSON.parse(fileContents);
     const publications: Publication[] = data.publications || [];
     
     return publications.find(pub => pub.id.toString() === id) || null;
@@ -214,13 +208,13 @@ export default async function PublicationDetailPage({
 // Generate static params for all publications
 export async function generateStaticParams() {
   try {
-    const response = await fetch(`${process.env.NODE_ENV === 'production' ? 'https://pi-group-unal.github.io/pigroup-website' : 'http://localhost:3000'}/publications.json`);
+    // Import the JSON data directly for build time
+    const fs = await import('fs');
+    const path = await import('path');
     
-    if (!response.ok) {
-      return [];
-    }
-    
-    const data = await response.json();
+    const filePath = path.join(process.cwd(), 'public', 'publications.json');
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const data = JSON.parse(fileContents);
     const publications: Publication[] = data.publications || [];
     
     return publications.map((publication) => ({
