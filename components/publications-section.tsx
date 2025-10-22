@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Link from "next/link"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { AuthorsList } from "@/components/ui/authors-list"
@@ -86,7 +87,14 @@ export function PublicationsSection() {
                   />
                 </div>
                 <CardHeader className="flex-grow">
-                  <CardTitle className="text-lg font-serif leading-tight mb-2">{pub.title}</CardTitle>
+                  <CardTitle className="text-lg font-serif leading-tight mb-2">
+                    <Link 
+                      href={`/publicaciones/${pub.id}`}
+                      className="hover:text-accent transition-colors cursor-pointer"
+                    >
+                      {pub.title}
+                    </Link>
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="pt-0">
                   <div className="space-y-1 text-sm text-muted-foreground">

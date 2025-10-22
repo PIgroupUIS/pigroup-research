@@ -198,7 +198,12 @@ export default function PublicationsPage() {
                           </div>
                           
                           <h3 className="text-xl font-serif font-bold mb-3 leading-tight">
-                            {pub.title}
+                            <Link 
+                              href={`/publicaciones/${pub.id}`}
+                              className="hover:text-accent transition-colors cursor-pointer"
+                            >
+                              {pub.title}
+                            </Link>
                           </h3>
                           
                           <div className="space-y-2 mb-4">

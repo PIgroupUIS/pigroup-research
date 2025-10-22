@@ -1,0 +1,50 @@
+{
+  "team": [
+    {
+      "id": 1,
+      "nombre": "Jorge",
+      "apellido": "Bacca",
+      "cargo": "Director del Grupo",
+      "nivelEscolar": "Doctorado",
+      "institucion": "Universidad Industrial de Santander",
+      "imagen": "/team/jorge-bacca.jpeg",
+      "scholar": "https://scholar.google.com/citations?user=ejemplo1",
+      "paginaPersonal": "https://example.com/jorge-bacca",
+      "email": "jorge.bacca@uis.edu.co",
+      "orcid": "0000-0000-0000-0001",
+      "areasInvestigacion": ["Procesamiento de Imágenes", "Visión Computacional", "Machine Learning", "Problemas Inversos"],
+      "activo": true
+    },
+    {
+      "id": 2,
+      "nombre": "Kebin",
+      "apellido": "Contreras",
+      "cargo": "Investigador Principal",
+      "nivelEscolar": "Maestría",     
+      "institucion": "Universidad Industrial de Santander",
+      "imagen": "/team/kebin-contreras.jpg",
+      "scholar": "https://scholar.google.com/citations?user=ejemplo2",
+      "paginaPersonal": null,
+      "email": "kebin.contreras@uis.edu.co",
+      "orcid": "0000-0000-0000-0002",      
+      "areasInvestigacion": ["Inteligencia Artificial", "Deep Learning", "Computer Vision", "Image Processing"],
+      "activo": true
+    },
+    {
+      "id": 3,
+      "nombre": "Luis",
+      "apellido": "Toscano-Palomino",
+      "cargo": "Investigador Asociado",
+      "nivelEscolar": "Pregrado",
+      
+      "institucion": "Universidad Industrial de Santander",
+      "imagen": "/team/luis-toscano.png",
+      "scholar": "https://scholar.google.com/citations?user=ejemplo3",
+      "paginaPersonal": "https://example.com/luis-toscano",
+      "email": "luis.toscano@uis.edu.co",
+      "orcid": "0000-0000-0000-0003",
+      "areasInvestigacion": ["Robótica", "Sistemas Autónomos", "Object Detection", "Sistemas Inteligentes"],
+      "activo": true
+    }  
+  ]
+}
