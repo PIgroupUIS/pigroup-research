@@ -7,7 +7,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { AuthorsList } from "@/components/ui/authors-list"
 import { ExternalLink, Download, ArrowLeft } from "lucide-react"
 import { getImagePath, getPagePath } from "@/lib/utils"
-import Link from "next/link"
 
 interface Publication {
   id: number
@@ -198,12 +197,14 @@ export default function PublicationsPage() {
                           </div>
                           
                           <h3 className="text-xl font-serif font-bold mb-3 leading-tight">
-                            <Link 
-                              href={`/publicaciones/${pub.id}`}
+                            <a 
+                              href={process.env.NODE_ENV === "production" 
+                                ? `/pigroup-research/publicaciones/${pub.id}` 
+                                : `/publicaciones/${pub.id}`}
                               className="hover:text-accent transition-colors cursor-pointer"
                             >
                               {pub.title}
-                            </Link>
+                            </a>
                           </h3>
                           
                           <div className="space-y-2 mb-4">

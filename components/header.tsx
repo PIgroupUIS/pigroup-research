@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { getImagePath, getPagePath } from "@/lib/utils"
@@ -34,7 +33,7 @@ export function Header() {
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <Link href="#inicio" className="flex items-center">
+          <a href="#inicio" className="flex items-center">
             <span
               className={`text-xl font-sans font-bold transition-colors ${
                 isScrolled ? "text-foreground" : "text-white"
@@ -42,7 +41,7 @@ export function Header() {
             >
               PIGroup Research
             </span>
-          </Link>
+          </a>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
@@ -61,17 +60,20 @@ export function Header() {
                   </a>
                 )
               } else {
-                // Para páginas separadas (Next.js routing)
+                // Para páginas separadas (GitHub Pages routing)
+                const pageHref = process.env.NODE_ENV === "production" 
+                  ? `/pigroup-research${item.href}` 
+                  : item.href;
                 return (
-                  <Link
+                  <a
                     key={item.href}
-                    href={item.href}
+                    href={pageHref}
                     className={`text-sm font-sans font-medium transition-colors ${
                       isScrolled ? "text-foreground hover:text-gold" : "text-white hover:text-gold"
                     }`}
                   >
                     {item.label}
-                  </Link>
+                  </a>
                 )
               }
             })}
@@ -105,16 +107,19 @@ export function Header() {
                   </a>
                 )
               } else {
-                // Para páginas separadas (Next.js routing)
+                // Para páginas separadas (GitHub Pages routing)
+                const pageHref = process.env.NODE_ENV === "production" 
+                  ? `/pigroup-research${item.href}` 
+                  : item.href;
                 return (
-                  <Link
+                  <a
                     key={item.href}
-                    href={item.href}
+                    href={pageHref}
                     className="text-sm font-sans font-medium text-foreground hover:text-accent transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.label}
-                  </Link>
+                  </a>
                 )
               }
             })}

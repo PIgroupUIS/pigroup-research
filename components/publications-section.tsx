@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Link from "next/link"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { AuthorsList } from "@/components/ui/authors-list"
@@ -88,12 +87,14 @@ export function PublicationsSection() {
                 </div>
                 <CardHeader className="flex-grow">
                   <CardTitle className="text-lg font-serif leading-tight mb-2">
-                    <Link 
-                      href={`/publicaciones/${pub.id}`}
+                    <a 
+                      href={process.env.NODE_ENV === "production" 
+                        ? `/pigroup-research/publicaciones/${pub.id}` 
+                        : `/publicaciones/${pub.id}`}
                       className="hover:text-accent transition-colors cursor-pointer"
                     >
                       {pub.title}
-                    </Link>
+                    </a>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="pt-0">
@@ -133,7 +134,7 @@ export function PublicationsSection() {
               className="border-accent text-black hover:bg-accent hover:text-accent-foreground bg-transparent font-sans font-medium"
               asChild
             >
-              <a href={getPagePath('/publicaciones')}>
+              <a href={process.env.NODE_ENV === "production" ? "/pigroup-research/publicaciones" : "/publicaciones"}>
                 Ver Todas las Publicaciones
                 <ArrowRight className="ml-2 h-5 w-5" />
               </a>

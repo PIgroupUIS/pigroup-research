@@ -57,10 +57,13 @@ export default async function PublicationDetailPage({
         {/* Back Button */}
         <div className="mb-6">
           <Button variant="outline" size="sm" asChild>
-            <Link href="/publicaciones" className="flex items-center gap-2">
+            <a 
+              href={process.env.NODE_ENV === "production" ? "/pigroup-research/publicaciones" : "/publicaciones"}
+              className="flex items-center gap-2"
+            >
               <ArrowLeft className="w-4 h-4" />
               Volver a Publicaciones
-            </Link>
+            </a>
           </Button>
         </div>
 
