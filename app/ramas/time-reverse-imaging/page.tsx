@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { getImagePath, getPagePath } from "@/lib/utils"
-import { CheckCircle, XCircle, Thermometer, Eye, ArrowLeft, Globe } from "lucide-react"
+import { CheckCircle, XCircle, Thermometer, Eye, ArrowLeft, Globe, AlertCircle, Check } from "lucide-react"
 
 // Traducciones
 const translations = {
@@ -37,6 +37,11 @@ const translations = {
     successfullyReconstructed: "Has logrado reconstruir exitosamente el estado pasado de la escena",
     correct: "¡Correcto!",
     tryAgain: "Intentar de nuevo",
+    areYouSure: "¿Estás seguro de tu elección?",
+    confirmChoice: "Has seleccionado la opción {option}. ¿Quieres confirmar tu respuesta o prefieres ver la información térmica para estar completamente seguro?",
+    confirmAnswer: "Confirmar respuesta",
+    seeThermalFirst: "Ver información térmica primero",
+    selectedOption: "Opción seleccionada: {option}",
     conceptualFoundations: "Fundamentos Conceptuales",
     timeReversedIntro: "introduce una clase fundamentalmente nueva de problemas inversos. En lugar de recuperar variables ocultas de la escena actual",
     objective: "el objetivo es reconstruir un estado de escena pasado",
@@ -90,6 +95,11 @@ const translations = {
     successfullyReconstructed: "You have successfully reconstructed the past state of the scene",
     correct: "Correct!",
     tryAgain: "Try again",
+    areYouSure: "Are you sure about your choice?",
+    confirmChoice: "You have selected option {option}. Do you want to confirm your answer or would you prefer to see the thermal information to be completely sure?",
+    confirmAnswer: "Confirm answer",
+    seeThermalFirst: "See thermal information first",
+    selectedOption: "Selected option: {option}",
     conceptualFoundations: "Conceptual Foundations",
     timeReversedIntro: "introduces a fundamentally new class of inverse problems. Instead of recovering hidden variables from the current scene",
     objective: "the objective is to reconstruct a past scene state",
@@ -120,8 +130,9 @@ const translations = {
 }
 
 export default function TimeReverseImaging() {
-  const [gameState, setGameState] = useState<'initial' | 'wrong' | 'thermal' | 'correct'>('initial')
+    const [gameState, setGameState] = useState<'initial' | 'wrong' | 'thermal' | 'correct' | 'firstCorrect' | 'revealed'>('initial')
   const [selectedPrediction, setSelectedPrediction] = useState<number | null>(null)
+  const [selectedOption, setSelectedOption] = useState<number | null>(null)
   const [language, setLanguage] = useState<'es' | 'en'>('es')
   const correctAnswer = 3 // La predicción correcta es la #3
   
@@ -143,9 +154,10 @@ export default function TimeReverseImaging() {
 
   const handlePredictionSelect = (predictionIndex: number) => {
     setSelectedPrediction(predictionIndex)
+    setSelectedOption(predictionIndex)
     
     if (predictionIndex === correctAnswer) {
-      setGameState('correct')
+      setGameState('firstCorrect')
     } else {
       setGameState('wrong')
     }
@@ -172,6 +184,7 @@ export default function TimeReverseImaging() {
   const resetGame = () => {
     setGameState('initial')
     setSelectedPrediction(null)
+    setSelectedOption(null)
   }
 
   return (
@@ -381,6 +394,61 @@ export default function TimeReverseImaging() {
                           ))}
                         </div>
                       </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {gameState === 'firstCorrect' && (
+                <Card className="border-yellow-200 bg-yellow-50">
+                  <CardHeader className="text-center">
+                    <CardTitle className="flex items-center justify-center gap-2 text-yellow-600">
+                      <AlertCircle className="h-6 w-6" />
+                      {t.areYouSure}
+                    </CardTitle>
+                    <CardDescription>
+                      {t.confirmChoice.replace('{option}', (selectedOption ?? 1).toString())}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    {/* Mostrar la opción seleccionada */}
+                    <div className="flex justify-center">
+                      <div className="bg-yellow-100 border border-yellow-300 rounded-lg p-4">
+                        <p className="text-sm font-medium text-yellow-800 mb-2">
+                          {t.selectedOption.replace('{option}', (selectedOption ?? 1).toString())}
+                        </p>
+                        <div className="flex justify-center">
+                          <div className="w-32 relative">
+                            <img 
+                              src={getImagePath(`/time-reverse-imaging/prediction-${selectedOption}.png`)} 
+                              alt={`Predicción ${selectedOption} seleccionada`} 
+                              className="w-full h-auto rounded-lg border-2 border-yellow-400"
+                            />
+                            <div className="absolute top-1 right-1 bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                              {selectedOption ?? 1}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Botones de acción */}
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                      <Button
+                        onClick={() => setGameState('correct')}
+                        className="bg-yellow-600 hover:bg-yellow-700"
+                      >
+                        <Check className="mr-2 h-4 w-4" />
+                        {t.confirmAnswer}
+                      </Button>
+                      <Button
+                        onClick={() => setGameState('thermal')}
+                        variant="outline"
+                        className="border-blue-200 text-blue-600 hover:bg-blue-50"
+                      >
+                        <Thermometer className="mr-2 h-4 w-4" />
+                        {t.seeThermalFirst}
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>
