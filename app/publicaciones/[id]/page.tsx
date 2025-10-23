@@ -43,9 +43,10 @@ async function getPublication(id: string): Promise<Publication | null> {
 export default async function PublicationDetailPage({
   params
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
-  const publication = await getPublication(params.id);
+  const { id } = await params;
+  const publication = await getPublication(id);
 
   if (!publication) {
     notFound();

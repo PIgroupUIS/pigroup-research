@@ -18,7 +18,8 @@ export function Header() {
   }, [])
 
   const navItems = [
-    { href: "#inicio", label: "Inicio", isSection: true },
+    { href: "/", label: "Inicio", isSection: false },
+    { href: "#research-areas", label: "Investigación", isSection: true },
     { href: "/noticias", label: "Noticias", isSection: false },
     { href: "/publicaciones", label: "Publicaciones", isSection: false },
     { href: "/equipo", label: "Equipo", isSection: false },
@@ -33,7 +34,7 @@ export function Header() {
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <a href="#inicio" className="flex items-center">
+          <a href={getPagePath("/")} className="flex items-center">
             <span
               className={`text-xl font-sans font-bold transition-colors ${
                 isScrolled ? "text-foreground" : "text-white"
@@ -46,36 +47,20 @@ export function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             {navItems.map((item) => {
-              if (item.isSection) {
-                // Para secciones de la página (scroll)
-                return (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    className={`text-sm font-sans font-medium transition-colors ${
-                      isScrolled ? "text-foreground hover:text-gold" : "text-white hover:text-gold"
-                    }`}
-                  >
-                    {item.label}
-                  </a>
-                )
-              } else {
-                // Para páginas separadas (GitHub Pages routing)
-                const pageHref = process.env.NODE_ENV === "production" 
-                  ? `/pigroup-research${item.href}` 
-                  : item.href;
-                return (
-                  <a
-                    key={item.href}
-                    href={pageHref}
-                    className={`text-sm font-sans font-medium transition-colors ${
-                      isScrolled ? "text-foreground hover:text-gold" : "text-white hover:text-gold"
-                    }`}
-                  >
-                    {item.label}
-                  </a>
-                )
-              }
+              // Simplificar la lógica para evitar errores de hidratación
+              const finalHref = item.isSection ? item.href : getPagePath(item.href);
+              
+              return (
+                <a
+                  key={item.href}
+                  href={finalHref}
+                  className={`text-sm font-sans font-medium transition-colors ${
+                    isScrolled ? "text-foreground hover:text-gold" : "text-white hover:text-gold"
+                  }`}
+                >
+                  {item.label}
+                </a>
+              )
             })}
           </nav>
 
@@ -94,34 +79,19 @@ export function Header() {
         {isMobileMenuOpen && (
           <nav className="md:hidden mt-4 pb-4 flex flex-col gap-4 bg-background/95 backdrop-blur-md rounded-lg p-4 -mx-4">
             {navItems.map((item) => {
-              if (item.isSection) {
-                // Para secciones de la página (scroll)
-                return (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    className="text-sm font-sans font-medium text-foreground hover:text-accent transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {item.label}
-                  </a>
-                )
-              } else {
-                // Para páginas separadas (GitHub Pages routing)
-                const pageHref = process.env.NODE_ENV === "production" 
-                  ? `/pigroup-research${item.href}` 
-                  : item.href;
-                return (
-                  <a
-                    key={item.href}
-                    href={pageHref}
-                    className="text-sm font-sans font-medium text-foreground hover:text-accent transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {item.label}
-                  </a>
-                )
-              }
+              // Simplificar la lógica para evitar errores de hidratación
+              const finalHref = item.isSection ? item.href : getPagePath(item.href);
+              
+              return (
+                <a
+                  key={item.href}
+                  href={finalHref}
+                  className="text-sm font-sans font-medium text-foreground hover:text-accent transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item.label}
+                </a>
+              )
             })}
           </nav>
         )}

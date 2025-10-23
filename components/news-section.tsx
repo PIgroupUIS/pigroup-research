@@ -66,7 +66,7 @@ export function NewsSection() {
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-serif font-bold text-foreground mb-4">Noticias Destacadas</h2>
+            <h2 className="text-3xl md:text-5xl font-serif font-bold text-foreground mb-4">Noticias <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">Destacadas</span></h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Mantente al día con las últimas novedades y logros más importantes de nuestro grupo de investigación
             </p>

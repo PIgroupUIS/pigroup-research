@@ -64,7 +64,7 @@ export function PublicationsSection() {
       <div className="container mx-auto px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-serif font-bold text-foreground mb-4">Publicaciones Destacadas</h2>
+            <h2 className="text-3xl md:text-5xl font-serif font-bold text-foreground mb-4">Publicaciones <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">Destacadas</span></h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Explora nuestras contribuciones científicas más relevantes en revistas y conferencias internacionales
             </p>
@@ -91,7 +91,7 @@ export function PublicationsSection() {
                       href={process.env.NODE_ENV === "production" 
                         ? `/pigroup-research/publicaciones/${pub.id}` 
                         : `/publicaciones/${pub.id}`}
-                      className="hover:text-accent transition-colors cursor-pointer"
+                      className="hover:text-gold transition-colors cursor-pointer"
                     >
                       {pub.title}
                     </a>

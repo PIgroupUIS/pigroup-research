@@ -18,14 +18,13 @@ export function Hero() {
             <Image
               src={getImagePath("/logo.png") || "/placeholder.svg"}
               alt="PIGroup Logo"
-              width={300}
-              height={300}
-              className="w-60 h-60 md:w-72 md:h-72 object-contain"
+              width={600}
+              height={600}
+              className="w-96 h-96 md:w-[28rem] md:h-[28rem] object-contain"
             />
           </div>
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-sans font-bold text-primary-foreground mb-6 text-balance">
-            PIGroup Research
           </h1>
 
           <p className="text-lg md:text-xl font-sans text-primary-foreground/90 mb-8 max-w-2xl mx-auto text-pretty leading-relaxed">
