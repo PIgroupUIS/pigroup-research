@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
+import { Header } from "@/components/header"
 import { Calendar, ArrowLeft, Clock, User } from "lucide-react"
 import { getImagePath, getPagePath } from "@/lib/utils"
 
@@ -93,17 +94,12 @@ export default function NewsPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="bg-primary text-primary-foreground py-16">
+      <Header />
+      
+      {/* Hero Section */}
+      <div className="bg-primary text-primary-foreground py-16 pt-32">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <a 
-              href={process.env.NODE_ENV === "production" ? "/pigroup-research" : "/"}
-              className="inline-flex items-center text-primary-foreground/80 hover:text-primary-foreground mb-6 transition-colors"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Volver al inicio
-            </a>
             <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6">
               Todas las Noticias
             </h1>

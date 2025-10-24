@@ -19,11 +19,6 @@ const researchAreas = [
 export function ResearchAreasSection() {
   return (
     <section id="research-areas" className="py-24 bg-white relative overflow-hidden">
-      {/* Subtle decorative elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-10 right-10 w-32 h-32 border border-yellow-400 rounded-full"></div>
-        <div className="absolute bottom-20 left-10 w-24 h-24 bg-yellow-400 rounded-full blur-sm"></div>
-      </div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">

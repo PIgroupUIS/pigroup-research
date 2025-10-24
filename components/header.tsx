@@ -19,11 +19,9 @@ export function Header() {
 
   const navItems = [
     { href: "/", label: "Inicio", isSection: false },
-    { href: "#research-areas", label: "Investigación", isSection: true },
     { href: "/noticias", label: "Noticias", isSection: false },
     { href: "/publicaciones", label: "Publicaciones", isSection: false },
     { href: "/equipo", label: "Equipo", isSection: false },
-    { href: "#contacto", label: "Contacto", isSection: true },
   ]
 
   return (

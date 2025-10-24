@@ -51,6 +51,15 @@ export function Hero() {
             >
               <a href="#contacto">Contáctanos</a>
             </Button>
+            <Button
+              size="lg"
+              className="bg-transparent border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary font-sans font-medium"
+              asChild
+            >
+              <a href="#research-areas">
+                Ramas de investigacion
+              </a>
+            </Button>
           </div>
         </div>
       </div>

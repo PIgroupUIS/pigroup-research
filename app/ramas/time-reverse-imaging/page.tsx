@@ -189,41 +189,34 @@ export default function TimeReverseImaging() {
 
   return (
     <div className="min-h-screen bg-white">
+      <Header />
       
       <main className=" pb-16">
 
 
         {/* Hero Section */}
-        <section className="bg-primary text-primary-foreground py-16">
+        <section className="bg-primary text-primary-foreground py-16 pt-32">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="flex justify-between items-start mb-6">
-                <a 
-                  href={getPagePath("/")}
-                  className="inline-flex items-center text-primary-foreground/80 hover:text-primary-foreground transition-colors"
-                >
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  {t.backToHome}
-                </a>
-                
-                {/* Language Toggle */}
-                <button
-                  onClick={toggleLanguage}
-                  className="inline-flex items-center gap-2 px-3 py-2 bg-primary-foreground/10 hover:bg-primary-foreground/20 rounded-lg transition-colors"
-                >
-                  <Globe className="h-4 w-4" />
-                  <span className="text-sm font-medium">
-                    {language === 'es' ? '🇺🇸 EN' : '🇪🇸 ES'}
-                  </span>
-                </button>
-              </div>
-              
               <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6">
                 {t.title}
               </h1>
               <p className="text-lg text-primary-foreground/90 max-w-2xl mx-auto">
                 {t.subtitle}
               </p>
+              
+              {/* Language Toggle - Solo aquí */}
+              <div className="flex justify-center mt-8">
+                <button
+                  onClick={toggleLanguage}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-primary-foreground/10 hover:bg-primary-foreground/20 rounded-lg transition-colors"
+                >
+                  <Globe className="h-4 w-4" />
+                  <span className="text-sm font-medium">
+                    {language === 'es' ? '🇺🇸 English' : '🇪🇸 Español'}
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
         </section>
