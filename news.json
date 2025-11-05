@@ -1,0 +1,32 @@
+{
+  "news": [
+    {
+      "id": 1,
+      "title": "Inicio del semillero con invitada internacional",
+      "description": "El semillero de investigación PI Group dio inicio a sus actividades del semestre con la participación de la Dra. Tatiana Gelvez (Lyon, Francia), quien compartió con los nuevos integrantes sus experiencias en problemas inversos y métodos numéricos. Este encuentro marcó el comienzo de los Seminarios Internacionales y los espacios de investigación colaborativa del grupo, promoviendo la formación científica y el intercambio académico de alto nivel.",
+      "summary": "Inicio del semillero de investigación con participación internacional y seminarios colaborativos.",
+      "date": "2025-10-15",
+      "dateFormatted": "15 de Octubre, 2025",
+      "image": "/seminario1.jpg",
+      "featured": true,
+      "category": "Semillero",
+      "tags": ["investigación", "internacional", "seminario", "colaboración"],
+      "author": "PIGroup UIS",
+      "readTime": "3 min"
+    },
+        {
+      "id": 2,
+      "title": "Cooperación Internacional",
+      "description": "Del 3 al 10 de octubre de 2025, el profesor Jorge Luis Bacca Quintero, líder del PI-Group (Inverse Problems Research Group) de la Universidad Industrial de Santander (UIS), realizó una segunda estancia de cooperación científica en el laboratorio GIPSA-Lab de la Université Grenoble Alpes (UGA), en el marco del convenio ECOS-Nord entre ambas instituciones. Durante la visita, desarrollada bajo la supervisión del profesor Mauro Dalla Mura, se avanzó en la formulación de metodologías para el análisis y procesamiento de imágenes espectrales, con especial énfasis en aprendizaje semisupervisado (semi-supervised imaging) aplicado a visión computacional.",
+      "summary": "Cooperación Internacional: Avances del PI-Group en GIPSA-Lab (Grenoble, Francia)",
+      "date": "2025-10-28",
+      "dateFormatted": "28 de Octubre, 2025",
+      "image": "/colaboracion1.png",
+      "featured": true,
+      "category": "Semillero",
+      "tags": ["colaboración"],
+      "author": "PIGroup UIS",
+      "readTime": "3 min"
+    } 
+  ]
+}

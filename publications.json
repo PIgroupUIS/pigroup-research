@@ -1,0 +1,49 @@
+{
+  "publications": [
+    {
+      "id": 1,
+      "title": "See the past: Time-Reversed Scene Reconstruction from Thermal Traces Using Visual Language Models",
+      "authors": "Kebin Contreras, Luis Toscano-Palomino, Mauro Dalla, Jorge Bacca",
+      "journal": "arXiv preprint",
+      "conference": "ArXiv",
+      "year": 2025,
+      "image": "/references_scenes.png",
+      "pdfUrl": "https://arxiv.org/abs/2510.05408",
+      "externalUrl": "https://arxiv.org/abs/2510.05408",
+      "supplementaryMaterial": "https://example.com/supplementary1.zip",
+      "starred": true,
+      "abstract": "This paper presents a novel approach for time-reversed scene reconstruction from thermal traces using visual language models. Our method leverages the temporal information embedded in thermal residues to reconstruct past scenes with remarkable accuracy. We introduce a sophisticated framework that combines computer vision techniques with advanced language models to interpret thermal data and generate comprehensive scene reconstructions. The approach demonstrates significant improvements over existing methods in both accuracy and computational efficiency.",
+      "keywords": ["computer vision", "thermal imaging", "scene reconstruction", "visual language models"]
+    },
+    {
+      "id": 2,
+      "title": "Deep Robust Object Detection Under High Illumination Conditions Using Modulo Images",
+      "authors": "Luis Toscano-Palomino, Kebin Contreras, Brayan Monroy, Jorge Bacca",
+      "journal": "IEEE",
+      "conference": "XXV Symposium of Image, Signal Processing, and Artificial Vision (STSIVA)",
+      "year": 2025,
+      "image": "/drones.png",
+      "pdfUrl": "https://ieeexplore.ieee.org/abstract/document/11156687",
+      "externalUrl": "https://ieeexplore.ieee.org/abstract/document/11156687",
+      "supplementaryMaterial": null,
+      "starred": true,
+      "abstract": "A robust object detection method for high illumination conditions using modulo images and deep learning approaches. This work addresses the challenging problem of object detection under extreme lighting conditions where traditional methods fail. We propose a novel framework that utilizes modulo images to maintain visual information integrity even under high illumination scenarios. Our deep learning architecture incorporates specialized attention mechanisms and adaptive processing layers that significantly improve detection accuracy in challenging environmental conditions.",
+      "keywords": ["object detection", "high illumination", "modulo images", "deep learning"]
+    },
+    {
+      "id": 3,
+      "title": "Automated Classification of Cocoa Bean Fermentation Levels Using Computer Vision",
+      "authors": "Juan Suarez, Juan Espinosa, Kebin Contreras, Jorge Bacca",
+      "journal": "IEEE",
+      "conference": "IEEE",
+      "year": 2025,
+      "image": "/distributed-systems-network.png",
+      "pdfUrl": "https://ieeexplore.ieee.org/abstract/document/11156348",
+      "externalUrl": "https://ieeexplore.ieee.org/abstract/document/11156348",
+      "supplementaryMaterial": null,
+      "starred": false,
+      "abstract": "An automated system for classifying cocoa bean fermentation levels using computer vision and machine learning techniques. This research addresses the critical need for quality control in cocoa production by developing an intelligent system that can accurately assess fermentation levels. Our approach combines advanced image processing algorithms with deep learning models to analyze visual characteristics of cocoa beans. The system provides farmers and producers with an objective, consistent method for quality assessment, potentially improving product quality and market value.",
+      "keywords": ["computer vision", "classification", "cocoa beans", "agriculture", "machine learning"]
+    }
+  ]
+}
