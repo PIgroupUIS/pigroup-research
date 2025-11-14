@@ -27,6 +27,20 @@
       "tags": ["colaboración"],
       "author": "PIGroup UIS",
       "readTime": "3 min"
+    },
+       {
+      "id": 3,
+      "title": "Nuevo artículo publicado en Scientific Data – Nature",
+      "description": " Este artículo presenta una nueva base de datos espectral multimodal, cuidadosamente diseñada con etiquetas globales y locales, que contribuirá al avance de la adquisición y análisis de información espectral en aplicaciones científicas y tecnológicas. Felicitamos especialmente a Kebin Contreras, primer autor del artículo, por su excelente trabajo y dedicación. Asimismo, celebramos que este resultado marca nuestra primera colaboración académica con el profesor Mauro Dalla Mura, fortaleciendo los vínculos internacionales de nuestro grupo. ¡Un logro importante para nuestra comunidad investigativa!",
+      "summary": "Nos complace anunciar la publicación de nuestro primer trabajo en la editorial Nature, específicamente en la revista Scientific Data.",
+      "date": "2025-11-14",
+      "dateFormatted": "14 de Noviembre, 2025",
+      "image": "/new3.png",
+      "featured": true,
+      "category": "Semillero",
+      "tags": ["investigación"],
+      "author": "PIGroup UIS",
+      "readTime": "4 min"
     } 
   ]
 }
