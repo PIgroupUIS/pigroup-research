@@ -14,14 +14,14 @@ interface TeamMember {
   apellido: string
   cargo: string
   nivelEscolar: string
-  especialidad: string
+  especialidad?: string
   institucion: string
   imagen: string
   scholar: string | null
   paginaPersonal: string | null
   email: string
-  orcid: string | null
-  bio: string
+  orcid?: string | null
+  bio?: string
   areasInvestigacion: string[]
   activo: boolean
 }
@@ -159,86 +159,85 @@ export default function EquipoPage() {
       </div>
 
       {/* Team Members */}
-      <div className="py-16">
+      <div className="py-12 bg-muted/20">
         <div className="container mx-auto px-4">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {teamMembers.map((member: TeamMember) => (
-                <Card key={member.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 group">
-                  {/* Imagen y nivel académico */}
-                  <div className="relative">
-                    <div className="aspect-square bg-muted overflow-hidden">
-                      <img
-                        src={getImagePath(member.imagen)}
-                        alt={`${member.nombre} ${member.apellido}`}
-                        loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = getImagePath('/placeholder-user.jpg');
-                        }}
-                      />
-                    </div>
-                    <div className="absolute top-3 right-3">
-                      <Badge className={`${getNivelEscolarColor(member.nivelEscolar)} border`}>
+                <Card key={member.id} className="overflow-hidden border border-border/60 hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
+                  <div>
+                    {/* Header con Avatar compacto y Badge */}
+                    <div className="pt-6 pb-2 px-6 flex flex-col items-center text-center">
+                      <div className="relative mb-4">
+                        <div className="w-28 h-28 rounded-full overflow-hidden ring-4 ring-background shadow-md bg-muted">
+                          <img
+                            src={getImagePath(member.imagen)}
+                            alt={`${member.nombre} ${member.apellido}`}
+                            loading="lazy"
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.src = getImagePath('/placeholder-user.jpg');
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      <Badge className={`${getNivelEscolarColor(member.nivelEscolar)} border text-xs mb-2 font-medium`}>
                         <span className="mr-1">{getNivelEscolarIcon(member.nivelEscolar)}</span>
                         {member.nivelEscolar}
                       </Badge>
-                    </div>
-                  </div>
-                  
-                  {/* Información del miembro */}
-                  <CardHeader className="pb-3">
-                    <div className="text-center">
-                      <CardTitle className="text-xl font-serif mb-1">
+
+                      <CardTitle className="text-lg font-serif mb-1">
                         {member.nombre} {member.apellido}
                       </CardTitle>
-                      <p className="text-foreground font-medium text-sm mb-2">{member.cargo}</p>
+                      <p className="text-muted-foreground font-medium text-xs tracking-tight">{member.cargo}</p>
                     </div>
-                  </CardHeader>
-                  
-                  <CardContent className="space-y-4">
-                    
-                    {/* Áreas de investigación */}
-                    <div>
-                      <h4 className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
-                        Áreas de Investigación
-                      </h4>
-                      <div className="flex flex-wrap gap-1">
-                        {member.areasInvestigacion.slice(0, 3).map((area, index) => (
-                          <Badge key={index} variant="secondary" className="text-xs">
-                            {area}
-                          </Badge>
-                        ))}
-                        {member.areasInvestigacion.length > 3 && (
-                          <Badge variant="secondary" className="text-xs">
-                            +{member.areasInvestigacion.length - 3}
-                          </Badge>
+
+                    <CardContent className="px-6 pt-2 pb-4 space-y-3">
+                      {/* Áreas de investigación */}
+                      <div>
+                        <h4 className="text-[11px] font-semibold text-muted-foreground mb-1.5 uppercase tracking-wider">
+                          Áreas de Investigación
+                        </h4>
+                        <div className="flex flex-wrap gap-1">
+                          {member.areasInvestigacion.slice(0, 3).map((area, index) => (
+                            <Badge key={index} variant="secondary" className="text-[11px] font-normal py-0.5">
+                              {area}
+                            </Badge>
+                          ))}
+                          {member.areasInvestigacion.length > 3 && (
+                            <Badge variant="secondary" className="text-[11px] font-normal py-0.5">
+                              +{member.areasInvestigacion.length - 3}
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Información adicional */}
+                      <div className="space-y-1.5 text-xs text-muted-foreground pt-1">
+                        <div className="flex items-center gap-2">
+                          <MapPin className="h-3.5 w-3.5 flex-shrink-0 text-muted-foreground/70" />
+                          <span className="truncate">{member.institucion}</span>
+                        </div>
+                        {member.email && (
+                          <div className="flex items-center gap-2">
+                            <Mail className="h-3.5 w-3.5 flex-shrink-0 text-muted-foreground/70" />
+                            <a 
+                              href={`mailto:${member.email}`}
+                              className="truncate hover:text-primary transition-colors"
+                            >
+                              {member.email}
+                            </a>
+                          </div>
                         )}
                       </div>
-                    </div>
+                    </CardContent>
+                  </div>
 
-                    {/* Información adicional */}
-                    <div className="space-y-2 text-xs text-muted-foreground">
-                      <div className="flex items-center gap-2">
-                        <MapPin className="h-3 w-3 flex-shrink-0" />
-                        <span className="truncate">{member.institucion}</span>
-                      </div>
-                      {member.email && (
-                        <div className="flex items-center gap-2">
-                          <Mail className="h-3 w-3 flex-shrink-0" />
-                          <a 
-                            href={`mailto:${member.email}`}
-                            className="truncate hover:text-primary transition-colors"
-                          >
-                            {member.email}
-                          </a>
-                        </div>
-                      )}
-                    </div>
-
+                  <div className="px-6 pb-5 pt-0">
                     {/* Enlaces */}
-                    <div className="flex gap-2 pt-2">
+                    <div className="flex gap-2 pt-2 border-t border-border/40">
                       {member.scholar && (
                         <Button
                           asChild
@@ -274,7 +273,7 @@ export default function EquipoPage() {
                         </Button>
                       )}
                     </div>
-                  </CardContent>
+                  </div>
                 </Card>
               ))}
             </div>

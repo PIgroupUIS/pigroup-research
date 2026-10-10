@@ -7,12 +7,16 @@
       "cargo": "Director del Grupo",
       "nivelEscolar": "Doctorado",
       "institucion": "Universidad Industrial de Santander",
-      "imagen": "/team/jorge-bacca.jpeg",
-      "scholar": "https://scholar.google.com/citations?user=ejemplo1",
-      "paginaPersonal": "https://example.com/jorge-bacca",
-      "email": "jorge.bacca@uis.edu.co",
-      "orcid": "0000-0000-0000-0001",
-      "areasInvestigacion": ["Procesamiento de Imágenes", "Visión Computacional", "Machine Learning", "Problemas Inversos"],
+      "imagen": "/team/jorge-bacca.jpg",
+      "scholar": "https://scholar.google.com/citations?user=I5f1HjEAAAAJ&hl=es",
+      "paginaPersonal": null,
+      "email": "jbacquin@uis.edu.co",
+      "areasInvestigacion": [
+        "Time-Resolved Imaging",
+        "Deep Optics",
+        "Compressive Spectral Imaging",
+        "Computational Imaging"
+      ],
       "activo": true
     },
     {
@@ -20,31 +24,74 @@
       "nombre": "Kebin",
       "apellido": "Contreras",
       "cargo": "Investigador Principal",
-      "nivelEscolar": "Maestría",     
+      "nivelEscolar": "Doctorado",
       "institucion": "Universidad Industrial de Santander",
       "imagen": "/team/kebin-contreras.jpg",
-      "scholar": "https://scholar.google.com/citations?user=ejemplo2",
-      "paginaPersonal": null,
-      "email": "kebin.contreras@uis.edu.co",
-      "orcid": "0000-0000-0000-0002",      
-      "areasInvestigacion": ["Inteligencia Artificial", "Deep Learning", "Computer Vision", "Image Processing"],
+      "scholar": "https://scholar.google.com/citations?user=s-Una0EAAAAJ&hl=es",
+      "paginaPersonal": "https://kebincontreras.xyz/",
+      "email": "kebinandrescontreras@gmail.com",
+      "areasInvestigacion": [
+        "Computational Imaging",
+        "Deep Learning",
+        "Computer Vision",
+        "Physics"
+      ],
       "activo": true
     },
     {
       "id": 3,
+      "nombre": "Brayan",
+      "apellido": "Monroy",
+      "cargo": "Investigador Doctoral",
+      "nivelEscolar": "Doctorado",
+      "institucion": "Universidad Industrial de Santander",
+      "imagen": "/team/brayan-monroy.jpg",
+      "scholar": "https://scholar.google.com/citations?user=p9zuZ9EAAAAJ&hl=es",
+      "paginaPersonal": "https://bemc22.github.io/",
+      "email": "",
+      "areasInvestigacion": [
+        "Computational Imaging",
+        "Mathematical Optimization",
+        "Inverse Problems",
+        "Deep Learning"
+      ],
+      "activo": true
+    },
+    {
+      "id": 4,
       "nombre": "Luis",
       "apellido": "Toscano-Palomino",
-      "cargo": "Investigador Asociado",
-      "nivelEscolar": "Pregrado",
-      
+      "cargo": "Investigador de Maestría",
+      "nivelEscolar": "Maestría",
       "institucion": "Universidad Industrial de Santander",
       "imagen": "/team/luis-toscano.png",
-      "scholar": "https://scholar.google.com/citations?user=ejemplo3",
-      "paginaPersonal": "https://example.com/luis-toscano",
-      "email": "luis.toscano@uis.edu.co",
-      "orcid": "0000-0000-0000-0003",
-      "areasInvestigacion": ["Robótica", "Sistemas Autónomos", "Object Detection", "Sistemas Inteligentes"],
+      "scholar": "https://scholar.google.com/citations?hl=es&user=AQ_grM8AAAAJ",
+      "paginaPersonal": "https://justbeingluis.github.io/portfolio/",
+      "email": "luismariotoscanopalomino@gmail.com",
+      "areasInvestigacion": [
+        "Computational Imaging",
+        "Time-Resolved Imaging"
+      ],
       "activo": true
-    }  
+    },
+    {
+      "id": 5,
+      "nombre": "Diego",
+      "apellido": "Garcia-Barajas",
+      "cargo": "Investigador de Pregrado",
+      "nivelEscolar": "Pregrado",
+      "institucion": "Universidad Industrial de Santander",
+      "imagen": "/placeholder-user.jpg",
+      "scholar": "https://scholar.google.com/citations?hl=es&user=Y3nnUsEAAAAJ",
+      "paginaPersonal": null,
+      "email": "",
+      "areasInvestigacion": [
+        "Ciencias de la Computación",
+        "Machine Learning",
+        "Deep Learning",
+        "Equivariant Imaging"
+      ],
+      "activo": true
+    }
   ]
 }
