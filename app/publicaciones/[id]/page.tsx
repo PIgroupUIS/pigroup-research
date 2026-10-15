@@ -1,231 +1,118 @@
-import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import { ArrowLeft, ExternalLink, FileText, Download } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { getImagePath, getPagePath } from '@/lib/utils';
+import type { Metadata } from "next"
+import Link from "next/link"
+import { notFound } from "next/navigation"
+import { ArrowLeft } from "lucide-react"
+import { Authors, venue } from "@/components/publication-entry"
+import { getImagePath } from "@/lib/utils"
+import { publications, type Publication } from "@/lib/data"
 
-interface Publication {
-  id: number;
-  title: string;
-  authors: string;
-  journal: string;
-  conference: string | null;
-  year: number;
-  image: string;
-  pdfUrl: string;
-  externalUrl: string;
-  supplementaryMaterial: string | null;
-  starred: boolean;
-  abstract: string;
-  keywords: string[];
+// One template for every publication: pages are generated from publications.json at build time.
+export function generateStaticParams() {
+  return publications.map((p) => ({ id: String(p.id) }))
 }
 
-async function getPublication(id: string): Promise<Publication | null> {
-  try {
-    // Import the JSON data directly for build time
-    const fs = await import('fs');
-    const path = await import('path');
-    
-    const filePath = path.join(process.cwd(), 'public', 'publications.json');
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const data = JSON.parse(fileContents);
-    const publications: Publication[] = data.publications || [];
-    
-    return publications.find(pub => pub.id.toString() === id) || null;
-  } catch (error) {
-    console.error('Error fetching publication:', error);
-    return null;
-  }
+type Props = { params: Promise<{ id: string }> }
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params
+  const pub = publications.find((p) => String(p.id) === id)
+  return pub ? { title: pub.title, description: pub.abstract.slice(0, 160) } : {}
 }
 
-export default async function PublicationDetailPage({
-  params
-}: {
-  params: Promise<{ id: string }>
-}) {
-  const { id } = await params;
-  const publication = await getPublication(id);
+function bibtex(p: Publication) {
+  const first = p.authors.split(",")[0].trim().split(" ").pop()?.toLowerCase() ?? "pigroup"
+  const key = `${first}${p.year}${p.title.split(" ")[0].toLowerCase().replace(/\W/g, "")}`
+  return `@article{${key},
+  title   = {${p.title}},
+  author  = {${p.authors.split(",").map((a) => a.trim()).join(" and ")}},
+  journal = {${p.journal}},
+  year    = {${p.year}},
+  url     = {${p.externalUrl}}
+}`
+}
 
-  if (!publication) {
-    notFound();
-  }
+export default async function PublicationDetailPage({ params }: Props) {
+  const { id } = await params
+  const pub = publications.find((p) => String(p.id) === id)
+  if (!pub) notFound()
+
+  const links = [
+    { href: pub.pdfUrl, label: "PDF" },
+    pub.externalUrl && pub.externalUrl !== pub.pdfUrl ? { href: pub.externalUrl, label: "Página del artículo" } : null,
+    pub.supplementaryMaterial ? { href: pub.supplementaryMaterial, label: "Material complementario" } : null,
+  ].filter(Boolean) as { href: string; label: string }[]
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Back Button */}
-        <div className="mb-6">
-          <Button variant="outline" size="sm" asChild>
-            <a 
-              href={process.env.NODE_ENV === "production" ? "/pigroup-research/publicaciones" : "/publicaciones"}
-              className="flex items-center gap-2"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Volver a Publicaciones
-            </a>
-          </Button>
-        </div>
-
-        {/* Publication Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-4 text-foreground leading-tight">
-            {publication.title}
-          </h1>
-          
-          <div className="flex flex-wrap items-center gap-4 text-muted-foreground mb-4">
-            <span className="font-medium">{publication.authors}</span>
-            <span>•</span>
-            <span>{publication.journal}</span>
-            {publication.conference && (
-              <>
-                <span>•</span>
-                <span>{publication.conference}</span>
-              </>
-            )}
-            <span>•</span>
-            <span>{publication.year}</span>
-            {publication.starred && (
-              <Badge variant="secondary" className="ml-2">
-                Destacada
-              </Badge>
-            )}
-          </div>
-
-          {/* Keywords */}
-          <div className="flex flex-wrap gap-2 mb-6">
-            {publication.keywords.map((keyword) => (
-              <Badge key={keyword} variant="outline" className="text-xs">
-                {keyword}
-              </Badge>
+    <main>
+      <section className="on-ink bg-ink text-primary-foreground pt-32 md:pt-40 pb-16 md:pb-20">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <Link href="/publicaciones" className="inline-flex items-center gap-2 text-sm text-primary-foreground/70 hover:text-gold">
+            <ArrowLeft className="h-4 w-4" /> Publicaciones
+          </Link>
+          <p className="eyebrow mt-10">
+            {venue(pub)} · {pub.year}
+          </p>
+          <h1 className="mt-4 font-serif text-3xl md:text-5xl font-semibold leading-[1.1] text-balance">{pub.title}</h1>
+          <Authors authors={pub.authors} className="mt-6 text-lg text-primary-foreground/75 [&_strong]:text-primary-foreground" />
+          <div className="mt-8 flex flex-wrap gap-4">
+            {links.map((l, i) => (
+              <a
+                key={l.href}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex items-center px-5 py-2.5 rounded text-sm font-medium transition-colors ${
+                  i === 0 ? "bg-gold text-ink hover:bg-primary-foreground" : "border border-primary-foreground/40 hover:border-gold hover:text-gold"
+                }`}
+              >
+                {l.label} ↗
+              </a>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Image and Actions */}
-          <div className="lg:col-span-1">
-            <Card className="mb-6">
-              <CardContent className="p-4">
-                <img
-                  src={getImagePath(publication.image)}
-                  alt={publication.title}
-                  className="w-full h-auto rounded-lg mb-4"
-                />
-                
-                {/* Action Buttons */}
-                <div className="space-y-3">
-                  <Button asChild className="w-full">
-                    <a
-                      href={publication.pdfUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2"
-                    >
-                      <FileText className="w-4 h-4" />
-                      Ver PDF
-                    </a>
-                  </Button>
-                  
-                  {publication.externalUrl && publication.externalUrl !== publication.pdfUrl && (
-                    <Button variant="outline" asChild className="w-full">
-                      <a
-                        href={publication.externalUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        Ver en Journal
-                      </a>
-                    </Button>
-                  )}
-                  
-                  {publication.supplementaryMaterial && (
-                    <Button variant="outline" asChild className="w-full">
-                      <a
-                        href={publication.supplementaryMaterial}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2"
-                      >
-                        <Download className="w-4 h-4" />
-                        Material Complementario
-                      </a>
-                    </Button>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+      <div className="container mx-auto px-4 max-w-5xl py-14 md:py-20 grid md:grid-cols-[1fr_16rem] gap-12">
+        <article>
+          {pub.image && (
+            <figure className="mb-12">
+              <img
+                src={getImagePath(pub.image)}
+                alt={`Figura principal de ${pub.title}`}
+                className="w-full rounded border border-border bg-muted"
+              />
+            </figure>
+          )}
+          <h2 className="eyebrow mb-4">Resumen</h2>
+          <p className="text-lg leading-[1.8] text-foreground/85">{pub.abstract}</p>
+
+          <details className="mt-12 border-t border-border pt-6 group">
+            <summary className="cursor-pointer eyebrow list-none">Citar (BibTeX) <span className="group-open:hidden">+</span><span className="hidden group-open:inline">−</span></summary>
+            <pre className="mt-4 overflow-x-auto rounded bg-secondary p-4 font-mono text-xs leading-relaxed text-foreground">{bibtex(pub)}</pre>
+          </details>
+        </article>
+
+        <aside className="space-y-8 text-sm md:border-l md:border-border md:pl-8 h-fit">
+          <div>
+            <p className="eyebrow mb-2">Publicado en</p>
+            <p className="text-foreground">{pub.journal}</p>
           </div>
-
-          {/* Right Column - Abstract */}
-          <div className="lg:col-span-2">
-            <Card>
-              <CardContent className="p-6">
-                <h2 className="text-xl font-semibold mb-4 text-foreground">
-                  Resumen
-                </h2>
-                <p className="text-muted-foreground leading-relaxed text-justify">
-                  {publication.abstract}
-                </p>
-              </CardContent>
-            </Card>
+          <div>
+            <p className="eyebrow mb-2">Año</p>
+            <p className="font-mono text-foreground">{pub.year}</p>
           </div>
-        </div>
-
-        {/* Publication Info Card */}
-        <Card className="mt-8">
-          <CardContent className="p-6">
-            <h3 className="text-lg font-semibold mb-4 text-foreground">
-              Información de la Publicación
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="font-medium text-foreground">Journal:</span>
-                <span className="ml-2 text-muted-foreground">{publication.journal}</span>
-              </div>
-              {publication.conference && (
-                <div>
-                  <span className="font-medium text-foreground">Conferencia:</span>
-                  <span className="ml-2 text-muted-foreground">{publication.conference}</span>
-                </div>
-              )}
-              <div>
-                <span className="font-medium text-foreground">Año:</span>
-                <span className="ml-2 text-muted-foreground">{publication.year}</span>
-              </div>
-              <div>
-                <span className="font-medium text-foreground">Autores:</span>
-                <span className="ml-2 text-muted-foreground">{publication.authors}</span>
-              </div>
+          {pub.keywords.length > 0 && (
+            <div>
+              <p className="eyebrow mb-2">Palabras clave</p>
+              <ul className="space-y-1 text-muted-foreground">
+                {pub.keywords.map((k) => (
+                  <li key={k}>{k}</li>
+                ))}
+              </ul>
             </div>
-          </CardContent>
-        </Card>
+          )}
+        </aside>
       </div>
-    </div>
-  );
-}
-
-// Generate static params for all publications
-export async function generateStaticParams() {
-  try {
-    // Import the JSON data directly for build time
-    const fs = await import('fs');
-    const path = await import('path');
-    
-    const filePath = path.join(process.cwd(), 'public', 'publications.json');
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const data = JSON.parse(fileContents);
-    const publications: Publication[] = data.publications || [];
-    
-    return publications.map((publication) => ({
-      id: publication.id.toString(),
-    }));
-  } catch (error) {
-    console.error('Error generating static params:', error);
-    return [];
-  }
+    </main>
+  )
 }

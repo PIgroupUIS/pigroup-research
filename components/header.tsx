@@ -1,99 +1,107 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { getImagePath, getPagePath } from "@/lib/utils"
+import { getImagePath } from "@/lib/utils"
+
+const navItems = [
+  { href: "/", label: "Inicio" },
+  { href: "/noticias", label: "Noticias" },
+  { href: "/publicaciones", label: "Publicaciones" },
+  { href: "/equipo", label: "Equipo" },
+]
+
+import { useLanguage } from "./language-context"
+import { LanguageSwitch } from "./language-switch"
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [open, setOpen] = useState(false)
+  const pathname = usePathname()
+  const { t } = useLanguage()
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    const onScroll = () => setIsScrolled(window.scrollY > 20)
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
+  useEffect(() => setOpen(false), [pathname])
+
+  const solid = isScrolled || open
+  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href))
+
   const navItems = [
-    { href: "/", label: "Inicio", isSection: false },
-    { href: "/noticias", label: "Noticias", isSection: false },
-    { href: "/publicaciones", label: "Publicaciones", isSection: false },
-    { href: "/equipo", label: "Equipo", isSection: false },
+    { href: "/", label: t.nav.home },
+    { href: "/noticias", label: t.nav.news },
+    { href: "/publicaciones", label: t.nav.publications },
+    { href: "/equipo", label: t.nav.team },
   ]
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-background/95 backdrop-blur-md shadow-md" : "bg-transparent"
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+        solid ? "bg-ink border-b border-white/10" : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          <a href={getPagePath("/")} className="flex items-center">
-            <span
-              className={`text-xl font-sans font-bold transition-colors ${
-                isScrolled ? "text-foreground" : "text-white"
-              }`}
-            >
-              PIGroup Research
-            </span>
-          </a>
+      <div className="container mx-auto px-4 max-w-6xl h-16 md:h-20 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-3 text-primary-foreground">
+          <img src={getImagePath("/logo.png")} alt="" width={28} height={35} className="h-9 w-auto" />
+          <span className="font-serif text-lg font-semibold tracking-tight">PIGroup Research</span>
+        </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navItems.map((item) => {
-              // Simplificar la lógica para evitar errores de hidratación
-              const finalHref = item.isSection ? item.href : getPagePath(item.href);
-              
-              return (
-                <a
-                  key={item.href}
-                  href={finalHref}
-                  className={`text-sm font-sans font-medium transition-colors ${
-                    isScrolled ? "text-foreground hover:text-gold" : "text-white hover:text-gold"
-                  }`}
-                >
-                  {item.label}
-                </a>
-              )
-            })}
+        {/* Desktop Navigation & Language Switch */}
+        <div className="hidden md:flex items-center gap-8">
+          <nav className="flex items-center gap-8" aria-label="Principal">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={isActive(item.href) ? "page" : undefined}
+                className={`relative py-1 text-sm font-medium transition-colors hover:text-gold after:absolute after:left-0 after:-bottom-0.5 after:h-px after:bg-gold after:transition-all ${
+                  isActive(item.href) ? "text-gold after:w-full" : "text-primary-foreground after:w-0 hover:after:w-full"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
           </nav>
-
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className={`md:hidden ${isScrolled ? "" : "text-white hover:text-white hover:bg-white/10"}`}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </Button>
+          <LanguageSwitch />
         </div>
 
-        {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <nav className="md:hidden mt-4 pb-4 flex flex-col gap-4 bg-background/95 backdrop-blur-md rounded-lg p-4 -mx-4">
-            {navItems.map((item) => {
-              // Simplificar la lógica para evitar errores de hidratación
-              const finalHref = item.isSection ? item.href : getPagePath(item.href);
-              
-              return (
-                <a
-                  key={item.href}
-                  href={finalHref}
-                  className="text-sm font-sans font-medium text-foreground hover:text-accent transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.label}
-                </a>
-              )
-            })}
-          </nav>
-        )}
+        {/* Mobile controls */}
+        <div className="flex items-center gap-3 md:hidden">
+          <LanguageSwitch />
+          <button
+            type="button"
+            className="p-2 text-primary-foreground"
+            aria-label={open ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={open}
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </div>
+
+      {open && (
+        <nav className="md:hidden bg-ink border-t border-white/10 px-4 pb-6" aria-label="Móvil">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`block py-3 border-b border-white/10 font-medium ${
+                isActive(item.href) ? "text-gold" : "text-primary-foreground"
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      )}
     </header>
   )
 }

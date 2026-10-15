@@ -1,8 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -188,10 +186,8 @@ export default function TimeReverseImaging() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
-      
-      <main className=" pb-16">
+    <div className="min-h-screen bg-background">
+      <main className="pb-16">
 
 
         {/* Hero Section */}
@@ -528,7 +524,7 @@ export default function TimeReverseImaging() {
                 </p>
                 <div className="max-w-xl mx-auto">
                   <img 
-                    src={getImagePath("/time-reverse-imaging/Ablation_study.png")} 
+                    src={getImagePath("/time-reverse-imaging/Ablation_study.jpg")} 
                     alt="Estudio de ablación - Time Reverse Imaging" 
                     className="w-full h-auto rounded-lg border shadow-lg"
                   />
@@ -556,7 +552,7 @@ export default function TimeReverseImaging() {
                   <div className="flex flex-col md:flex-row gap-6">
                     <div className="md:w-1/4 flex-shrink-0">
                       <img 
-                        src={getImagePath("/references_scenes.png")} 
+                        src={getImagePath("/references_scenes.jpg")} 
                         alt="Time-Reversed Scene Reconstruction" 
                         className="w-full h-auto rounded-lg"
                       />
@@ -595,8 +591,6 @@ export default function TimeReverseImaging() {
           </div>
         </section>
       </main>
-
-      <Footer />
     </div>
   )
 }

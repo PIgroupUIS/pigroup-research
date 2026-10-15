@@ -1,145 +1,66 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { AuthorsList } from "@/components/ui/authors-list"
-import { ExternalLink, Download, ArrowRight } from "lucide-react"
-import { getImagePath, getPagePath } from "@/lib/utils"
-
-interface Publication {
-  id: number
-  title: string
-  authors: string
-  journal: string
-  conference: string
-  year: number
-  image: string | null
-  pdfUrl: string
-  externalUrl: string
-  starred: boolean
-  abstract: string
-  keywords: string[]
-}
+import Link from "next/link"
+import { ArrowRight } from "lucide-react"
+import { SectionHeading } from "@/components/page-hero"
+import { Authors, venue } from "@/components/publication-entry"
+import { getImagePath } from "@/lib/utils"
+import { publications } from "@/lib/data"
+import { useLanguage } from "./language-context"
 
 export function PublicationsSection() {
-  const [starredPublications, setStarredPublications] = useState<Publication[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const loadPublications = async () => {
-      try {
-        const response = await fetch(getImagePath('/publications.json'))
-        const data = await response.json()
-        // Filtrar solo las publicaciones destacadas
-        const starred = data.publications.filter((pub: Publication) => pub.starred)
-        setStarredPublications(starred)
-      } catch (error) {
-        console.error('Error loading publications:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadPublications()
-  }, [])
-
-  if (loading) {
-    return (
-      <section id="publicaciones" className="py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="max-w-7xl mx-auto text-center">
-            <div className="animate-pulse">
-              <div className="h-12 bg-muted rounded mb-4"></div>
-              <div className="h-6 bg-muted rounded max-w-2xl mx-auto mb-16"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-    )
-  }
+  const { t } = useLanguage()
+  const starred = publications.filter((p) => p.starred)
+  if (starred.length === 0) return null
 
   return (
-    <section id="publicaciones" className="py-24 bg-background">
-      <div className="container mx-auto px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-serif font-bold text-foreground mb-4">Publicaciones <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">Destacadas</span></h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Explora nuestras contribuciones científicas más relevantes en revistas y conferencias internacionales
-            </p>
-          </div>
+    <section id="publicaciones" className="py-24 md:py-32 bg-background">
+      <div className="container mx-auto px-4 max-w-6xl">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <SectionHeading eyebrow={t.publications.eyebrow} title={t.publications.title} />
+          <Link href="/publicaciones" className="mb-12 md:mb-16 inline-flex items-center gap-2 text-sm font-medium hover:text-gold-deep">
+            {t.publications.allPublications} <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {starredPublications.map((pub: Publication) => (
-              <Card
-                key={pub.id}
-                className="flex flex-col overflow-hidden hover:shadow-xl transition-shadow border-border"
-              >
-                <div className="aspect-video relative overflow-hidden bg-muted">
-                  <img
-                    src={pub.image ? getImagePath(pub.image) : getImagePath("/placeholder.svg")}
-                    alt={pub.title}
-                    loading="lazy"
-                    className="object-cover w-full h-full hover:scale-105 transition-transform duration-300 object-center md:object-top rounded-b-none"
-                    style={{ aspectRatio: '16/9', background: '#f3f3f3' }}
-                  />
-                </div>
-                <CardHeader className="flex-grow">
-                  <CardTitle className="text-lg font-serif leading-tight mb-2">
-                    <a 
-                      href={process.env.NODE_ENV === "production" 
-                        ? `/pigroup-research/publicaciones/${pub.id}` 
-                        : `/publicaciones/${pub.id}`}
-                      className="hover:text-gold transition-colors cursor-pointer"
-                    >
-                      {pub.title}
-                    </a>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="space-y-1 text-sm text-muted-foreground">
-                    <AuthorsList authors={pub.authors} maxVisible={2} />
-                    <p className="italic">{pub.conference}, {pub.year}</p>
-                  </div>
-                </CardContent>
-                <CardFooter className="flex gap-2 pt-4">
-                  <Button
-                    variant="default"
-                    size="sm"
-                    className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90"
-                    asChild
-                  >
-                    <a href={pub.pdfUrl} target="_blank" rel="noopener noreferrer">
-                      <Download className="h-4 w-4 mr-2" />
-                      PDF
-                    </a>
-                  </Button>
-                  <Button variant="outline" size="sm" className="flex-1 bg-transparent" asChild>
-                    <a href={pub.externalUrl} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      Ver más
-                    </a>
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-
-          {/* Botón Ver Más Publicaciones */}
-          <div className="text-center mt-12">
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-accent text-black hover:bg-accent hover:text-accent-foreground bg-transparent font-sans font-medium"
-              asChild
+        <div className="space-y-20">
+          {starred.map((pub, i) => (
+            <article
+              key={pub.id}
+              data-reveal
+              className={`grid md:grid-cols-2 gap-8 md:gap-14 items-center ${i % 2 ? "md:[&>*:first-child]:order-2" : ""}`}
             >
-              <a href={process.env.NODE_ENV === "production" ? "/pigroup-research/publicaciones" : "/publicaciones"}>
-                Ver Todas las Publicaciones
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </a>
-            </Button>
-          </div>
+              <Link href={`/publicaciones/${pub.id}`} className="group block overflow-hidden rounded bg-muted border border-border">
+                <img
+                  src={getImagePath(pub.image || "/placeholder.svg")}
+                  alt={`Figura de ${pub.title}`}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full aspect-[16/10] object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+                />
+              </Link>
+              <div>
+                <p className="eyebrow">
+                  {venue(pub)} · {pub.year}
+                </p>
+                <h3 className="mt-3 font-serif text-2xl md:text-3xl font-semibold leading-snug">
+                  <Link href={`/publicaciones/${pub.id}`} className="hover:text-gold-deep transition-colors">
+                    {pub.title}
+                  </Link>
+                </h3>
+                <Authors authors={pub.authors} className="mt-4 text-muted-foreground" />
+                <p className="mt-4 text-muted-foreground leading-relaxed line-clamp-3">{pub.abstract}</p>
+                <div className="mt-6 flex gap-6 text-sm font-medium">
+                  <Link href={`/publicaciones/${pub.id}`} className="underline decoration-gold underline-offset-4 hover:text-gold-deep">
+                    {t.publications.readAbstract}
+                  </Link>
+                  <a href={pub.pdfUrl} target="_blank" rel="noopener noreferrer" className="hover:text-gold-deep">
+                    PDF ↗
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

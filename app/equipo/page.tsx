@@ -1,293 +1,120 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Header } from "@/components/header"
-import { ArrowLeft, Mail, ExternalLink, GraduationCap, MapPin, User } from "lucide-react"
+import { PageHero } from "@/components/page-hero"
 import { getImagePath } from "@/lib/utils"
+import { team, type TeamMember } from "@/lib/data"
+import { GraduationCap, Globe, Mail } from "lucide-react"
+import { useLanguage } from "@/components/language-context"
 
-interface TeamMember {
-  id: number
-  nombre: string
-  apellido: string
-  cargo: string
-  nivelEscolar: string
-  especialidad?: string
-  institucion: string
-  imagen: string
-  scholar: string | null
-  paginaPersonal: string | null
-  email: string
-  orcid?: string | null
-  bio?: string
-  areasInvestigacion: string[]
-  activo: boolean
-}
-
-export default function EquipoPage() {
-  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const loadTeam = async () => {
-      try {
-        const response = await fetch(getImagePath('/equipo.json'))
-        const data = await response.json()
-        // Filtrar solo miembros activos y ordenar por nivel académico
-        const activeMembers = data.team
-          .filter((member: TeamMember) => member.activo)
-          .sort((a: TeamMember, b: TeamMember) => {
-            const levels = {
-              'Doctorado': 4,
-              'Maestría': 3,
-              'Pregrado': 2,
-              'Bachiller': 1
-            }
-            const levelA = levels[a.nivelEscolar as keyof typeof levels] || 0
-            const levelB = levels[b.nivelEscolar as keyof typeof levels] || 0
-            return levelB - levelA
-          })
-        setTeamMembers(activeMembers)
-      } catch (error) {
-        console.error('Error loading team:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadTeam()
-  }, [])
-
-  const getNivelEscolarIcon = (nivel: string) => {
-    switch (nivel.toLowerCase()) {
-      case 'doctorado':
-        return '🎓'
-      case 'maestría':
-        return '📚'
-      case 'pregrado':
-        return '📖'
-      case 'bachiller':
-        return '🎒'
-      default:
-        return '📄'
-    }
-  }
-
-  const getNivelEscolarColor = (nivel: string) => {
-    switch (nivel.toLowerCase()) {
-      case 'doctorado':
-        return 'bg-purple-100 text-purple-800 border-purple-200'
-      case 'maestría':
-        return 'bg-blue-100 text-blue-800 border-blue-200'
-      case 'pregrado':
-        return 'bg-green-100 text-green-800 border-green-200'
-      case 'bachiller':
-        return 'bg-orange-100 text-orange-800 border-orange-200'
-      default:
-        return 'bg-gray-100 text-gray-800 border-gray-200'
-    }
-  }
-
-  if (loading) {
+function Portrait({ m, priority = false }: { m: TeamMember; priority?: boolean }) {
+  const name = `${m.nombre} ${m.apellido}`
+  if (!m.imagen || m.imagen.includes("placeholder")) {
+    // No photo yet: initials on ink instead of a generic silhouette
     return (
-      <div className="min-h-screen bg-background">
-        <div className="container mx-auto px-4 py-32">
-          <div className="animate-pulse">
-            <div className="h-12 bg-muted rounded mb-4"></div>
-            <div className="h-6 bg-muted rounded max-w-2xl mx-auto mb-16"></div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1,2,3,4,5,6].map(i => (
-                <div key={i} className="bg-muted rounded-lg h-96"></div>
-              ))}
-            </div>
-          </div>
-        </div>
+      <div className="aspect-[4/5] rounded bg-ink flex items-center justify-center">
+        <span className="font-serif text-6xl text-gold">
+          {m.nombre[0]}
+          {m.apellido[0]}
+        </span>
       </div>
     )
   }
+  return (
+    <div className="aspect-[4/5] overflow-hidden rounded bg-muted">
+      <img
+        src={getImagePath(m.imagen)}
+        alt={name}
+        loading={priority ? "eager" : "lazy"}
+        decoding="async"
+        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+      />
+    </div>
+  )
+}
+
+function Links({ m }: { m: TeamMember }) {
+  const links = [
+    m.scholar && { href: m.scholar, label: "Google Scholar", icon: GraduationCap },
+    m.paginaPersonal && { href: m.paginaPersonal, label: "Sitio web personal", icon: Globe },
+    m.email && { href: `mailto:${m.email}`, label: `Email (${m.email})`, icon: Mail },
+  ].filter(Boolean) as { href: string; label: string; icon: React.ComponentType<{ className?: string }> }[]
+
+  if (!links.length) return null
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
-      {/* Hero Section */}
-      <div className="bg-primary text-primary-foreground py-16 pt-32">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">          
-            <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6">
-              Nuestro Equipo
-            </h1>
-            <p className="text-lg text-primary-foreground/90 max-w-2xl mx-auto">
-              Conoce a los investigadores y estudiantes que conforman el grupo PIGroup de la Universidad Industrial de Santander
-            </p>
-          </div>
-        </div>
-      </div>
+    <div className="flex items-center gap-2">
+      {links.map((l) => {
+        const IconComponent = l.icon
+        return (
+          <a
+            key={l.href}
+            href={l.href}
+            title={l.label}
+            aria-label={l.label}
+            {...(l.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            className="p-2 rounded border border-border text-foreground hover:border-gold hover:text-gold-deep transition-colors bg-background"
+          >
+            <IconComponent className="h-4 w-4" />
+          </a>
+        )
+      })}
+    </div>
+  )
+}
 
-      {/* Team Stats */}
-      <div className="bg-secondary py-8">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-              <div className="bg-background rounded-lg p-4">
-                <div className="text-2xl font-bold text-primary">{teamMembers.length}</div>
-                <div className="text-sm text-muted-foreground">Miembros Activos</div>
-              </div>
-              <div className="bg-background rounded-lg p-4">
-                <div className="text-2xl font-bold text-primary">
-                  {teamMembers.filter(m => m.nivelEscolar === 'Doctorado').length}
-                </div>
-                <div className="text-sm text-muted-foreground">Doctores</div>
-              </div>
-              <div className="bg-background rounded-lg p-4">
-                <div className="text-2xl font-bold text-primary">
-                  {teamMembers.filter(m => m.nivelEscolar === 'Maestría').length}
-                </div>
-                <div className="text-sm text-muted-foreground">Magísteres</div>
-              </div>
-              <div className="bg-background rounded-lg p-4">
-                <div className="text-2xl font-bold text-primary">
-                  {teamMembers.filter(m => m.nivelEscolar === 'Pregrado').length}
-                </div>
-                <div className="text-sm text-muted-foreground">Estudiantes</div>
+export default function EquipoPage() {
+  const [lead, ...members] = team
+  const { t } = useLanguage()
+
+  return (
+    <main>
+      <PageHero eyebrow={t.team.eyebrow} title={t.team.title}>
+        {t.team.subtitle}
+      </PageHero>
+
+      {lead && (
+        <section className="py-20 md:py-28">
+          <div className="container mx-auto px-4 max-w-6xl grid md:grid-cols-[22rem_1fr] gap-10 md:gap-16 items-end group" data-reveal>
+            <Portrait m={lead} priority />
+            <div className="pb-2">
+              <p className="eyebrow">{lead.cargo}</p>
+              <h2 className="mt-3 font-serif text-4xl md:text-6xl font-semibold leading-none">
+                {lead.nombre} {lead.apellido}
+              </h2>
+              {lead.bio && <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-xl">{lead.bio}</p>}
+              <p className="mt-6 text-muted-foreground">{lead.areasInvestigacion.join(" · ")}</p>
+              <div className="mt-6 h-px w-24 bg-gold" />
+              <div className="mt-6">
+                <Links m={lead} />
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </section>
+      )}
 
-      {/* Team Members */}
-      <div className="py-12 bg-muted/20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {teamMembers.map((member: TeamMember) => (
-                <Card key={member.id} className="overflow-hidden border border-border/60 hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
-                  <div>
-                    {/* Header con Avatar compacto y Badge */}
-                    <div className="pt-6 pb-2 px-6 flex flex-col items-center text-center">
-                      <div className="relative mb-4">
-                        <div className="w-28 h-28 rounded-full overflow-hidden ring-4 ring-background shadow-md bg-muted">
-                          <img
-                            src={getImagePath(member.imagen)}
-                            alt={`${member.nombre} ${member.apellido}`}
-                            loading="lazy"
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              const target = e.target as HTMLImageElement;
-                              target.src = getImagePath('/placeholder-user.jpg');
-                            }}
-                          />
-                        </div>
-                      </div>
-
-                      <Badge className={`${getNivelEscolarColor(member.nivelEscolar)} border text-xs mb-2 font-medium`}>
-                        <span className="mr-1">{getNivelEscolarIcon(member.nivelEscolar)}</span>
-                        {member.nivelEscolar}
-                      </Badge>
-
-                      <CardTitle className="text-lg font-serif mb-1">
-                        {member.nombre} {member.apellido}
-                      </CardTitle>
-                      <p className="text-muted-foreground font-medium text-xs tracking-tight">{member.cargo}</p>
-                    </div>
-
-                    <CardContent className="px-6 pt-2 pb-4 space-y-3">
-                      {/* Áreas de investigación */}
-                      <div>
-                        <h4 className="text-[11px] font-semibold text-muted-foreground mb-1.5 uppercase tracking-wider">
-                          Áreas de Investigación
-                        </h4>
-                        <div className="flex flex-wrap gap-1">
-                          {member.areasInvestigacion.slice(0, 3).map((area, index) => (
-                            <Badge key={index} variant="secondary" className="text-[11px] font-normal py-0.5">
-                              {area}
-                            </Badge>
-                          ))}
-                          {member.areasInvestigacion.length > 3 && (
-                            <Badge variant="secondary" className="text-[11px] font-normal py-0.5">
-                              +{member.areasInvestigacion.length - 3}
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Información adicional */}
-                      <div className="space-y-1.5 text-xs text-muted-foreground pt-1">
-                        <div className="flex items-center gap-2">
-                          <MapPin className="h-3.5 w-3.5 flex-shrink-0 text-muted-foreground/70" />
-                          <span className="truncate">{member.institucion}</span>
-                        </div>
-                        {member.email && (
-                          <div className="flex items-center gap-2">
-                            <Mail className="h-3.5 w-3.5 flex-shrink-0 text-muted-foreground/70" />
-                            <a 
-                              href={`mailto:${member.email}`}
-                              className="truncate hover:text-primary transition-colors"
-                            >
-                              {member.email}
-                            </a>
-                          </div>
-                        )}
-                      </div>
-                    </CardContent>
+      {members.length > 0 && (
+        <section className="pb-24 md:pb-32">
+          <div className="container mx-auto px-4 max-w-6xl">
+            <p className="eyebrow mb-10 pt-10 border-t border-border">{t.team.researchers}</p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-14">
+              {members.map((m, i) => (
+                <article key={m.id} className="group" data-reveal style={{ ["--reveal-delay" as string]: `${(i % 4) * 100}ms` }}>
+                  <Portrait m={m} />
+                  <h3 className="mt-5 font-serif text-2xl font-semibold leading-tight">
+                    {m.nombre} {m.apellido}
+                  </h3>
+                  <div className="mt-2 h-px w-8 bg-gold transition-all duration-500 group-hover:w-16" />
+                  <p className="mt-3 text-sm font-medium text-foreground">{m.cargo}</p>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{m.areasInvestigacion.slice(0, 3).join(" · ")}</p>
+                  <div className="mt-4">
+                    <Links m={m} />
                   </div>
-
-                  <div className="px-6 pb-5 pt-0">
-                    {/* Enlaces */}
-                    <div className="flex gap-2 pt-2 border-t border-border/40">
-                      {member.scholar && (
-                        <Button
-                          asChild
-                          variant="outline"
-                          size="sm"
-                          className="flex-1 text-xs border-accent text-black hover:bg-accent hover:text-accent-foreground bg-transparent"
-                        >
-                          <a 
-                            href={member.scholar} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                          >
-                            <GraduationCap className="h-3 w-3 mr-1" />
-                            Scholar
-                          </a>
-                        </Button>
-                      )}
-                      {member.paginaPersonal && (
-                        <Button
-                          asChild
-                          variant="outline"
-                          size="sm"
-                          className="flex-1 text-xs border-accent text-black hover:bg-accent hover:text-accent-foreground bg-transparent"
-                        >
-                          <a 
-                            href={member.paginaPersonal} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                          >
-                            <ExternalLink className="h-3 w-3 mr-1" />
-                            Web
-                          </a>
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                </Card>
+                </article>
               ))}
             </div>
-
-            {teamMembers.length === 0 && (
-              <div className="text-center py-16">
-                <div className="text-muted-foreground text-lg">
-                  No se encontraron miembros del equipo
-                </div>
-              </div>
-            )}
           </div>
-        </div>
-      </div>
-    </div>
+        </section>
+      )}
+    </main>
   )
 }
