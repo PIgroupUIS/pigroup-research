@@ -3,11 +3,21 @@
 import { useState } from "react"
 import { NewsCard } from "@/components/news-card"
 import type { NewsItem } from "@/lib/data"
+import { useLanguage } from "@/components/language-context"
 
 export function NewsList({ items }: { items: NewsItem[] }) {
   const [category, setCategory] = useState("all")
-  const categories = [...new Set(items.map((n) => n.category))].sort()
-  const shown = category === "all" ? items : items.filter((n) => n.category === category)
+  const { language, t } = useLanguage()
+  const isEn = language === "en"
+
+  const categories = [...new Set(items.map((n) => (isEn && n.category_en ? n.category_en : n.category)))].sort()
+  const shown =
+    category === "all"
+      ? items
+      : items.filter((n) => {
+          const itemCat = isEn && n.category_en ? n.category_en : n.category
+          return itemCat === category
+        })
 
   return (
     <>
@@ -23,7 +33,7 @@ export function NewsList({ items }: { items: NewsItem[] }) {
                 category === c ? "border-gold text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >
-              {c === "all" ? "Todas" : c}
+              {c === "all" ? t.news.allCategories : c}
             </button>
           ))}
         </div>

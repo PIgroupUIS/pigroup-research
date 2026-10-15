@@ -1,5 +1,8 @@
+"use client"
+
 import Link from "next/link"
 import { team, type Publication } from "@/lib/data"
+import { useLanguage } from "./language-context"
 
 const memberSurnames = team.map((m) => m.apellido.toLowerCase())
 
@@ -22,6 +25,8 @@ export const venue = (p: Publication) => p.conference || p.journal
 
 // One bibliographic row, used on the home page and on /publicaciones.
 export function PublicationEntry({ pub, delay = 0 }: { pub: Publication; delay?: number }) {
+  const { t } = useLanguage()
+
   return (
     <article
       data-reveal
@@ -39,7 +44,7 @@ export function PublicationEntry({ pub, delay = 0 }: { pub: Publication; delay?:
         <p className="mt-1 text-sm italic text-muted-foreground">{venue(pub)}</p>
         <div className="mt-4 flex gap-6 text-sm font-medium">
           <Link href={`/publicaciones/${pub.id}`} className="underline decoration-gold underline-offset-4 hover:text-gold-deep">
-            Resumen
+            {t.publications.summary}
           </Link>
           <a href={pub.pdfUrl} target="_blank" rel="noopener noreferrer" className="hover:text-gold-deep">
             PDF ↗

@@ -5,13 +5,21 @@
       "nombre": "Jorge",
       "apellido": "Bacca",
       "cargo": "Director del Grupo",
+      "cargo_en": "Group Director",
       "nivelEscolar": "Doctorado",
+      "nivelEscolar_en": "Ph.D.",
       "institucion": "Universidad Industrial de Santander",
       "imagen": "/team/jorge-bacca.jpg",
       "scholar": "https://scholar.google.com/citations?user=I5f1HjEAAAAJ&hl=es",
       "paginaPersonal": null,
       "email": "jbacquin@uis.edu.co",
       "areasInvestigacion": [
+        "Time-Resolved Imaging",
+        "Deep Optics",
+        "Compressive Spectral Imaging",
+        "Computational Imaging"
+      ],
+      "areasInvestigacion_en": [
         "Time-Resolved Imaging",
         "Deep Optics",
         "Compressive Spectral Imaging",
@@ -24,13 +32,21 @@
       "nombre": "Kebin",
       "apellido": "Contreras",
       "cargo": "Investigador Principal",
+      "cargo_en": "Principal Investigator",
       "nivelEscolar": "Doctorado",
+      "nivelEscolar_en": "Ph.D. Student",
       "institucion": "Universidad Industrial de Santander",
       "imagen": "/team/kebin-contreras.jpg",
       "scholar": "https://scholar.google.com/citations?user=s-Una0EAAAAJ&hl=es",
       "paginaPersonal": "https://kebincontreras.xyz/",
       "email": "kebinandrescontreras@gmail.com",
       "areasInvestigacion": [
+        "Computational Imaging",
+        "Deep Learning",
+        "Computer Vision",
+        "Physics"
+      ],
+      "areasInvestigacion_en": [
         "Computational Imaging",
         "Deep Learning",
         "Computer Vision",
@@ -43,13 +59,21 @@
       "nombre": "Brayan",
       "apellido": "Monroy",
       "cargo": "Investigador Doctoral",
+      "cargo_en": "Ph.D. Researcher",
       "nivelEscolar": "Doctorado",
+      "nivelEscolar_en": "Ph.D. Student",
       "institucion": "Universidad Industrial de Santander",
       "imagen": "/team/brayan-monroy.jpg",
       "scholar": "https://scholar.google.com/citations?user=p9zuZ9EAAAAJ&hl=es",
       "paginaPersonal": "https://bemc22.github.io/",
       "email": "",
       "areasInvestigacion": [
+        "Computational Imaging",
+        "Mathematical Optimization",
+        "Inverse Problems",
+        "Deep Learning"
+      ],
+      "areasInvestigacion_en": [
         "Computational Imaging",
         "Mathematical Optimization",
         "Inverse Problems",
@@ -62,13 +86,19 @@
       "nombre": "Luis",
       "apellido": "Toscano-Palomino",
       "cargo": "Investigador de Maestría",
+      "cargo_en": "Master's Researcher",
       "nivelEscolar": "Maestría",
+      "nivelEscolar_en": "M.Sc. Student",
       "institucion": "Universidad Industrial de Santander",
       "imagen": "/team/luis-toscano.png",
       "scholar": "https://scholar.google.com/citations?hl=es&user=AQ_grM8AAAAJ",
       "paginaPersonal": "https://justbeingluis.github.io/portfolio/",
       "email": "luismariotoscanopalomino@gmail.com",
       "areasInvestigacion": [
+        "Computational Imaging",
+        "Time-Resolved Imaging"
+      ],
+      "areasInvestigacion_en": [
         "Computational Imaging",
         "Time-Resolved Imaging"
       ],
@@ -79,7 +109,9 @@
       "nombre": "Diego",
       "apellido": "Garcia-Barajas",
       "cargo": "Investigador de Pregrado",
+      "cargo_en": "Undergraduate Researcher",
       "nivelEscolar": "Pregrado",
+      "nivelEscolar_en": "Undergraduate",
       "institucion": "Universidad Industrial de Santander",
       "imagen": "/placeholder-user.jpg",
       "scholar": "https://scholar.google.com/citations?hl=es&user=Y3nnUsEAAAAJ",
@@ -87,6 +119,12 @@
       "email": "",
       "areasInvestigacion": [
         "Ciencias de la Computación",
+        "Machine Learning",
+        "Deep Learning",
+        "Equivariant Imaging"
+      ],
+      "areasInvestigacion_en": [
+        "Computer Science",
         "Machine Learning",
         "Deep Learning",
         "Equivariant Imaging"

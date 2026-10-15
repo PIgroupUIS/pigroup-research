@@ -3,44 +3,62 @@
     {
       "id": 1,
       "title": "Inicio del semillero con invitada internacional",
+      "title_en": "Research Seedbed Kickoff with International Guest",
       "description": "El semillero de investigación PI Group dio inicio a sus actividades del semestre con la participación de la Dra. Tatiana Gelvez (Lyon, Francia), quien compartió con los nuevos integrantes sus experiencias en problemas inversos y métodos numéricos. Este encuentro marcó el comienzo de los Seminarios Internacionales y los espacios de investigación colaborativa del grupo, promoviendo la formación científica y el intercambio académico de alto nivel.",
+      "description_en": "The PI Group research seedbed kicked off its semester activities with the participation of Dr. Tatiana Gelvez (Lyon, France), who shared her experiences in inverse problems and numerical methods with the new members. This meeting marked the beginning of the group's International Seminars and collaborative research spaces, promoting scientific training and high-level academic exchange.",
       "summary": "Inicio del semillero de investigación con participación internacional y seminarios colaborativos.",
+      "summary_en": "Kickoff of the research seedbed with international participation and collaborative seminars.",
       "date": "2025-10-15",
       "dateFormatted": "15 de Octubre, 2025",
+      "dateFormatted_en": "October 15, 2025",
       "image": "/seminario1.jpg",
       "featured": true,
       "category": "Semillero",
+      "category_en": "Seedbed",
       "tags": ["investigación", "internacional", "seminario", "colaboración"],
+      "tags_en": ["research", "international", "seminar", "collaboration"],
       "author": "PIGroup UIS",
       "readTime": "3 min"
     },
-        {
+    {
       "id": 2,
       "title": "Cooperación Internacional",
+      "title_en": "International Cooperation",
       "description": "Del 3 al 10 de octubre de 2025, el profesor Jorge Luis Bacca Quintero, líder del PI-Group (Inverse Problems Research Group) de la Universidad Industrial de Santander (UIS), realizó una segunda estancia de cooperación científica en el laboratorio GIPSA-Lab de la Université Grenoble Alpes (UGA), en el marco del convenio ECOS-Nord entre ambas instituciones. Durante la visita, desarrollada bajo la supervisión del profesor Mauro Dalla Mura, se avanzó en la formulación de metodologías para el análisis y procesamiento de imágenes espectrales, con especial énfasis en aprendizaje semisupervisado (semi-supervised imaging) aplicado a visión computacional.",
+      "description_en": "From October 3 to 10, 2025, Professor Jorge Luis Bacca Quintero, leader of PI-Group (Inverse Problems Research Group) at Universidad Industrial de Santander (UIS), carried out a second scientific cooperation research stay at the GIPSA-Lab laboratory of Université Grenoble Alpes (UGA), under the ECOS-Nord agreement between both institutions. During the visit, conducted under the supervision of Professor Mauro Dalla Mura, progress was made in the formulation of methodologies for spectral image analysis and processing, with special emphasis on semi-supervised imaging applied to computer vision.",
       "summary": "Cooperación Internacional: Avances del PI-Group en GIPSA-Lab (Grenoble, Francia)",
+      "summary_en": "International Cooperation: PI-Group Progress at GIPSA-Lab (Grenoble, France)",
       "date": "2025-10-28",
       "dateFormatted": "28 de Octubre, 2025",
+      "dateFormatted_en": "October 28, 2025",
       "image": "/colaboracion1.png",
       "featured": true,
       "category": "Semillero",
+      "category_en": "Seedbed",
       "tags": ["colaboración"],
+      "tags_en": ["collaboration"],
       "author": "PIGroup UIS",
       "readTime": "3 min"
     },
-       {
+    {
       "id": 3,
       "title": "Nuevo artículo publicado en Scientific Data – Nature",
-      "description": " Este artículo presenta una nueva base de datos espectral multimodal, cuidadosamente diseñada con etiquetas globales y locales, que contribuirá al avance de la adquisición y análisis de información espectral en aplicaciones científicas y tecnológicas. Felicitamos especialmente a Kebin Contreras, primer autor del artículo, por su excelente trabajo y dedicación. Asimismo, celebramos que este resultado marca nuestra primera colaboración académica con el profesor Mauro Dalla Mura, fortaleciendo los vínculos internacionales de nuestro grupo. ¡Un logro importante para nuestra comunidad investigativa!",
+      "title_en": "New Article Published in Scientific Data – Nature",
+      "description": "Este artículo presenta una nueva base de datos espectral multimodal, cuidadosamente diseñada con etiquetas globales y locales, que contribuirá al avance de la adquisición y análisis de información espectral en aplicaciones científicas y tecnológicas. Felicitamos especialmente a Kebin Contreras, primer autor del artículo, por su excelente trabajo y dedicación. Asimismo, celebramos que este resultado marca nuestra primera colaboración académica con el profesor Mauro Dalla Mura, fortaleciendo los vínculos internacionales de nuestro grupo. ¡Un logro importante para nuestra comunidad investigativa!",
+      "description_en": "This paper presents a new multimodal spectral dataset, carefully designed with global and local annotations, which will contribute to advancing spectral information acquisition and analysis in scientific and technological applications. We especially congratulate Kebin Contreras, first author of the paper, for his outstanding work and dedication. We also celebrate that this result marks our first academic collaboration with Professor Mauro Dalla Mura, strengthening our group's international ties. A major milestone for our research community!",
       "summary": "Nos complace anunciar la publicación de nuestro primer trabajo en la editorial Nature, específicamente en la revista Scientific Data.",
+      "summary_en": "We are pleased to announce the publication of our first work in Nature Publishing Group, specifically in Scientific Data.",
       "date": "2025-11-14",
       "dateFormatted": "14 de Noviembre, 2025",
+      "dateFormatted_en": "November 14, 2025",
       "image": "/new3.png",
       "featured": true,
       "category": "Semillero",
+      "category_en": "Seedbed",
       "tags": ["investigación"],
+      "tags_en": ["research"],
       "author": "PIGroup UIS",
       "readTime": "4 min"
-    } 
+    }
   ]
 }

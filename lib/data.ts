@@ -6,14 +6,20 @@ import teamJson from "@/public/equipo.json"
 export interface NewsItem {
   id: number
   title: string
+  title_en?: string
   description: string
+  description_en?: string
   summary: string
+  summary_en?: string
   date: string
   dateFormatted: string
+  dateFormatted_en?: string
   image: string
   featured: boolean
   category: string
+  category_en?: string
   tags: string[]
+  tags_en?: string[]
   author: string
   readTime: string
 }
@@ -31,7 +37,9 @@ export interface Publication {
   supplementaryMaterial?: string | null
   starred: boolean
   abstract: string
+  abstract_en?: string
   keywords: string[]
+  keywords_en?: string[]
 }
 
 export interface TeamMember {
@@ -39,14 +47,18 @@ export interface TeamMember {
   nombre: string
   apellido: string
   cargo: string
+  cargo_en?: string
   nivelEscolar: string
+  nivelEscolar_en?: string
   institucion: string
   imagen: string
   scholar: string | null
   paginaPersonal: string | null
   email: string
   bio?: string
+  bio_en?: string
   areasInvestigacion: string[]
+  areasInvestigacion_en?: string[]
   activo: boolean
 }
 

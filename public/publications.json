@@ -12,8 +12,10 @@
       "externalUrl": "https://arxiv.org/abs/2510.05408",
       "supplementaryMaterial": null,
       "starred": true,
-      "abstract": "This paper presents a novel approach for time-reversed scene reconstruction from thermal traces using visual language models. Our method leverages the temporal information embedded in thermal residues to reconstruct past scenes with remarkable accuracy. We introduce a sophisticated framework that combines computer vision techniques with advanced language models to interpret thermal data and generate comprehensive scene reconstructions. The approach demonstrates significant improvements over existing methods in both accuracy and computational efficiency.",
-      "keywords": ["computer vision", "thermal imaging", "scene reconstruction", "visual language models"]
+      "abstract": "Este artículo presenta un enfoque novedoso para la reconstrucción de escenas invertidas en el tiempo a partir de trazas térmicas utilizando modelos de lenguaje visual. Nuestro método aprovecha la información temporal incrustada en los residuos térmicos para reconstruir escenas pasadas con notable precisión. Introducimos un marco que combina técnicas de visión por computador con modelos de lenguaje avanzados para interpretar datos térmicos y generar reconstrucciones de escenas integrales.",
+      "abstract_en": "This paper presents a novel approach for time-reversed scene reconstruction from thermal traces using visual language models. Our method leverages the temporal information embedded in thermal residues to reconstruct past scenes with remarkable accuracy. We introduce a sophisticated framework that combines computer vision techniques with advanced language models to interpret thermal data and generate comprehensive scene reconstructions. The approach demonstrates significant improvements over existing methods in both accuracy and computational efficiency.",
+      "keywords": ["visión por computador", "imagen térmica", "reconstrucción de escenas", "modelos de lenguaje visual"],
+      "keywords_en": ["computer vision", "thermal imaging", "scene reconstruction", "visual language models"]
     },
     {
       "id": 2,
@@ -27,8 +29,10 @@
       "externalUrl": "https://ieeexplore.ieee.org/abstract/document/11156687",
       "supplementaryMaterial": null,
       "starred": true,
-      "abstract": "A robust object detection method for high illumination conditions using modulo images and deep learning approaches. This work addresses the challenging problem of object detection under extreme lighting conditions where traditional methods fail. We propose a novel framework that utilizes modulo images to maintain visual information integrity even under high illumination scenarios. Our deep learning architecture incorporates specialized attention mechanisms and adaptive processing layers that significantly improve detection accuracy in challenging environmental conditions.",
-      "keywords": ["object detection", "high illumination", "modulo images", "deep learning"]
+      "abstract": "Un método robusto de detección de objetos en condiciones de alta iluminación mediante imágenes módulo y aprendizaje profundo. Este trabajo aborda el problema de la detección de objetos bajo condiciones de iluminación extremas donde los métodos tradicionales fallan. Proponemos una arquitectura que utiliza imágenes módulo para preservar la integridad visual en escenarios de alta iluminación, mejorando significativamente la precisión de detección.",
+      "abstract_en": "A robust object detection method for high illumination conditions using modulo images and deep learning approaches. This work addresses the challenging problem of object detection under extreme lighting conditions where traditional methods fail. We propose a novel framework that utilizes modulo images to maintain visual information integrity even under high illumination scenarios. Our deep learning architecture incorporates specialized attention mechanisms and adaptive processing layers that significantly improve detection accuracy in challenging environmental conditions.",
+      "keywords": ["detección de objetos", "alta iluminación", "imágenes módulo", "aprendizaje profundo"],
+      "keywords_en": ["object detection", "high illumination", "modulo images", "deep learning"]
     },
     {
       "id": 3,
@@ -42,8 +46,10 @@
       "externalUrl": "https://ieeexplore.ieee.org/abstract/document/11156348",
       "supplementaryMaterial": null,
       "starred": false,
-      "abstract": "An automated system for classifying cocoa bean fermentation levels using computer vision and machine learning techniques. This research addresses the critical need for quality control in cocoa production by developing an intelligent system that can accurately assess fermentation levels. Our approach combines advanced image processing algorithms with deep learning models to analyze visual characteristics of cocoa beans. The system provides farmers and producers with an objective, consistent method for quality assessment, potentially improving product quality and market value.",
-      "keywords": ["computer vision", "classification", "cocoa beans", "agriculture", "machine learning"]
+      "abstract": "Un sistema automatizado para clasificar los niveles de fermentación del grano de cacao utilizando visión por computador y aprendizaje automático. Esta investigación atiende la necesidad crítica de control de calidad en la producción de cacao mediante el desarrollo de un sistema inteligente capaz de evaluar los niveles de fermentación con precisión y consistencia.",
+      "abstract_en": "An automated system for classifying cocoa bean fermentation levels using computer vision and machine learning techniques. This research addresses the critical need for quality control in cocoa production by developing an intelligent system that can accurately assess fermentation levels. Our approach combines advanced image processing algorithms with deep learning models to analyze visual characteristics of cocoa beans. The system provides farmers and producers with an objective, consistent method for quality assessment, potentially improving product quality and market value.",
+      "keywords": ["visión por computador", "clasificación", "granos de cacao", "agricultura", "aprendizaje automático"],
+      "keywords_en": ["computer vision", "classification", "cocoa beans", "agriculture", "machine learning"]
     }
   ]
 }
