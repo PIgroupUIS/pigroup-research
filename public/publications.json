@@ -3,19 +3,19 @@
     {
       "id": 1,
       "title": "See the past: Time-Reversed Scene Reconstruction from Thermal Traces Using Visual Language Models",
-      "authors": "Kebin Contreras, Luis Toscano-Palomino, Mauro Dalla, Jorge Bacca",
-      "journal": "arXiv preprint",
-      "conference": "ArXiv",
-      "year": 2025,
+      "authors": "Kebin Contreras, Luis Toscano-Palomino, Mauro Dalla Mura, Jorge Bacca",
+      "journal": "IEEE",
+      "conference": "2026 IEEE International Conference on Image Processing (ICIP)",
+      "year": 2026,
       "image": "/references_scenes.jpg",
       "pdfUrl": "https://arxiv.org/abs/2510.05408",
       "externalUrl": "https://arxiv.org/abs/2510.05408",
       "supplementaryMaterial": null,
       "starred": true,
-      "abstract": "Este artículo presenta un enfoque novedoso para la reconstrucción de escenas invertidas en el tiempo a partir de trazas térmicas utilizando modelos de lenguaje visual. Nuestro método aprovecha la información temporal incrustada en los residuos térmicos para reconstruir escenas pasadas con notable precisión. Introducimos un marco que combina técnicas de visión por computador con modelos de lenguaje avanzados para interpretar datos térmicos y generar reconstrucciones de escenas integrales.",
-      "abstract_en": "This paper presents a novel approach for time-reversed scene reconstruction from thermal traces using visual language models. Our method leverages the temporal information embedded in thermal residues to reconstruct past scenes with remarkable accuracy. We introduce a sophisticated framework that combines computer vision techniques with advanced language models to interpret thermal data and generate comprehensive scene reconstructions. The approach demonstrates significant improvements over existing methods in both accuracy and computational efficiency.",
-      "keywords": ["visión por computador", "imagen térmica", "reconstrucción de escenas", "modelos de lenguaje visual"],
-      "keywords_en": ["computer vision", "thermal imaging", "scene reconstruction", "visual language models"]
+      "abstract": "Recuperar el pasado a partir de observaciones presentes es un desafío intrigante con aplicaciones potenciales en análisis forense y de escenas. Las imágenes térmicas, al operar en el rango infrarrojo, proporcionan acceso a información que de otro modo sería invisible. Dado que los seres humanos son típicamente más cálidos (~37 °C / 98.6 °F) que su entorno, interacciones como sentarse, tocar o apoyarse dejan huellas de calor residuales. Estas marcas que se desvanecen sirven como códigos temporales pasivos, permitiendo inferir eventos recientes que exceden las capacidades de las cámaras RGB. Proponemos un marco de reconstrucción invertida en el tiempo que utiliza imágenes RGB y térmicas emparejadas para recuperar estados de escenas de unos segundos antes. El enfoque propuesto acopla modelos de lenguaje visual (VLM) con un proceso de difusión restringido, donde un VLM genera descripciones de la escena y otro guía la reconstrucción de la imagen, garantizando consistencia semántica y estructural.",
+      "abstract_en": "Recovering the past from present observations is an intriguing challenge with potential applications in forensics and scene analysis. Thermal imaging, operating in the infrared range, provides access to otherwise invisible information. Since humans are typically warmer (~ 37°C / 98.6°F) than their surroundings, interactions such as sitting, touching, or leaning leave residual heat traces. These fading imprints serve as passive temporal codes, allowing for the inference of recent events that exceed the capabilities of RGB cameras. We propose a time-reversed reconstruction framework that uses paired RGB and thermal images to recover scene states from a few seconds earlier. The proposed approach couples Visual-Language Models (VLMs) with a constrained diffusion process, where one VLM generates scene descriptions and another guides image reconstruction, ensuring semantic and structural consistency.",
+      "keywords": ["visión por computador", "imagen térmica", "reconstrucción de escenas", "modelos de lenguaje visual", "difusión guiada"],
+      "keywords_en": ["computer vision", "thermal imaging", "scene reconstruction", "visual language models", "guided diffusion"]
     },
     {
       "id": 2,

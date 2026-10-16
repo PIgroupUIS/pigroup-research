@@ -560,7 +560,7 @@ export default function TimeReverseImaging() {
                     <div className="md:w-3/4">
                       <div className="mb-3">
                         <span className="text-xs font-medium text-muted-foreground bg-muted px-2 py-1 rounded">
-                          ArXiv • 2025
+                          ICIP • 2026
                         </span>
                       </div>
                       <a 
@@ -572,7 +572,7 @@ export default function TimeReverseImaging() {
                         </h3>
                       </a>
                       <p className="text-muted-foreground mb-3">
-                        Kebin Contreras, Luis Toscano-Palomino, Mauro Dalla, Jorge Bacca
+                        Kebin Contreras, Luis Toscano-Palomino, Mauro Dalla Mura, Jorge Bacca
                       </p>
                       <p className="text-foreground leading-relaxed mb-4 text-sm">
                         {t.paperPresents}
