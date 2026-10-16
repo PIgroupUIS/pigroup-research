@@ -49,8 +49,8 @@ export function Header() {
     >
       <div className="container mx-auto px-4 max-w-6xl h-16 md:h-20 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 text-primary-foreground">
-          <img src={getImagePath("/logo.png")} alt="" width={28} height={35} className="h-9 w-auto" />
-          <span className="font-serif text-lg font-semibold tracking-tight">PIGroup Research</span>
+          <img src={getImagePath("/logo.png")} alt="" width={32} height={40} className="h-10 w-auto" />
+          <span className="font-serif text-xl font-semibold tracking-tight">PiGroup Research</span>
         </Link>
 
         {/* Desktop Navigation & Language Switch */}
@@ -61,7 +61,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
-                className={`relative py-1 text-sm font-medium transition-colors hover:text-gold after:absolute after:left-0 after:-bottom-0.5 after:h-px after:bg-gold after:transition-all ${
+                className={`relative py-1 text-[15px] font-medium tracking-wide transition-colors hover:text-gold after:absolute after:left-0 after:-bottom-0.5 after:h-px after:bg-gold after:transition-all ${
                   isActive(item.href) ? "text-gold after:w-full" : "text-primary-foreground after:w-0 hover:after:w-full"
                 }`}
               >
@@ -93,7 +93,7 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className={`block py-3 border-b border-white/10 font-medium ${
+              className={`block py-3.5 border-b border-white/10 text-base font-medium ${
                 isActive(item.href) ? "text-gold" : "text-primary-foreground"
               }`}
             >

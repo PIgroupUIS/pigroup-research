@@ -23,7 +23,7 @@ export function Footer() {
                 height={40}
                 className="h-8 w-auto"
               />
-              <span className="font-serif text-lg font-semibold tracking-tight">PIGroup Research</span>
+              <span className="font-serif text-lg font-semibold tracking-tight">PiGroup Research</span>
             </Link>
             <p className="text-sm text-primary-foreground/70 leading-relaxed max-w-sm">
               {t.footer.description}
@@ -94,7 +94,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-primary-foreground/60">
-          <p>© {currentYear} PIGroup Research · Universidad Industrial de Santander. Todos los derechos reservados.</p>
+          <p>© {currentYear} PiGroup Research · Universidad Industrial de Santander. Todos los derechos reservados.</p>
           <p className="font-mono">Bucaramanga, Colombia</p>
         </div>
       </div>

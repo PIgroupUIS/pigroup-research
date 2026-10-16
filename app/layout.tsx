@@ -15,10 +15,10 @@ const basePath = process.env.NODE_ENV === "production" ? "/pigroup-research" : "
 
 export const metadata: Metadata = {
   title: {
-    default: "PIGroup Research — Universidad Industrial de Santander",
-    template: "%s · PIGroup Research",
+    default: "PiGroup Research — Universidad Industrial de Santander",
+    template: "%s · PiGroup Research",
   },
-  description: "Grupo de investigación PIGroup de la Universidad Industrial de Santander",
+  description: "Grupo de investigación PiGroup de la Universidad Industrial de Santander",
   icons: {
     icon: [
       { url: `${basePath}/icon.png`, type: "image/png" },

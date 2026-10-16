@@ -7,15 +7,17 @@ import { getImagePath } from "@/lib/utils"
 import "katex/dist/katex.min.css"
 import { HeroFormulasBg } from "./hero-formulas-bg"
 import { useLanguage } from "./language-context"
+import { HeroInverseLogo } from "./hero-inverse-logo"
 
 export function Hero() {
   const { t } = useLanguage()
 
   return (
-    <section id="inicio" className="on-ink relative min-h-[92vh] flex items-center overflow-hidden bg-ink text-primary-foreground">
+    <section id="inicio" className="on-ink relative min-h-screen flex items-center overflow-hidden bg-ink text-primary-foreground">
       <HeroFormulasBg />
+      <HeroInverseLogo />
 
-      <div className="container mx-auto px-4 max-w-6xl relative z-10 pt-28 pb-20 grid md:grid-cols-[1.4fr_1fr] gap-12 items-center">
+      <div className="container mx-auto px-4 max-w-6xl relative z-10 pt-20 md:pt-24 pb-12 grid md:grid-cols-[1.2fr_1fr] gap-8 md:gap-12 items-center w-full">
         <div>
           <p className="eyebrow mb-6 hero-in" style={{ animationDelay: "0ms" }}>
             {t.hero.eyebrow}
@@ -45,16 +47,8 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="hidden md:flex justify-center hero-in" style={{ animationDelay: "200ms" }}>
-          <img
-            src={getImagePath("/logo.png")}
-            alt="Logo de PIGroup Research"
-            width={252}
-            height={316}
-            fetchPriority="high"
-            className="w-64 lg:w-80 h-auto"
-          />
-        </div>
+        {/* Espacio reservado para el logo 3D en la columna derecha */}
+        <div className="hidden md:block min-h-[360px]" aria-hidden="true" />
       </div>
 
       <style>{`
