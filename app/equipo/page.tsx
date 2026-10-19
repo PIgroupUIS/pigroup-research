@@ -3,23 +3,19 @@
 import { PageHero } from "@/components/page-hero"
 import { getImagePath } from "@/lib/utils"
 import { team, type TeamMember } from "@/lib/data"
-import { GraduationCap, Globe, Mail } from "lucide-react"
+import { GraduationCap, Mail } from "lucide-react"
 import { useLanguage } from "@/components/language-context"
 
 function Portrait({ m, priority = false }: { m: TeamMember; priority?: boolean }) {
   const name = `${m.nombre} ${m.apellido}`
-  if (!m.imagen || m.imagen.includes("placeholder")) {
-    // No photo yet: initials on ink instead of a generic silhouette
-    return (
-      <div className="aspect-[4/5] rounded bg-ink flex items-center justify-center">
-        <span className="font-serif text-6xl text-gold">
-          {m.nombre[0]}
-          {m.apellido[0]}
-        </span>
-      </div>
-    )
-  }
-  return (
+  const content = !m.imagen || m.imagen.includes("placeholder") ? (
+    <div className="aspect-[4/5] rounded bg-ink flex items-center justify-center">
+      <span className="font-serif text-6xl text-gold">
+        {m.nombre[0]}
+        {m.apellido[0]}
+      </span>
+    </div>
+  ) : (
     <div className="aspect-[4/5] overflow-hidden rounded bg-muted">
       <img
         src={getImagePath(m.imagen)}
@@ -30,13 +26,29 @@ function Portrait({ m, priority = false }: { m: TeamMember; priority?: boolean }
       />
     </div>
   )
+
+  if (m.paginaPersonal) {
+    return (
+      <a
+        href={m.paginaPersonal}
+        target="_blank"
+        rel="noopener noreferrer"
+        title={name}
+        aria-label={name}
+        className="block cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold rounded"
+      >
+        {content}
+      </a>
+    )
+  }
+
+  return content
 }
 
 function Links({ m }: { m: TeamMember }) {
   const { t } = useLanguage()
   const links = [
     m.scholar && { href: m.scholar, label: t.team.googleScholar, icon: GraduationCap },
-    m.paginaPersonal && { href: m.paginaPersonal, label: t.team.personalWebsite, icon: Globe },
     m.email && { href: `mailto:${m.email}`, label: `${t.team.email} (${m.email})`, icon: Mail },
   ].filter(Boolean) as { href: string; label: string; icon: React.ComponentType<{ className?: string }> }[]
 
