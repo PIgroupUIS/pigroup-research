@@ -21,8 +21,8 @@ export function NewsCard({ item, lead = false, delay = 0 }: { item: NewsItem; le
         <div className="aspect-[16/10] overflow-hidden bg-muted rounded">
           <img
             src={getImagePath(item.image)}
-            alt=""
-            loading="lazy"
+            alt={title}
+            loading={lead ? "eager" : "lazy"}
             decoding="async"
             className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
           />
