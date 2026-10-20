@@ -9,6 +9,14 @@
       "nivelEscolar": "Doctorado",
       "nivelEscolar_en": "Ph.D.",
       "institucion": "Universidad Industrial de Santander",
+      "afiliaciones": [
+        "Universidad Industrial de Santander (UIS)",
+        "GIPSA-lab (Grenoble Images Parole Signal Automatique), Université Grenoble Alpes"
+      ],
+      "afiliaciones_en": [
+        "Universidad Industrial de Santander (UIS)",
+        "GIPSA-lab (Grenoble Images Parole Signal Automatique), Université Grenoble Alpes"
+      ],
       "imagen": "/team/jorge-bacca.jpg",
       "scholar": "https://scholar.google.com/citations?user=I5f1HjEAAAAJ&hl=es",
       "paginaPersonal": "https://jorgebaccauis.github.io/",
@@ -36,6 +44,12 @@
       "nivelEscolar": "Doctorado",
       "nivelEscolar_en": "Ph.D. Student",
       "institucion": "Universidad Industrial de Santander",
+      "afiliaciones": [
+        "Universidad Industrial de Santander (UIS)"
+      ],
+      "afiliaciones_en": [
+        "Universidad Industrial de Santander (UIS)"
+      ],
       "imagen": "/team/kebin-contreras.jpg",
       "scholar": "https://scholar.google.com/citations?user=s-Una0EAAAAJ&hl=es",
       "paginaPersonal": "https://kebincontreras.com/",
@@ -63,6 +77,12 @@
       "nivelEscolar": "Doctorado",
       "nivelEscolar_en": "Ph.D. Student",
       "institucion": "Universidad Industrial de Santander",
+      "afiliaciones": [
+        "Universidad Industrial de Santander (UIS)"
+      ],
+      "afiliaciones_en": [
+        "Universidad Industrial de Santander (UIS)"
+      ],
       "imagen": "/team/brayan-monroy.jpg",
       "scholar": "https://scholar.google.com/citations?user=p9zuZ9EAAAAJ&hl=es",
       "paginaPersonal": "https://bemc22.github.io/",
@@ -90,6 +110,12 @@
       "nivelEscolar": "Maestría",
       "nivelEscolar_en": "M.Sc. Student",
       "institucion": "Universidad Industrial de Santander",
+      "afiliaciones": [
+        "Universidad Industrial de Santander (UIS)"
+      ],
+      "afiliaciones_en": [
+        "Universidad Industrial de Santander (UIS)"
+      ],
       "imagen": "/team/luis-toscano.jpg",
       "scholar": "https://scholar.google.com/citations?hl=es&user=AQ_grM8AAAAJ",
       "paginaPersonal": "https://justbeingluis.github.io/portfolio/",
@@ -113,6 +139,12 @@
       "nivelEscolar": "Pregrado",
       "nivelEscolar_en": "Undergraduate",
       "institucion": "Universidad Industrial de Santander",
+      "afiliaciones": [
+        "Universidad Industrial de Santander (UIS)"
+      ],
+      "afiliaciones_en": [
+        "Universidad Industrial de Santander (UIS)"
+      ],
       "imagen": "/team/Diego.jpg",
       "scholar": "https://scholar.google.com/citations?hl=es&user=Y3nnUsEAAAAJ",
       "paginaPersonal": null,

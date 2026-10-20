@@ -59,6 +59,26 @@
       "tags_en": ["research"],
       "author": "PIGroup UIS",
       "readTime": "4 min"
+    },
+    {
+      "id": 4,
+      "title": "Participación del PI-Group en WACCI 2026 en Pucón, Chile",
+      "title_en": "PI-Group Participation at WACCI 2026 in Pucón, Chile",
+      "description": "Varios integrantes del grupo de investigación PI-Group participarán en la cuarta edición del International Workshop on Adaptive, Compressive and Computational Imaging (WACCI 2026), que se llevará a cabo del 14 al 17 de diciembre de 2026 en Pucón, Chile. Durante el encuentro internacional, organizado por OptoLab y el Information Processing Laboratory (IPL), nuestros investigadores presentarán sus avances recientes en óptica computacional, imágenes módulo de alto rango dinámico (HDR), muestreo compresivo y problemas inversos, fortaleciendo las redes de cooperación científica en Latinoamérica y a nivel global.",
+      "description_en": "Several members of the PI-Group research team will participate in the 4th edition of the International Workshop on Adaptive, Compressive and Computational Imaging (WACCI 2026), taking place from December 14 to 17, 2026, in Pucón, Chile. During this international workshop, organized by OptoLab and the Information Processing Laboratory (IPL), our researchers will present their latest advances in computational optics, high dynamic range (HDR) modulo imaging, compressive sampling, and inverse problems, strengthening scientific cooperation networks across Latin America and globally.",
+      "summary": "Investigadores del PI-Group presentarán sus avances en óptica computacional y problemas inversos en la 4.ª edición de WACCI 2026 (14–17 de diciembre, Pucón, Chile).",
+      "summary_en": "PI-Group researchers will present their work in computational optics and inverse problems at the 4th edition of WACCI 2026 (December 14–17, Pucón, Chile).",
+      "date": "2026-10-19",
+      "dateFormatted": "19 de Octubre, 2026",
+      "dateFormatted_en": "October 19, 2026",
+      "image": "/wacci2026.png",
+      "featured": true,
+      "category": "Evento Internacional",
+      "category_en": "International Event",
+      "tags": ["WACCI 2026", "óptica computacional", "internacional", "Chile"],
+      "tags_en": ["WACCI 2026", "computational imaging", "international", "Chile"],
+      "author": "PIGroup UIS",
+      "readTime": "3 min"
     }
   ]
 }

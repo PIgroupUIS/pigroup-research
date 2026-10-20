@@ -80,6 +80,14 @@ export default function EquipoPage() {
   const { language, t } = useLanguage()
   const isEn = language === "en"
 
+  const getAffiliations = (m: TeamMember) =>
+    (isEn && m.afiliaciones_en?.length
+      ? m.afiliaciones_en
+      : m.afiliaciones?.length
+        ? m.afiliaciones
+        : [m.institucion]
+    ).filter(Boolean)
+
   return (
     <main>
       <PageHero eyebrow={t.team.eyebrow} title={t.team.title}>
@@ -95,6 +103,15 @@ export default function EquipoPage() {
               <h2 className="mt-3 font-serif text-4xl md:text-6xl font-semibold leading-none">
                 {lead.nombre} {lead.apellido}
               </h2>
+
+              <ul className="mt-5 border-l-2 border-gold pl-4 space-y-1.5">
+                {getAffiliations(lead).map((aff) => (
+                  <li key={aff} className="font-mono text-xs md:text-sm text-foreground/85 leading-snug">
+                    {aff}
+                  </li>
+                ))}
+              </ul>
+
               {lead.bio && <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-xl">{isEn && lead.bio_en ? lead.bio_en : lead.bio}</p>}
               <p className="mt-6 text-muted-foreground">
                 {(isEn && lead.areasInvestigacion_en ? lead.areasInvestigacion_en : lead.areasInvestigacion).join(" · ")}
@@ -116,6 +133,7 @@ export default function EquipoPage() {
               {members.map((m, i) => {
                 const cargo = isEn && m.cargo_en ? m.cargo_en : m.cargo
                 const areas = (isEn && m.areasInvestigacion_en ? m.areasInvestigacion_en : m.areasInvestigacion).slice(0, 3).join(" · ")
+                const affiliations = getAffiliations(m)
                 return (
                   <article key={m.id} className="group" data-reveal style={{ ["--reveal-delay" as string]: `${(i % 4) * 100}ms` }}>
                     <Portrait m={m} />
@@ -124,7 +142,14 @@ export default function EquipoPage() {
                     </h3>
                     <div className="mt-2 h-px w-8 bg-gold transition-all duration-500 group-hover:w-16" />
                     <p className="mt-3 text-sm font-medium text-foreground">{cargo}</p>
-                    <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{areas}</p>
+                    <ul className="mt-2 border-l border-gold/80 pl-2.5 space-y-1">
+                      {affiliations.map((aff) => (
+                        <li key={aff} className="font-mono text-xs text-muted-foreground leading-snug">
+                          {aff}
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="mt-2.5 text-sm text-muted-foreground leading-relaxed">{areas}</p>
                     <div className="mt-4">
                       <Links m={m} />
                     </div>

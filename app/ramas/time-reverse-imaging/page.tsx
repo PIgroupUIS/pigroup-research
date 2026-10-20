@@ -1,596 +1,699 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { getImagePath, getPagePath } from "@/lib/utils"
-import { CheckCircle, XCircle, Thermometer, Eye, ArrowLeft, Globe, AlertCircle, Check } from "lucide-react"
+import Link from "next/link"
+// @ts-ignore
+import "katex/dist/katex.min.css"
+// @ts-ignore
+import { BlockMath, InlineMath } from "react-katex"
+import { getImagePath } from "@/lib/utils"
+import { PublicationEntry } from "@/components/publication-entry"
+import { SectionHeading } from "@/components/page-hero"
+import { publications } from "@/lib/data"
+import { useLanguage } from "@/components/language-context"
 
-// Traducciones
-const translations = {
+const copy = {
   es: {
-    backToHome: "Volver al inicio",
+    backToHome: "← Volver al inicio",
+    eyebrow: "Línea de Investigación · Reconstrucción Temporal de Escenas",
     title: "Time-Reverse Imaging",
-    subtitle: "Reconstrucción de escenas pasadas utilizando trazas térmicas y modelos de lenguaje visual",
-    interactiveExperience: "Experiencia Interactiva",
-    interactiveDesc: "¿Puedes reconstruir el pasado? Elige la predicción correcta del estado anterior de la escena",
-    canYouReconstruct: "¿Puedes reconstruir el pasado?",
-    basedOnRGB: "Basándote únicamente en la información RGB, ¿cuál crees que era el estado anterior de la escena?",
-    currentImage: "Imagen Actual (t + x segundos)",
-    presentScene: "Esta es la escena que observamos en el presente",
-    selectCorrect: "Selecciona la predicción correcta",
-    whatWasPrevious: "¿Cuál era el estado anterior?",
-    option: "Opción",
-    incorrectAnswer: "¡Respuesta incorrecta!",
-    dontWorryThermal: "No te preocupes, ¿y si además te doy la información térmica?",
-    seeThermalInfo: "Ver información térmica",
-    thermalInfo: "Información Térmica Adicional",
-    withThermalInfo: "Ahora con la información térmica, ¿puedes identificar la predicción correcta?",
-    thermalInfoTitle: "Información Térmica",
-    heatTraces: "Trazas de calor que revelan el pasado",
-    nowWithThermal: "Ahora con información térmica",
-    canYouIdentify: "¿Puedes identificar la predicción correcta?",
-    correctExcellent: "¡Correcto! Excelente trabajo",
-    successfullyReconstructed: "Has logrado reconstruir exitosamente el estado pasado de la escena",
-    correct: "¡Correcto!",
-    tryAgain: "Intentar de nuevo",
-    areYouSure: "¿Estás seguro de tu elección?",
-    confirmChoice: "Has seleccionado la opción {option}. ¿Quieres confirmar tu respuesta o prefieres ver la información térmica para estar completamente seguro?",
-    confirmAnswer: "Confirmar respuesta",
-    seeThermalFirst: "Ver información térmica primero",
-    selectedOption: "Opción seleccionada: {option}",
-    conceptualFoundations: "Fundamentos Conceptuales",
-    timeReversedIntro: "introduce una clase fundamentalmente nueva de problemas inversos. En lugar de recuperar variables ocultas de la escena actual",
-    objective: "el objetivo es reconstruir un estado de escena pasado",
-    fromObservations: "para Δt > 0, a partir de observaciones",
-    presentTime: "en el tiempo presente",
-    recentWork: "En trabajo reciente,",
-    demonstratedViability: "demostramos la viabilidad de reconstruir estados pasados a partir de observaciones presentes. El framework combina",
-    promptEngineering: "ingeniería de prompts",
-    visualLanguageModels: "modelos de lenguaje visual (VLMs)",
-    constrainedDiffusion: "proceso de difusión restringido",
-    recoverConfigurations: "para recuperar configuraciones previas a partir de entradas RGB y térmicas.",
-    thermalResults: "Los resultados térmicos codifican",
-    heatFadingSignals: "señales de desvanecimiento de calor",
-    temporalCodes: "que preservan códigos temporales, mientras que RGB ancla la",
-    spatialStructure: "estructura espacial y el contexto",
-    initialResults: "Los resultados iniciales en escenarios controlados muestran reconstrucciones plausibles del pasado",
-    secondsBefore: "15 segundos antes",
-    comparedGroundTruth: "comparadas contra ground truth (GT).",
-    ablationStudy: "Un estudio de ablación muestra que incorporar una descripción de escena de alto nivel de un VLM proporciona un fuerte sesgo semántico previo, logrando los mejores resultados cuando se combina con entradas RGB y térmicas. Con",
-    rgbAlone: "imágenes RGB solas, es imposible recuperar la posición de la persona 30 segundos antes",
-    thermalInputs: "En contraste, las entradas térmicas permiten esta reconstrucción, confirmando que las trazas residuales contienen pistas suficientes para inferencia de horizonte temporal corto.",
-    ablationStudyTitle: "Estudio de Ablación",
-    comparisonMethods: "Comparación de métodos con diferentes modalidades de entrada",
-    relatedPublications: "Publicaciones Relacionadas",
-    scientificResearch: "Investigación científica que respalda esta línea de investigación",
-    paperPresents: "Este paper presenta un enfoque novedoso para la reconstrucción de escenas invertida en el tiempo a partir de trazas térmicas utilizando modelos de lenguaje visual."
+    subtitle:
+      "Inferencia y reconstrucción visual de estados pasados de una escena a partir de observaciones presentes RGB e infrarrojas mediante huellas térmicas residuales y modelos de lenguaje visual.",
+    viewPubs: "Ver publicaciones ↓",
+    pipelineEyebrow: "Inferencia Temporal a partir de Rastros Térmicos",
+    pipelineTitle: "Del estado presente a la escena segundos atrás",
+    pipelineDesc:
+      "Una cámara RGB convencional solo registra la configuración geométrica del instante actual (t). Sin embargo, el contacto humano (~37 °C) transfiere calor a las superficies, dejando huellas infrarrojas que decaen exponencialmente y actúan como una memoria física pasiva para reconstruir el estado en t − Δt.",
+    blendLabel: "Inspección espectral en t",
+    blendRGB: "100% RGB",
+    blendIR: "100% Térmica",
+    pauseAnim: "Pausar barrido",
+    playAnim: "Animar fusión RGB / IR",
+    decayTitle: "Curva de disipación térmica superficial T(t) tras finalizar el contacto (Δt = 15 s)",
+    decayLegendSurface: "Temperatura en zona de contacto (silla / libro)",
+    decayLegendAmb: "Temperatura ambiente T_amb",
+    decayMarker: "Instante de captura t (Δt = 15 s)",
+    stages: [
+      {
+        num: "I",
+        name: "Observación Presente RGB",
+        formula: "I_t^{\\text{RGB}} \\text{ en } t = 0\\text{ s}",
+        image: "/time-reverse-imaging/present-fame.png",
+        alt: "Escena presente capturada en espectro visible RGB",
+        caption:
+          "En el instante presente t, el sujeto se encuentra de pie junto al escritorio. El libro rojo permanece cerrado sobre la mesa y la silla a la derecha está vacía; la imagen RGB no contiene evidencia de dónde estuvo la persona segundos antes.",
+      },
+      {
+        num: "II",
+        name: "Huella Termográfica Residual",
+        formula: "I_t^{\\text{IR}} \\propto T(\\mathbf{r}, t)",
+        image: "/time-reverse-imaging/thermal-info.png",
+        alt: "Captura termográfica FLIR mostrando rastros de calor en la silla y el libro",
+        caption:
+          "La cámara térmica FLIR revela dos anomalías calóricas invisibles al ojo humano: una huella térmica intensa sobre el asiento y espaldar de la silla vacía y una traza palmar de ~26.0 °C sobre la portada del libro.",
+      },
+      {
+        num: "III",
+        name: "Escena Pasada Reconstruida",
+        formula: "\\hat{x}_{t - \\Delta t} \\text{ en } \\Delta t = 15\\text{ s}",
+        image: "/time-reverse-imaging/prediction-3.png",
+        alt: "Estado pasado reconstruido mostrando al sujeto sentado leyendo el libro",
+        caption:
+          "Combinando la geometría de I_t^RGB, el mapa de calor I_t^IR y el razonamiento semántico de un VLM dentro de un proceso de difusión restringido, se recupera la configuración previa: el sujeto sentado leyendo el libro.",
+      },
+    ],
+    inspectorEyebrow: "Fusión Multimodal en el Presente",
+    inspectorTitle: "Superposición radiométrica RGB + Infrarrojo",
+    inspectorDesc:
+      "Desliza el control para superponer la captura termográfica sobre la imagen RGB en el instante t. Las zonas de transferencia de calor (asiento de la silla y superficie del libro) anclan espacialmente la hipótesis generativa del estado pasado.",
+    theoryEyebrow: "Fundamento Teórico y Metodología",
+    theoryTitle: "Formulación del problema inverso temporal",
+    theoryIntro:
+      "Mientras que los problemas inversos clásicos en óptica computacional buscan recuperar señales latentes simultáneas x_t a partir de mediciones degradadas y_t = H(x_t) + η, Time-Reverse Imaging plantea estimar una escena pasada x_{t−Δt} para un horizonte Δt > 0.",
+    theoryBlocks: [
+      {
+        index: "01",
+        title: "Codificación temporal pasiva mediante difusión de calor",
+        body: "Cuando un cuerpo humano a temperatura fisiológica T₀ ≈ 37 °C interactúa con objetos del entorno a temperatura ambiente T_amb, transfiere energía térmica por conducción. Al cesar el contacto en t − Δt, la temperatura superficial T(r, t) decae siguiendo la ley de enfriamiento de Newton y difusión térmica:",
+        math: "T(\\mathbf{r}, t) = T_{\\text{amb}} + \\left(T(\\mathbf{r}, t - \\Delta t) - T_{\\text{amb}}\\right)e^{-\\kappa\\,\\Delta t} + \\eta_{\\text{IR}}(\\mathbf{r}), \\qquad \\Delta t > 0",
+        footer:
+          "donde κ depende de la difusividad térmica del material (textil, madera, papel) y η_IR modela el ruido del microbolómetro. Esta firma exponencial codifica tanto la geometría del contacto como el tiempo transcurrido Δt.",
+      },
+      {
+        index: "02",
+        title: "Inferencia semántica con VLMs y difusión condicional restringida",
+        body: "A partir del par multimodal presente y_t = {I_t^RGB, I_t^IR}, un primer Modelo de Lenguaje Visual (VLM) analiza las trazas calóricas para inferir una descripción estructurada c_past de la acción ocurrida en t − Δt. Esta hipótesis semántica condiciona un modelo de difusión latente guiado por un segundo VLM crítico que preserva la identidad del sujeto y el fondo estático Ω_static:",
+        math: "\\hat{x}_{t - \\Delta t} = \\arg\\min_{x} \\; \\left\\|\\mathcal{P}_{\\Omega_{\\text{static}}}(x - I_t^{\\text{RGB}})\\right\\|_2^2 + \\lambda_{\\text{IR}}\\,\\mathcal{L}_{\\text{trace}}\\left(x, I_t^{\\text{IR}}\\right) + \\lambda_{\\text{VLM}}\\,\\mathcal{L}_{\\text{diff}}\\left(x \\,\\middle|\\, c_{\\text{past}}\\right)",
+        footer:
+          "La imagen RGB fija la apariencia del entorno y del individuo, mientras que el mapa térmico y el descriptor semántico dirigen la síntesis de la pose humana e interacción con objetos en el pasado.",
+      },
+      {
+        index: "03",
+        title: "Evaluación cuantitativa de bajo y alto nivel (Estudio de Ablación)",
+        body: "Evaluamos la reconstrucción tanto en fidelidad de imagen de bajo nivel (PSNR y SSIM respecto al ground truth grabado 15 s y 30 s antes) como en consistencia semántica de alto nivel mediante precisión de objetos (OA) y error medio por articulación de pose 3D (MPJPE):",
+        math: "\\text{RGB Only: } 15.81\\text{ dB}\\,|\\,\\text{MPJPE } 395.1 \\quad\\longrightarrow\\quad \\text{RGB + IR + VLM: } 18.12\\text{ dB}\\,|\\,\\text{MPJPE } 97.81",
+        footer:
+          "Sin la modalidad térmica (RGB Only), el modelo es incapaz de inferir que la persona estuvo sentada (MPJPE de 395.1 mm). Al integrar la traza térmica y el descriptor del VLM, el error de pose cae un 75.2 % y se recupera la interacción exacta con el libro.",
+      },
+    ],
+    ablationEyebrow: "Evidencia Experimental",
+    ablationTitle: "Estudio de ablación y escenas de referencia",
+    ablationSubtitle:
+      "Comparación experimental entre modalidades de entrada (RGB, RGB + Térmica, y RGB + Térmica + Descriptor VLM) frente a la escena real pasada (Ground Truth).",
+    ablationFig1Caption:
+      "Figura 1. Estudio de ablación cuantitativo y cualitativo (fila superior: reconstrucción RGB y métricas PSNR | SSIM; fila inferior: segmentación semántica y pose 3D con métricas OA | MPJPE).",
+    ablationFig2Caption:
+      "Figura 2. Escenas de prueba multimodales emparejadas: captura térmica en el presente (Thermal), imagen visible en el presente (RGB) y estado pasado real (GT).",
+    tableModality: "Modalidad de Entrada",
+    tableLowLevel: "Bajo Nivel (PSNR ↑ / SSIM ↑)",
+    tableHighLevel: "Alto Nivel (OA ↑ / MPJPE ↓)",
+    tableObservation: "Comportamiento en la Reconstrucción",
+    tableRows: [
+      {
+        mod: "RGB únicamente",
+        low: "15.81 dB / 0.72",
+        high: "60.24 % / 395.1 mm",
+        obs: "Falla en localizar la posición pasada en la silla; mantiene al sujeto de pie.",
+      },
+      {
+        mod: "RGB + Térmica (IR)",
+        low: "18.02 dB / 0.76",
+        high: "64.12 % / 316.9 mm",
+        obs: "Ubica correctamente al sujeto sentado gracias a la huella calórica del asiento.",
+      },
+      {
+        mod: "RGB + Térmica (IR) + Descriptor VLM",
+        low: "18.12 dB / 0.78",
+        high: "68.98 % / 97.81 mm",
+        obs: "Recupera tanto la postura sentada como la acción semántica de lectura del libro.",
+      },
+    ],
+    pubsEyebrow: "Producción Científica",
+    pubsTitle: "Publicaciones en Time-Reverse Imaging",
+    pubsSubtitle:
+      "Investigación desarrollada en cooperación entre la Universidad Industrial de Santander (UIS) y GIPSA-lab (Université Grenoble Alpes).",
   },
   en: {
-    backToHome: "Back to Home",
+    backToHome: "← Back to home",
+    eyebrow: "Research Line · Temporal Scene Reconstruction",
     title: "Time-Reverse Imaging",
-    subtitle: "Past scene reconstruction using thermal traces and visual language models",
-    interactiveExperience: "Interactive Experience",
-    interactiveDesc: "What happened some seconds ago? Choose the correct prediction of the scene's previous state",
-    canYouReconstruct: "What happened some seconds ago?",
-    basedOnRGB: "Based solely on RGB information, what do you think was the previous state of the scene?",
-    currentImage: "Current Image (t + x seconds)",
-    presentScene: "This is the scene we observe in the present",
-    selectCorrect: "Select the correct prediction",
-    whatWasPrevious: "What was the previous state?",
-    option: "Option",
-    incorrectAnswer: "Incorrect answer!",
-    dontWorryThermal: "Don't worry, what if I also give you thermal information?",
-    seeThermalInfo: "See thermal information",
-    thermalInfo: "Additional Thermal Information",
-    withThermalInfo: "Now with thermal information, can you identify the correct prediction?",
-    thermalInfoTitle: "Thermal Information",
-    heatTraces: "Heat traces that reveal the past",
-    nowWithThermal: "Now with thermal information",
-    canYouIdentify: "Can you identify the correct prediction?",
-    correctExcellent: "Correct! Excellent work",
-    successfullyReconstructed: "You have successfully reconstructed the past state of the scene",
-    correct: "Correct!",
-    tryAgain: "Try again",
-    areYouSure: "Are you sure about your choice?",
-    confirmChoice: "You have selected option {option}. Do you want to confirm your answer or would you prefer to see the thermal information to be completely sure?",
-    confirmAnswer: "Confirm answer",
-    seeThermalFirst: "See thermal information first",
-    selectedOption: "Selected option: {option}",
-    conceptualFoundations: "Conceptual Foundations",
-    timeReversedIntro: "introduces a fundamentally new class of inverse problems. Instead of recovering hidden variables from the current scene",
-    objective: "the objective is to reconstruct a past scene state",
-    fromObservations: "for Δt > 0, from observations",
-    presentTime: "at present time",
-    recentWork: "In recent work,",
-    demonstratedViability: "we demonstrated the viability of reconstructing past states from present observations. The framework combines",
-    promptEngineering: "prompt engineering",
-    visualLanguageModels: "visual language models (VLMs)",
-    constrainedDiffusion: "constrained diffusion process",
-    recoverConfigurations: "to recover previous configurations from RGB and thermal inputs.",
-    thermalResults: "Thermal results encode",
-    heatFadingSignals: "heat fading signals",
-    temporalCodes: "that preserve temporal codes, while RGB anchors the",
-    spatialStructure: "spatial structure and context",
-    initialResults: "Initial results in controlled scenarios show plausible reconstructions of the past",
-    secondsBefore: "15 seconds before",
-    comparedGroundTruth: "compared against ground truth (GT).",
-    ablationStudy: "An ablation study shows that incorporating a high-level scene description from a VLM provides a strong semantic prior bias, achieving the best results when combined with RGB and thermal inputs. With",
-    rgbAlone: "RGB images alone, it is impossible to recover the person's position 30 seconds before",
-    thermalInputs: "In contrast, thermal inputs enable this reconstruction, confirming that residual traces contain sufficient clues for short-term temporal inference.",
-    ablationStudyTitle: "Ablation Study",
-    comparisonMethods: "Comparison of methods with different input modalities",
-    relatedPublications: "Related Publications",
-    scientificResearch: "Scientific research supporting this line of investigation",
-    paperPresents: "This paper presents a novel approach to time-inverted scene reconstruction from thermal traces using visual language models."
-  }
+    subtitle:
+      "Visual inference and reconstruction of past scene states from present RGB and infrared observations using residual thermal traces and visual language models.",
+    viewPubs: "View publications ↓",
+    pipelineEyebrow: "Temporal Inference from Thermal Traces",
+    pipelineTitle: "From the present observation to seconds into the past",
+    pipelineDesc:
+      "A conventional RGB camera only records the geometric configuration of the present instant (t). However, human contact (~37 °C) transfers heat to touched surfaces, leaving infrared imprints that decay exponentially and act as a passive physical memory to reconstruct the scene state at t − Δt.",
+    blendLabel: "Spectral inspection at t",
+    blendRGB: "100% RGB",
+    blendIR: "100% Thermal",
+    pauseAnim: "Pause sweep",
+    playAnim: "Animate RGB / IR fusion",
+    decayTitle: "Surface thermal dissipation curve T(t) after contact ends (Δt = 15 s)",
+    decayLegendSurface: "Contact zone temperature (chair / book)",
+    decayLegendAmb: "Ambient temperature T_amb",
+    decayMarker: "Capture instant t (Δt = 15 s)",
+    stages: [
+      {
+        num: "I",
+        name: "Present RGB Observation",
+        formula: "I_t^{\\text{RGB}} \\text{ at } t = 0\\text{ s}",
+        image: "/time-reverse-imaging/present-fame.png",
+        alt: "Present scene captured in visible RGB spectrum",
+        caption:
+          "At present time t, the subject stands beside the desk. The red book lies closed on the table and the chair on the right is empty; the RGB frame alone carries no clue of where the person was seconds earlier.",
+      },
+      {
+        num: "II",
+        name: "Residual Thermal Trace",
+        formula: "I_t^{\\text{IR}} \\propto T(\\mathbf{r}, t)",
+        image: "/time-reverse-imaging/thermal-info.png",
+        alt: "FLIR thermal capture revealing heat traces on the chair and book",
+        caption:
+          "The FLIR thermal camera exposes two heat anomalies invisible to the naked eye: a strong thermal imprint on the empty chair seat and backrest, plus a ~26.0 °C hand imprint on the red book cover.",
+      },
+      {
+        num: "III",
+        name: "Reconstructed Past Scene",
+        formula: "\\hat{x}_{t - \\Delta t} \\text{ at } \\Delta t = 15\\text{ s}",
+        image: "/time-reverse-imaging/prediction-3.png",
+        alt: "Reconstructed past state showing the subject seated reading the book",
+        caption:
+          "Coupling the spatial anchor of I_t^RGB, the thermal trace I_t^IR, and VLM semantic reasoning within a constrained diffusion process recovers the prior state: the subject seated on the chair reading the book.",
+      },
+    ],
+    inspectorEyebrow: "Present-Time Multimodal Fusion",
+    inspectorTitle: "RGB + Infrared radiometric overlay",
+    inspectorDesc:
+      "Slide the control to blend the thermographic capture over the RGB image at instant t. The heat transfer regions (chair seat and book cover) spatially anchor the generative hypothesis of the past state.",
+    theoryEyebrow: "Theoretical Foundation & Methodology",
+    theoryTitle: "Temporal inverse problem formulation",
+    theoryIntro:
+      "Whereas classical inverse problems in computational optics aim to recover simultaneous latent signals x_t from degraded measurements y_t = H(x_t) + η, Time-Reverse Imaging seeks to estimate a past scene state x_{t−Δt} over a backward horizon Δt > 0.",
+    theoryBlocks: [
+      {
+        index: "01",
+        title: "Passive Temporal Encoding via Heat Diffusion",
+        body: "When a human body at physiological temperature T₀ ≈ 37 °C interacts with surrounding objects at ambient temperature T_amb, thermal energy transfers via conduction. Once contact ceases at t − Δt, the surface temperature T(r, t) decays according to Newton's cooling law and thermal diffusion:",
+        math: "T(\\mathbf{r}, t) = T_{\\text{amb}} + \\left(T(\\mathbf{r}, t - \\Delta t) - T_{\\text{amb}}\\right)e^{-\\kappa\\,\\Delta t} + \\eta_{\\text{IR}}(\\mathbf{r}), \\qquad \\Delta t > 0",
+        footer:
+          "where κ depends on material thermal diffusivity (fabric, wood, paper) and η_IR models microbolometer read noise. This exponential signature encodes both the contact geometry and the elapsed time Δt.",
+      },
+      {
+        index: "02",
+        title: "VLM Semantic Inference & Constrained Conditional Diffusion",
+        body: "Given the present multimodal pair y_t = {I_t^RGB, I_t^IR}, a first Visual Language Model (VLM) inspects the residual heat traces to infer a structured semantic description c_past of the action at t − Δt. This semantic prior conditions a latent diffusion model guided by a second critic VLM that preserves subject identity and the static background Ω_static:",
+        math: "\\hat{x}_{t - \\Delta t} = \\arg\\min_{x} \\; \\left\\|\\mathcal{P}_{\\Omega_{\\text{static}}}(x - I_t^{\\text{RGB}})\\right\\|_2^2 + \\lambda_{\\text{IR}}\\,\\mathcal{L}_{\\text{trace}}\\left(x, I_t^{\\text{IR}}\\right) + \\lambda_{\\text{VLM}}\\,\\mathcal{L}_{\\text{diff}}\\left(x \\,\\middle|\\, c_{\\text{past}}\\right)",
+        footer:
+          "The RGB frame anchors the environment and subject appearance, while the thermal map and semantic descriptor steer the synthesis of past human pose and object interaction.",
+      },
+      {
+        index: "03",
+        title: "Low-Level & High-Level Quantitative Evaluation (Ablation Study)",
+        body: "We evaluate reconstruction across both low-level image fidelity (PSNR and SSIM against ground truth recorded 15 s and 30 s earlier) and high-level semantic consistency via object accuracy (OA) and 3D pose mean per-joint position error (MPJPE):",
+        math: "\\text{RGB Only: } 15.81\\text{ dB}\\,|\\,\\text{MPJPE } 395.1 \\quad\\longrightarrow\\quad \\text{RGB + IR + VLM: } 18.12\\text{ dB}\\,|\\,\\text{MPJPE } 97.81",
+        footer:
+          "Without the thermal modality (RGB Only), the model cannot infer that the person was previously seated (MPJPE of 395.1 mm). Incorporating the thermal trace and VLM descriptor reduces pose error by 75.2% and recovers the exact book-reading interaction.",
+      },
+    ],
+    ablationEyebrow: "Experimental Evidence",
+    ablationTitle: "Ablation study and reference scenes",
+    ablationSubtitle:
+      "Experimental comparison across input modalities (RGB, RGB + Thermal, and RGB + Thermal + VLM Descriptor) against the true past scene (Ground Truth).",
+    ablationFig1Caption:
+      "Figure 1. Quantitative and qualitative ablation study (top row: RGB reconstruction and PSNR | SSIM metrics; bottom row: semantic segmentation and 3D pose with OA | MPJPE metrics).",
+    ablationFig2Caption:
+      "Figure 2. Paired multimodal test scenes: present thermal capture (Thermal), present visible frame (RGB), and true past scene state (GT).",
+    tableModality: "Input Modality",
+    tableLowLevel: "Low-Level (PSNR ↑ / SSIM ↑)",
+    tableHighLevel: "High-Level (OA ↑ / MPJPE ↓)",
+    tableObservation: "Reconstruction Behavior",
+    tableRows: [
+      {
+        mod: "RGB Only",
+        low: "15.81 dB / 0.72",
+        high: "60.24 % / 395.1 mm",
+        obs: "Fails to localize the past seated position on the chair; leaves subject standing.",
+      },
+      {
+        mod: "RGB + Thermal (IR)",
+        low: "18.02 dB / 0.76",
+        high: "64.12 % / 316.9 mm",
+        obs: "Correctly places the subject seated on the chair via the seat heat trace.",
+      },
+      {
+        mod: "RGB + Thermal (IR) + VLM Descriptor",
+        low: "18.12 dB / 0.78",
+        high: "68.98 % / 97.81 mm",
+        obs: "Recovers both the seated posture and the semantic action of reading the book.",
+      },
+    ],
+    pubsEyebrow: "Scientific Output",
+    pubsTitle: "Time-Reverse Imaging Publications",
+    pubsSubtitle:
+      "Research conducted in cooperation between Universidad Industrial de Santander (UIS) and GIPSA-lab (Université Grenoble Alpes).",
+  },
 }
 
-export default function TimeReverseImaging() {
-    const [gameState, setGameState] = useState<'initial' | 'wrong' | 'thermal' | 'correct' | 'firstCorrect' | 'revealed'>('initial')
-  const [selectedPrediction, setSelectedPrediction] = useState<number | null>(null)
-  const [selectedOption, setSelectedOption] = useState<number | null>(null)
-  const [language, setLanguage] = useState<'es' | 'en'>('es')
-  const correctAnswer = 3 // La predicción correcta es la #3
-  
-  const t = translations[language]
+const TIME_REVERSE_PUB_IDS = new Set([1])
+const timeReversePublications = publications.filter((p) => TIME_REVERSE_PUB_IDS.has(p.id))
 
-  // Persistir idioma en sessionStorage
+export default function TimeReverseImagingPage() {
+  const { language } = useLanguage()
+  const c = copy[language]
+
+  const [irBlend, setIrBlend] = useState<number>(0.55)
+  const [isPlaying, setIsPlaying] = useState<boolean>(true)
+
+  // Smoothly oscillate RGB/Thermal overlay blend α_IR ∈ [0.05, 0.95] when animation is active
   useEffect(() => {
-    const savedLanguage = sessionStorage.getItem('timeReverseLanguage') as 'es' | 'en'
-    if (savedLanguage) {
-      setLanguage(savedLanguage)
+    if (!isPlaying) return
+    let rafId: number
+    const start = performance.now()
+    const initialPhase = Math.asin(Math.max(-1, Math.min(1, (irBlend - 0.5) / 0.45)))
+
+    const tick = (now: number) => {
+      const elapsed = (now - start) / 1000
+      const next = 0.5 + 0.45 * Math.sin(elapsed * 1.1 + initialPhase)
+      setIrBlend(Number(next.toFixed(2)))
+      rafId = requestAnimationFrame(tick)
     }
-  }, [])
 
-  const toggleLanguage = () => {
-    const newLanguage = language === 'es' ? 'en' : 'es'
-    setLanguage(newLanguage)
-    sessionStorage.setItem('timeReverseLanguage', newLanguage)
-  }
+    rafId = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(rafId)
+  }, [isPlaying])
 
-  const handlePredictionSelect = (predictionIndex: number) => {
-    setSelectedPrediction(predictionIndex)
-    setSelectedOption(predictionIndex)
-    
-    if (predictionIndex === correctAnswer) {
-      setGameState('firstCorrect')
-    } else {
-      setGameState('wrong')
-    }
-  }
+  // Compute Newton thermal decay curve T(Δt) = T_amb + (T_0 - T_amb) * exp(-κ * Δt) for Δt in [0, 35] seconds
+  const numSamples = 100
+  const tAmb = 21.0
+  const tInitial = 33.5
+  const kappa = 0.06
+  const maxTemp = 35.0
+  const minTemp = 19.0
 
-  const showThermalInfo = () => {
-    setGameState('thermal')
-    setSelectedPrediction(null)
-  }
+  const decaySamples = Array.from({ length: numSamples }, (_, i) => {
+    const dt = (i / (numSamples - 1)) * 35 // 0 to 35 seconds after contact ends
+    const temp = tAmb + (tInitial - tAmb) * Math.exp(-kappa * dt)
+    return { dt, temp }
+  })
 
-  const handleThermalPredictionSelect = (predictionIndex: number) => {
-    setSelectedPrediction(predictionIndex)
-    
-    if (predictionIndex === correctAnswer) {
-      setGameState('correct')
-    } else {
-      // Si es incorrecto, mostrar feedback temporal y resetear después
-      setTimeout(() => {
-        setSelectedPrediction(null)
-      }, 1000) // Esperar 1 segundo antes de permitir otro intento
-    }
-  }
+  const buildDecayPath = () =>
+    decaySamples
+      .map((d, idx) => {
+        const px = ((d.dt / 35) * 1000).toFixed(1)
+        const py = (170 - ((d.temp - minTemp) / (maxTemp - minTemp)) * 145).toFixed(1)
+        return `${idx === 0 ? "M" : "L"} ${px} ${py}`
+      })
+      .join(" ")
 
-  const resetGame = () => {
-    setGameState('initial')
-    setSelectedPrediction(null)
-    setSelectedOption(null)
-  }
+  const ambY = (170 - ((tAmb - minTemp) / (maxTemp - minTemp)) * 145).toFixed(1)
+  const captureDt = 15 // Capture at Δt = 15 s
+  const captureX = ((captureDt / 35) * 1000).toFixed(1)
+  const captureTemp = tAmb + (tInitial - tAmb) * Math.exp(-kappa * captureDt)
+  const captureY = (170 - ((captureTemp - minTemp) / (maxTemp - minTemp)) * 145).toFixed(1)
 
   return (
-    <div className="min-h-screen bg-background">
-      <main className="pb-16">
+    <main className="min-h-screen bg-background text-foreground">
+      {/* Editorial Hero — matches PageHero tokens and Modulo Imaging */}
+      <section className="on-ink bg-ink text-primary-foreground pt-32 pb-16 md:pt-40 md:pb-20 border-b border-white/10">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="mb-8">
+            <Link
+              href="/"
+              className="font-mono text-xs uppercase tracking-[0.16em] text-primary-foreground/65 hover:text-gold transition-colors"
+            >
+              {c.backToHome}
+            </Link>
+          </div>
 
+          <p className="eyebrow mb-5">{c.eyebrow}</p>
+          <h1 className="font-serif text-4xl md:text-6xl font-semibold leading-[1.05] max-w-4xl text-balance">
+            {c.title}
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg text-primary-foreground/75 leading-relaxed">
+            {c.subtitle}
+          </p>
 
-        {/* Hero Section */}
-        <section className="bg-primary text-primary-foreground py-16 pt-32">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6">
-                {t.title}
-              </h1>
-              <p className="text-lg text-primary-foreground/90 max-w-2xl mx-auto">
-                {t.subtitle}
+          <div className="mt-10 flex items-center gap-8">
+            <a
+              href="#publicaciones"
+              className="inline-block bg-gold text-ink px-5 py-2.5 rounded text-sm font-medium transition-colors hover:bg-primary-foreground"
+            >
+              {c.viewPubs}
+            </a>
+            <div className="h-px flex-1 max-w-24 bg-gold/50" />
+          </div>
+        </div>
+      </section>
+
+      {/* 3-Stage Experimental Pipeline + Interactive Spectral Fusion Inspector */}
+      <section className="py-20 md:py-28 border-b border-border">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+            <div className="max-w-3xl">
+              <p className="eyebrow mb-4">{c.pipelineEyebrow}</p>
+              <h2 className="font-serif text-3xl md:text-5xl font-semibold leading-tight text-foreground">
+                {c.pipelineTitle}
+              </h2>
+              <p className="mt-4 text-base md:text-lg text-muted-foreground leading-relaxed">
+                {c.pipelineDesc}
               </p>
-              
-              {/* Language Toggle - Solo aquí */}
-              <div className="flex justify-center mt-8">
+            </div>
+
+            {/* Minimalist Spectral Blend Instrument Control */}
+            <div className="w-full md:w-80 shrink-0 border border-border bg-secondary/50 p-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
+                  {c.blendLabel}
+                </span>
+                <span className="font-mono text-sm font-semibold text-foreground">
+                  IR = {Math.round(irBlend * 100)}%
+                </span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value={irBlend}
+                onChange={(e) => {
+                  setIsPlaying(false)
+                  setIrBlend(parseFloat(e.target.value))
+                }}
+                aria-label={c.blendLabel}
+                className="w-full accent-ink cursor-pointer"
+              />
+              <div className="mt-3 flex items-center justify-between text-xs font-mono">
+                <span className="text-muted-foreground">
+                  {c.blendRGB} ↔ {c.blendIR}
+                </span>
                 <button
-                  onClick={toggleLanguage}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-primary-foreground/10 hover:bg-primary-foreground/20 rounded-lg transition-colors"
+                  type="button"
+                  onClick={() => setIsPlaying((p) => !p)}
+                  className="text-gold-deep hover:underline font-medium cursor-pointer"
                 >
-                  <Globe className="h-4 w-4" />
-                  <span className="text-sm font-medium">
-                    {language === 'es' ? '🇺🇸 English' : '🇪🇸 Español'}
-                  </span>
+                  {isPlaying ? c.pauseAnim : c.playAnim}
                 </button>
               </div>
             </div>
           </div>
-        </section>
 
-        {/* Interactive Section */}
-        <section className="py-16 bg-background">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-5xl font-serif font-bold text-foreground mb-4">
-                {t.interactiveExperience}
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                {t.interactiveDesc}
+          {/* 4-Column Strip: Stage I (Present RGB) | Stage II (Present IR) | Interactive Overlay | Stage III (Reconstructed Past) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-l border-border">
+            {c.stages.map((stage) => (
+              <div
+                key={stage.num}
+                className="border-r border-b border-border p-5 flex flex-col justify-between bg-background"
+              >
+                <div>
+                  <div className="flex items-baseline justify-between gap-2 mb-3">
+                    <span className="font-mono text-xs uppercase tracking-[0.18em] text-gold-deep">
+                      {stage.num}
+                    </span>
+                    <span className="font-mono text-xs text-muted-foreground">
+                      <InlineMath math={stage.formula} />
+                    </span>
+                  </div>
+
+                  <h3 className="font-serif text-lg font-semibold text-foreground mb-3">
+                    {stage.name}
+                  </h3>
+
+                  <div className="relative aspect-[3/4] w-full bg-ink overflow-hidden border border-border mb-4">
+                    <img
+                      src={getImagePath(stage.image)}
+                      alt={stage.alt}
+                      loading="eager"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {stage.caption}
+                </p>
+              </div>
+            ))}
+
+            {/* 4th Panel: Interactive RGB + Thermal Overlay Inspector */}
+            <div className="border-r border-b border-border p-5 flex flex-col justify-between bg-secondary/25">
+              <div>
+                <div className="flex items-baseline justify-between gap-2 mb-3">
+                  <span className="font-mono text-xs uppercase tracking-[0.18em] text-gold-deep">
+                    I + II
+                  </span>
+                  <span className="font-mono text-xs text-muted-foreground">
+                    <InlineMath math={`(1-\\alpha)I_t^{\\text{RGB}} + \\alpha I_t^{\\text{IR}}`} />
+                  </span>
+                </div>
+
+                <h3 className="font-serif text-lg font-semibold text-foreground mb-3">
+                  {c.inspectorTitle}
+                </h3>
+
+                <div className="relative aspect-[3/4] w-full bg-ink overflow-hidden border border-border mb-4">
+                  <img
+                    src={getImagePath("/time-reverse-imaging/present-fame.png")}
+                    alt="Base RGB frame"
+                    className="w-full h-full object-cover"
+                  />
+                  <img
+                    src={getImagePath("/time-reverse-imaging/thermal-info.png")}
+                    alt="Overlay Thermal frame"
+                    style={{ opacity: irBlend }}
+                    className="absolute inset-0 w-full h-full object-cover transition-opacity duration-75"
+                  />
+                  <div className="absolute bottom-2 right-2 bg-ink/85 text-primary-foreground px-2 py-0.5 font-mono text-[11px] border border-gold/40">
+                    α = {irBlend.toFixed(2)}
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                {c.inspectorDesc}
               </p>
             </div>
-
-            <div className="max-w-7xl mx-auto">
-              {/* Game Logic */}
-              {gameState === 'initial' && (
-                <Card>
-                  <CardHeader className="text-center">
-                    <CardTitle>{t.canYouReconstruct}</CardTitle>
-                    <CardDescription>
-                      {t.basedOnRGB}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                      {/* Imagen Presente - Lado Izquierdo */}
-                      <div className="space-y-4">
-                        <div className="text-center">
-                          <h3 className="text-lg font-semibold text-foreground flex items-center justify-center gap-2 mb-2">
-                            <Eye className="h-5 w-5" />
-                            {t.currentImage}
-                          </h3>
-                          <p className="text-sm text-muted-foreground">{t.presentScene}</p>
-                        </div>
-                        <div className="flex justify-center">
-                          <div className="w-40">
-                            <img 
-                              src={getImagePath("/time-reverse-imaging/present-fame.png")} 
-                              alt="Imagen presente de la escena" 
-                              className="w-full h-auto rounded-lg border shadow-md"
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Predicciones - Lado Derecho */}
-                      <div className="space-y-4">
-                        <div className="text-center">
-                          <h3 className="text-lg font-semibold text-foreground mb-2">{t.selectCorrect}</h3>
-                          <p className="text-sm text-muted-foreground">{t.whatWasPrevious}</p>
-                        </div>
-                        <div className="flex justify-center flex-wrap gap-4">
-                          {[1, 2, 3].map((index) => (
-                            <button
-                              key={index}
-                              onClick={() => handlePredictionSelect(index)}
-                              className="group relative overflow-hidden rounded-lg border hover:shadow-lg transition-all duration-300 hover:scale-105 bg-card w-40"
-                            >
-                              <img 
-                                src={getImagePath(`/time-reverse-imaging/prediction-${index}.png`)} 
-                                alt={`Predicción ${index} del estado pasado`} 
-                                className="w-full h-auto rounded-lg"
-                              />
-                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
-                                <div className="bg-background/90 px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                                  <span className="font-semibold text-foreground text-sm">{t.option} {index}</span>
-                                </div>
-                              </div>
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-
-              {gameState === 'wrong' && (
-                <Card className="border-destructive/20 bg-destructive/5">
-                  <CardHeader className="text-center">
-                    <CardTitle className="flex items-center justify-center gap-2 text-destructive">
-                      <XCircle className="h-6 w-6" />
-                      {t.incorrectAnswer}
-                    </CardTitle>
-                    <CardDescription>
-                      {t.dontWorryThermal}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="text-center">
-                    <Button 
-                      onClick={showThermalInfo}
-                      variant="destructive"
-                    >
-                      <Thermometer className="mr-2 h-4 w-4" />
-                      {t.seeThermalInfo}
-                    </Button>
-                  </CardContent>
-                </Card>
-              )}
-
-              {gameState === 'thermal' && (
-                <Card>
-                  <CardHeader className="text-center">
-                    <CardTitle className="flex items-center justify-center gap-2">
-                      <Thermometer className="h-6 w-6" />
-                      {t.thermalInfo}
-                    </CardTitle>
-                    <CardDescription>
-                      {t.withThermalInfo}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                      {/* Imagen Térmica - Lado Izquierdo */}
-                      <div className="space-y-4">
-                        <div className="text-center">
-                          <h3 className="text-lg font-semibold text-foreground flex items-center justify-center gap-2 mb-2">
-                            <Thermometer className="h-5 w-5" />
-                            {t.thermalInfoTitle}
-                          </h3>
-                          <p className="text-sm text-muted-foreground">{t.heatTraces}</p>
-                        </div>
-                        <div className="flex justify-center">
-                          <div className="w-40">
-                            <img 
-                              src={getImagePath("/time-reverse-imaging/thermal-info.png")} 
-                              alt="Información térmica de la escena" 
-                              className="w-full h-auto rounded-lg border shadow-md"
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Predicciones con contexto térmico - Lado Derecho */}
-                      <div className="space-y-4">
-                        <div className="text-center">
-                          <h3 className="text-lg font-semibold text-foreground mb-2">{t.nowWithThermal}</h3>
-                          <p className="text-sm text-muted-foreground">{t.canYouIdentify}</p>
-                        </div>
-                        <div className="flex justify-center flex-wrap gap-4">
-                          {[1, 2, 3].map((index) => (
-                            <button
-                              key={index}
-                              onClick={() => handleThermalPredictionSelect(index)}
-                              className={`group relative overflow-hidden rounded-lg border hover:shadow-lg transition-all duration-300 hover:scale-105 bg-card w-40 ${
-                                selectedPrediction === index && index !== correctAnswer ? 'border-red-300 bg-red-50' : ''
-                              }`}
-                            >
-                              <img 
-                                src={getImagePath(`/time-reverse-imaging/prediction-${index}.png`)} 
-                                alt={`Predicción ${index} del estado pasado`} 
-                                className="w-full h-auto rounded-lg"
-                              />
-                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
-                                <div className="bg-background/90 px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                                  <span className="font-semibold text-foreground text-sm">{t.option} {index}</span>
-                                </div>
-                              </div>
-                              {selectedPrediction === index && index !== correctAnswer && (
-                                <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
-                                  ✗
-                                </div>
-                              )}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-
-              {gameState === 'firstCorrect' && (
-                <Card className="border-yellow-200 bg-yellow-50">
-                  <CardHeader className="text-center">
-                    <CardTitle className="flex items-center justify-center gap-2 text-yellow-600">
-                      <AlertCircle className="h-6 w-6" />
-                      {t.areYouSure}
-                    </CardTitle>
-                    <CardDescription>
-                      {t.confirmChoice.replace('{option}', (selectedOption ?? 1).toString())}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    {/* Mostrar la opción seleccionada */}
-                    <div className="flex justify-center">
-                      <div className="bg-yellow-100 border border-yellow-300 rounded-lg p-4">
-                        <p className="text-sm font-medium text-yellow-800 mb-2">
-                          {t.selectedOption.replace('{option}', (selectedOption ?? 1).toString())}
-                        </p>
-                        <div className="flex justify-center">
-                          <div className="w-32 relative">
-                            <img 
-                              src={getImagePath(`/time-reverse-imaging/prediction-${selectedOption}.png`)} 
-                              alt={`Predicción ${selectedOption} seleccionada`} 
-                              className="w-full h-auto rounded-lg border-2 border-yellow-400"
-                            />
-                            <div className="absolute top-1 right-1 bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
-                              {selectedOption ?? 1}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* Botones de acción */}
-                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                      <Button
-                        onClick={() => setGameState('correct')}
-                        className="bg-yellow-600 hover:bg-yellow-700"
-                      >
-                        <Check className="mr-2 h-4 w-4" />
-                        {t.confirmAnswer}
-                      </Button>
-                      <Button
-                        onClick={() => setGameState('thermal')}
-                        variant="outline"
-                        className="border-blue-200 text-blue-600 hover:bg-blue-50"
-                      >
-                        <Thermometer className="mr-2 h-4 w-4" />
-                        {t.seeThermalFirst}
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-
-              {gameState === 'correct' && (
-                <Card className="border-green-200 bg-green-50">
-                  <CardHeader className="text-center">
-                    <CardTitle className="flex items-center justify-center gap-2 text-green-600">
-                      <CheckCircle className="h-6 w-6" />
-                      {t.correctExcellent}
-                    </CardTitle>
-                    <CardDescription>
-                      {t.successfullyReconstructed}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="text-center">
-                    <div className="mb-6 flex justify-center">
-                      <div className="w-40 relative">
-                        <img 
-                          src={getImagePath("/time-reverse-imaging/prediction-3.png")} 
-                          alt="Predicción correcta del estado pasado" 
-                          className="w-full h-auto rounded-lg border-2 border-green-300"
-                        />
-                        <div className="absolute top-2 right-2 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                          {t.correct}
-                        </div>
-                      </div>
-                    </div>
-                    <Button onClick={resetGame} variant="outline">
-                      {t.tryAgain}
-                    </Button>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
           </div>
-        </section>
 
-        {/* Conceptual Context Section - 2 Columns */}
-        <section className="py-16 bg-background">
-          <div className="container mx-auto px-4">
-            <div className="max-w-7xl mx-auto">
-              <h2 className="text-3xl md:text-5xl font-serif font-bold text-foreground mb-12 text-center">
-                {t.conceptualFoundations}
-              </h2>
-              
-              {/* Text in 2 columns */}
-              <div className="grid grid-cols-1 md:grid-cols-1 gap-8 mb-12">
-                <div className="space-y-6">
-                  <p className="text-lg leading-relaxed text-foreground">
-                    <strong>Time-reversed imaging</strong> {t.timeReversedIntro} <em>x<sub>t</sub></em>, {t.objective} <em>x<sub>t-Δt</sub></em> {t.fromObservations} <em>y<sub>t</sub></em> {t.presentTime} <em>t</em>.
-                  </p>
-                  
-                  <p className="text-lg leading-relaxed text-foreground">
-                    {t.recentWork} <strong>
-                      <a 
-                        href={getPagePath("/publicaciones/1")}
-                        className="text-yellow-600 hover:text-yellow-500 transition-colors"
-                      >
-                        [1]
-                      </a>
-                    </strong> {t.demonstratedViability} 
-                    <strong>{t.promptEngineering}</strong>, <strong>{t.visualLanguageModels}</strong>, {t.constrainedDiffusion} {t.recoverConfigurations}
-                  </p>
-                </div>
-
-                <div className="space-y-6">
-                  <p className="text-lg leading-relaxed text-foreground">
-                    {t.thermalResults} <em>{t.heatFadingSignals}</em> {t.temporalCodes} <em>{t.spatialStructure}</em>. {t.initialResults} <strong>{t.secondsBefore}</strong>, {t.comparedGroundTruth}
-                  </p>
-                  
-                  <p className="text-lg leading-relaxed text-foreground">
-                    {t.ablationStudy} <em>{t.rgbAlone}</em>. {t.thermalInputs}
-                  </p>
-                </div>
-              </div>
-
-              {/* Large image below */}
-              <div className="text-center">
-                <h3 className="text-2xl font-serif font-bold text-foreground mb-4">{t.ablationStudyTitle}</h3>
-                <p className="text-lg text-muted-foreground mb-8">
-                  {t.comparisonMethods}
-                </p>
-                <div className="max-w-xl mx-auto">
-                  <img 
-                    src={getImagePath("/time-reverse-imaging/Ablation_study.jpg")} 
-                    alt="Estudio de ablación - Time Reverse Imaging" 
-                    className="w-full h-auto rounded-lg border shadow-lg"
-                  />
-                </div>
+          {/* 1D Thermal Dissipation Plot (Strictly Ink, Gold, Secondary) */}
+          <div className="mt-8 border border-border bg-secondary/30 p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+              <p className="font-mono text-xs uppercase tracking-[0.14em] text-foreground">
+                {c.decayTitle}
+              </p>
+              <div className="flex flex-wrap items-center gap-6 font-mono text-xs text-muted-foreground">
+                <span className="inline-flex items-center gap-2">
+                  <span className="inline-block w-5 h-0.5 bg-gold" />
+                  {c.decayLegendSurface}
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <span className="inline-block w-5 h-0 border-t-2 border-dashed border-muted-foreground" />
+                  {c.decayLegendAmb}
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <span className="inline-block w-2.5 h-2.5 rounded-full bg-ink" />
+                  {c.decayMarker}
+                </span>
               </div>
             </div>
+
+            <svg
+              viewBox="0 0 1000 185"
+              className="w-full h-40 overflow-visible"
+              role="img"
+              aria-label={c.decayTitle}
+            >
+              {/* Baseline axis */}
+              <line x1="0" y1="170" x2="1000" y2="170" stroke="#DDE1E7" strokeWidth="1" />
+
+              {/* Ambient temperature asymptote T_amb = 21 °C */}
+              <line
+                x1="0"
+                y1={ambY}
+                x2="1000"
+                y2={ambY}
+                stroke="#556070"
+                strokeWidth="1.25"
+                strokeDasharray="6 4"
+              />
+              <text
+                x="996"
+                y={Number(ambY) - 6}
+                textAnchor="end"
+                className="fill-muted-foreground font-mono text-[11px]"
+              >
+                T_amb ≈ 21.0 °C
+              </text>
+
+              {/* Vertical marker at Δt = 15 s */}
+              <line
+                x1={captureX}
+                y1="20"
+                x2={captureX}
+                y2="170"
+                stroke="#8A6A17"
+                strokeWidth="1"
+                strokeDasharray="3 3"
+              />
+
+              {/* Exponential cooling curve T(Δt) */}
+              <path
+                d={buildDecayPath()}
+                fill="none"
+                stroke="#C9A43E"
+                strokeWidth="2.4"
+              />
+
+              {/* Point at t - Δt = 0 s (Contact ends) */}
+              <circle cx="0" cy="38.6" r="4" fill="#121212" />
+              <text
+                x="10"
+                y="34"
+                className="fill-foreground font-mono text-[11px]"
+              >
+                t − Δt (Contacto inicial ~33.5 °C)
+              </text>
+
+              {/* Point at Δt = 15 s (FLIR Capture ~26.0 °C) */}
+              <circle cx={captureX} cy={captureY} r="4.5" fill="#121212" stroke="#C9A43E" strokeWidth="2" />
+              <text
+                x={Number(captureX) + 10}
+                y={Number(captureY) - 8}
+                className="fill-foreground font-mono text-[11px] font-semibold"
+              >
+                Captura FLIR (Δt = 15 s, T ≈ 26.0 °C)
+              </text>
+            </svg>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Related Publications Section */}
-        <section className="py-16 bg-secondary">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
-                  {t.relatedPublications}
-                </h2>
-                <p className="text-base text-muted-foreground max-w-xl mx-auto">
-                  {t.scientificResearch}
-                </p>
-              </div>
+      {/* Theoretical Foundations — Editorial two-column layout with KaTeX */}
+      <section className="py-20 md:py-28 bg-secondary border-b border-border">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <SectionHeading eyebrow={c.theoryEyebrow} title={c.theoryTitle}>
+            {c.theoryIntro}
+          </SectionHeading>
 
-              <Card className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex flex-col md:flex-row gap-6">
-                    <div className="md:w-1/4 flex-shrink-0">
-                      <img 
-                        src={getImagePath("/references_scenes.jpg")} 
-                        alt="Time-Reversed Scene Reconstruction" 
-                        className="w-full h-auto rounded-lg"
-                      />
-                    </div>
-                    <div className="md:w-3/4">
-                      <div className="mb-3">
-                        <span className="text-xs font-medium text-muted-foreground bg-muted px-2 py-1 rounded">
-                          ICIP • 2026
-                        </span>
-                      </div>
-                      <a 
-                        href={getPagePath("/publicaciones/1")}
-                        className="block group"
-                      >
-                        <h3 className="text-xl font-serif font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
-                          See the past: Time-Reversed Scene Reconstruction from Thermal Traces Using Visual Language Models
-                        </h3>
-                      </a>
-                      <p className="text-muted-foreground mb-3">
-                        Kebin Contreras, Luis Toscano-Palomino, Mauro Dalla Mura, Jorge Bacca
-                      </p>
-                      <p className="text-foreground leading-relaxed mb-4 text-sm">
-                        {t.paperPresents}
-                      </p>
-                      <div className="flex flex-wrap gap-1">
-                        <span className="text-xs px-2 py-1 bg-muted text-muted-foreground rounded">computer vision</span>
-                        <span className="text-xs px-2 py-1 bg-muted text-muted-foreground rounded">thermal imaging</span>
-                        <span className="text-xs px-2 py-1 bg-muted text-muted-foreground rounded">scene reconstruction</span>
-                        <span className="text-xs px-2 py-1 bg-muted text-muted-foreground rounded">visual language models</span>
-                      </div>
-                    </div>
+          <div className="border-t border-border">
+            {c.theoryBlocks.map((block) => (
+              <article
+                key={block.index}
+                className="grid md:grid-cols-[1fr_2fr] gap-6 md:gap-12 py-12 border-b border-border items-start"
+              >
+                <div>
+                  <p className="font-mono text-xs uppercase tracking-[0.18em] text-gold-deep mb-2">
+                    {block.index}
+                  </p>
+                  <h3 className="font-serif text-2xl font-semibold leading-snug text-foreground">
+                    {block.title}
+                  </h3>
+                </div>
+
+                <div className="space-y-5">
+                  <p className="text-foreground/85 leading-relaxed">{block.body}</p>
+                  <div className="bg-background border border-border px-6 py-4 overflow-x-auto text-foreground">
+                    <BlockMath math={block.math} />
                   </div>
-                </CardContent>
-              </Card>
-            </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {block.footer}
+                  </p>
+                </div>
+              </article>
+            ))}
           </div>
-        </section>
-      </main>
-    </div>
+        </div>
+      </section>
+
+      {/* Experimental Ablation Study & Reference Scenes */}
+      <section className="py-20 md:py-28 bg-background border-b border-border">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <SectionHeading eyebrow={c.ablationEyebrow} title={c.ablationTitle}>
+            {c.ablationSubtitle}
+          </SectionHeading>
+
+          {/* Editorial Quantitative Ablation Table */}
+          <div className="overflow-x-auto border-t border-b border-border mb-14">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b border-border font-mono text-xs uppercase tracking-wider text-gold-deep bg-secondary/40">
+                  <th className="py-3.5 px-4">{c.tableModality}</th>
+                  <th className="py-3.5 px-4">{c.tableLowLevel}</th>
+                  <th className="py-3.5 px-4">{c.tableHighLevel}</th>
+                  <th className="py-3.5 px-4">{c.tableObservation}</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border text-sm">
+                {c.tableRows.map((row, idx) => (
+                  <tr
+                    key={row.mod}
+                    className={idx === 2 ? "bg-secondary/30 font-medium" : ""}
+                  >
+                    <td className="py-4 px-4 font-mono text-xs text-foreground">
+                      {row.mod}
+                    </td>
+                    <td className="py-4 px-4 font-mono text-xs text-foreground">
+                      {row.low}
+                    </td>
+                    <td className="py-4 px-4 font-mono text-xs text-foreground">
+                      {row.high}
+                    </td>
+                    <td className="py-4 px-4 text-muted-foreground">
+                      {row.obs}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Experimental Figures Grid using verified image paths */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1.35fr_1fr] gap-8 items-start">
+            <figure className="border border-border bg-secondary/20 p-4">
+              <div className="overflow-hidden border border-border bg-white">
+                <img
+                  src={getImagePath("/time-reverse-imaging/Ablation_study.jpg")}
+                  alt={c.ablationFig1Caption}
+                  loading="lazy"
+                  className="w-full h-auto object-contain"
+                />
+              </div>
+              <figcaption className="mt-3 font-mono text-xs text-muted-foreground leading-relaxed">
+                {c.ablationFig1Caption}
+              </figcaption>
+            </figure>
+
+            <figure className="border border-border bg-secondary/20 p-4">
+              <div className="overflow-hidden border border-border bg-white">
+                <img
+                  src={getImagePath("/references_scenes.jpg")}
+                  alt={c.ablationFig2Caption}
+                  loading="lazy"
+                  className="w-full h-auto object-contain"
+                />
+              </div>
+              <figcaption className="mt-3 font-mono text-xs text-muted-foreground leading-relaxed">
+                {c.ablationFig2Caption}
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      {/* Publications — Reuses standard PublicationEntry component */}
+      <section id="publicaciones" className="py-20 md:py-28 bg-background">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <SectionHeading eyebrow={c.pubsEyebrow} title={c.pubsTitle}>
+            {c.pubsSubtitle}
+          </SectionHeading>
+
+          <div className="border-t border-border">
+            {timeReversePublications.map((pub, i) => (
+              <PublicationEntry key={pub.id} pub={pub} delay={Math.min(i, 3) * 80} />
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
   )
 }

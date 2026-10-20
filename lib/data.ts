@@ -51,6 +51,8 @@ export interface TeamMember {
   nivelEscolar: string
   nivelEscolar_en?: string
   institucion: string
+  afiliaciones?: string[]
+  afiliaciones_en?: string[]
   imagen: string
   scholar: string | null
   paginaPersonal: string | null

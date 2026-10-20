@@ -15,6 +15,14 @@ const researchAreas = {
       href: "/ramas/time-reverse-imaging",
       highlights: ["Visión computacional", "Machine learning", "Problemas inversos"],
     },
+    {
+      id: "modulo-imaging",
+      title: "Modulo Imaging",
+      description:
+        "Adquisición y reconstrucción de imágenes de alto rango dinámico (HDR) mediante sensores módulo, muestreo ilimitado y redes neuronales desplegadas (deep unrolling).",
+      href: "/ramas/modulo-imaging",
+      highlights: ["High Dynamic Range (HDR)", "Unlimited Sampling", "Deep Unrolled Networks"],
+    },
   ],
   en: [
     {
@@ -24,6 +32,14 @@ const researchAreas = {
         "Past scene reconstruction using thermal traces and visual language models to solve temporal inverse problems.",
       href: "/ramas/time-reverse-imaging",
       highlights: ["Computer Vision", "Machine Learning", "Inverse Problems"],
+    },
+    {
+      id: "modulo-imaging",
+      title: "Modulo Imaging",
+      description:
+        "High dynamic range (HDR) image acquisition and reconstruction via modulo sensors, unlimited sampling, and deep unrolled optimization networks.",
+      href: "/ramas/modulo-imaging",
+      highlights: ["High Dynamic Range (HDR)", "Unlimited Sampling", "Deep Unrolled Networks"],
     },
   ],
 }
