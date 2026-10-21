@@ -66,7 +66,7 @@ export const translations = {
       social: "Redes y Repositorios",
     },
     footer: {
-      description: "Grupo de Investigación en Óptica y Tratamiento de Señales de la Universidad Industrial de Santander.",
+      description: "Grupo de investigación dedicado a la innovación y excelencia en investigación científica.",
       navigation: "Navegación",
       connect: "Conectar",
       rights: "Todos los derechos reservados.",
@@ -137,7 +137,7 @@ export const translations = {
       social: "Networks & Repositories",
     },
     footer: {
-      description: "Optics and Signal Processing Research Group at Universidad Industrial de Santander.",
+      description: "Research group dedicated to innovation and excellence in scientific research.",
       navigation: "Navigation",
       connect: "Connect",
       rights: "All rights reserved.",

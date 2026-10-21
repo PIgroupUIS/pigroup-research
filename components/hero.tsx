@@ -19,9 +19,6 @@ export function Hero() {
 
       <div className="container mx-auto px-4 max-w-6xl relative z-10 pt-20 md:pt-24 pb-12 grid md:grid-cols-[1.2fr_1fr] gap-8 md:gap-12 items-center w-full">
         <div>
-          <p className="eyebrow mb-6 hero-in" style={{ animationDelay: "0ms" }}>
-            {t.hero.eyebrow}
-          </p>
           <h1
             className="font-serif text-4xl md:text-6xl lg:text-7xl font-semibold leading-[1.02] text-balance hero-in"
             style={{ animationDelay: "120ms" }}

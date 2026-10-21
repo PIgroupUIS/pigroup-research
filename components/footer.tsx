@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Instagram, Linkedin, Github } from "lucide-react"
+import { Instagram, Linkedin, Github, Mail, Phone } from "lucide-react"
 import { getImagePath } from "@/lib/utils"
 import { useLanguage } from "./language-context"
 
@@ -10,7 +10,7 @@ export function Footer() {
   const { t } = useLanguage()
 
   return (
-    <footer className="on-ink bg-ink text-primary-foreground py-14 border-t border-white/10">
+    <footer id="contacto" className="on-ink bg-ink text-primary-foreground py-14 border-t border-white/10">
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="grid md:grid-cols-[1.5fr_1fr_1fr] gap-10 mb-12">
           {/* Logo and Description */}
@@ -57,9 +57,29 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Social Media */}
+          {/* Contact & Social Media */}
           <div>
             <p className="eyebrow mb-4">{t.footer.connect}</p>
+            <ul className="space-y-2.5 text-sm mb-5">
+              <li>
+                <a
+                  href="mailto:jbacquin@uis.edu.co"
+                  className="inline-flex items-center gap-2.5 text-primary-foreground/75 hover:text-gold transition-colors"
+                >
+                  <Mail className="h-4 w-4 text-gold shrink-0" />
+                  <span>jbacquin@uis.edu.co</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="tel:+5776344000"
+                  className="inline-flex items-center gap-2.5 text-primary-foreground/75 hover:text-gold transition-colors"
+                >
+                  <Phone className="h-4 w-4 text-gold shrink-0" />
+                  <span>+57 (7) 634 4000 Ext. 2525</span>
+                </a>
+              </li>
+            </ul>
             <div className="flex gap-3">
               <a
                 href="https://github.com/PIgroupUIS"
@@ -94,7 +114,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-primary-foreground/60">
-          <p>© {currentYear} PiGroup Research · Universidad Industrial de Santander. Todos los derechos reservados.</p>
+          <p>© {currentYear} PiGroup Research. {t.footer.rights}</p>
           <p className="font-mono">Bucaramanga, Colombia</p>
         </div>
       </div>
