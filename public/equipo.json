@@ -102,6 +102,33 @@
       "activo": true
     },
     {
+      "id": 6,
+      "nombre": "Exequiel Eduardo",
+      "apellido": "Oliva Paredes",
+      "cargo": "Investigador Doctoral",
+      "cargo_en": "Ph.D. Researcher",
+      "nivelEscolar": "Doctorado",
+      "nivelEscolar_en": "Ph.D. Student",
+      "institucion": "Pontificia Universidad Católica de Valparaíso",
+      "afiliaciones": [
+        "Pontificia Universidad Católica de Valparaíso (PUCV)"
+      ],
+      "afiliaciones_en": [
+        "Pontificia Universidad Católica de Valparaíso (PUCV)"
+      ],
+      "imagen": "/team/exequiel-oliva.jpg",
+      "scholar": "https://scholar.google.com/citations?hl=es&user=eiPmsQ0AAAAJ",
+      "paginaPersonal": null,
+      "email": "exequiel.oliva@pucv.cl",
+      "areasInvestigacion": [
+        "Computational Imaging"
+      ],
+      "areasInvestigacion_en": [
+        "Computational Imaging"
+      ],
+      "activo": true
+    },
+    {
       "id": 4,
       "nombre": "Luis",
       "apellido": "Toscano-Palomino",

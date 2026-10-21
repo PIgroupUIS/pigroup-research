@@ -11,7 +11,7 @@ export const translations = {
     hero: {
       eyebrow: "Universidad Industrial de Santander",
       title: "Grupo de investigación de problemas inversos",
-      description: "Grupo de investigación de la Universidad Industrial de Santander dedicado a la innovación y excelencia en investigación científica",
+      description: "Grupo de investigación dedicado a la innovación y excelencia en investigación científica",
       viewPublications: "Ver publicaciones",
       contact: "Contacto",
     },
@@ -82,7 +82,7 @@ export const translations = {
     hero: {
       eyebrow: "Universidad Industrial de Santander",
       title: "Inverse Problems Research Group",
-      description: "Research group at Universidad Industrial de Santander dedicated to innovation and scientific excellence",
+      description: "Research group dedicated to innovation and excellence in scientific research",
       viewPublications: "View Publications",
       contact: "Contact Us",
     },
