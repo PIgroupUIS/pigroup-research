@@ -72,6 +72,15 @@ export function Footer() {
               </li>
               <li>
                 <a
+                  href="mailto:pigroup.uis@gmail.com"
+                  className="inline-flex items-center gap-2.5 text-primary-foreground/75 hover:text-gold transition-colors"
+                >
+                  <Mail className="h-4 w-4 text-gold shrink-0" />
+                  <span>pigroup.uis@gmail.com</span>
+                </a>
+              </li>
+              <li>
+                <a
                   href="tel:+5776344000"
                   className="inline-flex items-center gap-2.5 text-primary-foreground/75 hover:text-gold transition-colors"
                 >
